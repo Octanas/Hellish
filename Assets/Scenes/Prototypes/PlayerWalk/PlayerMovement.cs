@@ -19,7 +19,12 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 inputMovement = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical")).normalized;
 
-        animator.SetFloat("Movement", inputMovement.magnitude);
+        float speed = 2;
+
+        if(Input.GetButton("Sprint"))
+            speed = 10;
+
+        animator.SetFloat("Movement", inputMovement.magnitude * speed);
 
         if (inputMovement.magnitude >= 0.1f)
         {
@@ -28,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            gameObject.transform.position = gameObject.transform.position + moveDir.normalized * (Input.GetButton("Sprint") ? 10 : 2) * Time.deltaTime;
+            gameObject.transform.position = gameObject.transform.position + moveDir.normalized * speed * Time.deltaTime;
         }
     }
 }
