@@ -13,7 +13,11 @@ public class PlayerMovementRootMotion : MonoBehaviour
     public float turningTime = 0.1f;
 
     private bool sprinting = false;
+    private float currentSpeed = 0f;
     private Vector2 movementInput = Vector2.zero;
+
+    private float currentAcceleration;
+    public float accelerationTime = 0.5f;
 
     private void Awake()
     {
@@ -33,12 +37,9 @@ public class PlayerMovementRootMotion : MonoBehaviour
 
     void Update()
     {
-        float speed = 1;
+        currentSpeed = Mathf.SmoothDamp(currentSpeed, movementInput.magnitude, ref currentAcceleration, accelerationTime);
 
-        if (sprinting)
-            speed = 10;
-
-        animator.SetFloat("Movement", movementInput.magnitude * speed);
+        animator.SetFloat("Movement", currentSpeed);
 
         if (movementInput.magnitude >= 0.1f)
         {
