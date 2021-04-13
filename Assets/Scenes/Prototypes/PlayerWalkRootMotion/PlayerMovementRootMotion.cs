@@ -28,8 +28,6 @@ public class PlayerMovementRootMotion : MonoBehaviour
 
         controls.Gameplay.Move.performed += context => movementInput = context.ReadValue<Vector2>();
         controls.Gameplay.Move.canceled += context => movementInput = Vector2.zero;
-
-        controls.Gameplay.Camera.performed += context => Debug.Log(context.ReadValue<Vector2>());
     }
 
     private void Start()
