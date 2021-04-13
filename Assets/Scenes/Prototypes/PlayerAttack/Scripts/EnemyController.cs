@@ -5,9 +5,9 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    private Animator animator;
-    private Transform target;
-    private NavMeshAgent agent;
+    private Animator _animator;
+    private Transform _target;
+    private NavMeshAgent _agent;
 
     public float lookRadius = 5f;
     public float animationDampTime = 0.1f;
@@ -18,36 +18,36 @@ public class EnemyController : MonoBehaviour
 
     void Start(){
         // Use singleton instead of inserting manually
-        target = PlayerManager.instance.player.transform;
+        _target = PlayerManager.Instance.player.transform;
 
-        agent = GetComponent<NavMeshAgent>();
+        _agent = GetComponent<NavMeshAgent>();
         // Don't update the agent's position, the animation will do that
-        agent.updatePosition = false;
+        _agent.updatePosition = false;//comment
 
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
     }
 
 
     void Update(){
         // Activate NavMeshAgent target
-        float distance = Vector3.Distance(target.position, transform.position);
+        float distance = Vector3.Distance(_target.position, transform.position);
         if(distance <= lookRadius)
-            agent.SetDestination(target.position);
+            _agent.SetDestination(_target.position);
         
         // Update animation parameters
         // Agent current spped/ agent maximum speed, that will return a value between 0 and 1
-        float speed = agent.velocity.magnitude/ agent.speed;
-        animator.SetFloat("Movement", speed, animationDampTime, Time.deltaTime);
+        float speed = _agent.velocity.magnitude/ _agent.speed;
+        _animator.SetFloat("Movement", speed, animationDampTime, Time.deltaTime);
     }
 
     private void OnDrawGizmosSelected() {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, lookRadius);//radius
-        if(agent)Gizmos.DrawWireSphere(agent.destination, 1);//target
+        //Gizmos.DrawWireSphere(transform.position, lookRadius);//radius
+        if(_agent)Gizmos.DrawWireSphere(_agent.destination, 1);//target
     }
 
     void OnAnimatorMove (){
-        // Update position to agent position
-        transform.position = agent.nextPosition;
+        //Update position to agent position
+        transform.position = _agent.nextPosition;
     }
 }
