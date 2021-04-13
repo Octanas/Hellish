@@ -27,7 +27,9 @@ public class PlayerMovementRootMotion : MonoBehaviour
         controls.Gameplay.Sprint.canceled += context => sprinting = false;
 
         controls.Gameplay.Move.performed += context => movementInput = context.ReadValue<Vector2>();
-        controls.Gameplay.Move.canceled += context => movementInput = Vector2.zero;        
+        controls.Gameplay.Move.canceled += context => movementInput = Vector2.zero;
+
+        controls.Gameplay.Camera.performed += context => Debug.Log(context.ReadValue<Vector2>());
     }
 
     private void Start()
@@ -49,11 +51,13 @@ public class PlayerMovementRootMotion : MonoBehaviour
         }
     }
 
-    private void OnEnable() {
+    private void OnEnable()
+    {
         controls.Gameplay.Enable();
     }
 
-    private void OnDisable() {
+    private void OnDisable()
+    {
         controls.Gameplay.Disable();
     }
 }
