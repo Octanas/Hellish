@@ -16,7 +16,12 @@ public class PlayerMovementClimb : MonoBehaviour
     private PlayerControls controls;
     private Animator animator;
     private Rigidbody playerRigidbody;
+    private CapsuleCollider playerCollider;
     public Transform cameraTransform;
+
+    private float defaultColliderHeight;
+    private float colliderDiff = -1;
+    private float originalColliderHeight = -1;
 
     private bool translate = false;
     private Vector3 targetPosition;
@@ -41,17 +46,24 @@ public class PlayerMovementClimb : MonoBehaviour
 
         controls.Gameplay.Move.performed += context => movementInput = context.ReadValue<Vector2>();
         controls.Gameplay.Move.canceled += context => movementInput = Vector2.zero;
+
+        controls.Gameplay.Climb.performed += context =>
+        {
+            if (state == State.Hanging) ChangeState(State.Climbing);
+        };
     }
 
     private void Start()
     {
         animator = GetComponent<Animator>();
         playerRigidbody = GetComponent<Rigidbody>();
+        playerCollider = GetComponent<CapsuleCollider>();
 
         state = State.Moving;
 
         targetPosition = transform.position;
         targetAngle = transform.eulerAngles.y;
+        defaultColliderHeight = playerCollider.height;
     }
 
     private void Update()
@@ -65,7 +77,45 @@ public class PlayerMovementClimb : MonoBehaviour
             if (movementInput.magnitude >= 0.1f)
                 targetAngle = Mathf.Atan2(movementInput.x, movementInput.y) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
         }
+        else if (state == State.Climbing)
+        {
+            float newColliderHeight;
 
+            if (animator.IsInTransition(0))
+            {
+                if (colliderDiff == -1)
+                {
+                    colliderDiff = defaultColliderHeight - playerCollider.height;
+                    originalColliderHeight = playerCollider.height;
+                }
+
+                float normalizedTransitionTime = animator.GetAnimatorTransitionInfo(0).normalizedTime;
+
+                if (normalizedTransitionTime >= 0.95)
+                {
+                    newColliderHeight = defaultColliderHeight;
+                    colliderDiff = -1;
+                    originalColliderHeight = -1;
+                }
+                else
+                    newColliderHeight = colliderDiff * normalizedTransitionTime + originalColliderHeight;
+            }
+            else
+            {
+                newColliderHeight = animator.GetFloat("ColliderHeight") * defaultColliderHeight;
+            }
+
+            float diff = playerCollider.height - newColliderHeight;
+            playerCollider.height = newColliderHeight;
+
+            Vector3 collCenter = playerCollider.center;
+            collCenter.y += diff / 2;
+            playerCollider.center = collCenter;
+        }
+    }
+
+    private void FixedUpdate()
+    {
         Rotate();
         Move();
     }
@@ -81,6 +131,11 @@ public class PlayerMovementClimb : MonoBehaviour
                 playerRigidbody.useGravity = false;
                 playerRigidbody.velocity = Vector3.zero;
                 animator.SetBool("Hanging", true);
+                break;
+            case State.Climbing:
+                animator.SetTrigger("Climb");
+                animator.SetBool("Hanging", false);
+                playerRigidbody.useGravity = true;
                 break;
         }
 
@@ -120,7 +175,7 @@ public class PlayerMovementClimb : MonoBehaviour
         if (!translate)
             return;
 
-        if ((transform.position - targetPosition).magnitude < 0.0001)
+        if ((transform.position - targetPosition).magnitude < 0.001)
         {
             translate = false;
             return;
@@ -132,7 +187,7 @@ public class PlayerMovementClimb : MonoBehaviour
 
     private void Rotate()
     {
-        if (Mathf.Abs(transform.eulerAngles.y - targetAngle) < 0.0001)
+        if (Mathf.Abs(transform.eulerAngles.y - targetAngle) < 0.001)
             return;
 
         float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turningVelocity, turningTime);

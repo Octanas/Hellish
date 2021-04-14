@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Scenes/Prototypes/PlayerWalkRootMotion/PlayerControls.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/PlayerControls.inputactions'
 
 using System;
 using System.Collections;
@@ -46,6 +46,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""name"": ""Attack"",
                     ""type"": ""Button"",
                     ""id"": ""640bd7eb-a6bc-470f-a12b-a1296719c780"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Climb"",
+                    ""type"": ""Button"",
+                    ""id"": ""42ba9487-9aad-420c-b3ee-574dd8c62b16"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -194,6 +202,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b2c97f77-7eaf-453c-bee1-7e2c4719b886"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Climb"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -206,6 +225,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Gameplay_Camera = m_Gameplay.FindAction("Camera", throwIfNotFound: true);
         m_Gameplay_Sprint = m_Gameplay.FindAction("Sprint", throwIfNotFound: true);
         m_Gameplay_Attack = m_Gameplay.FindAction("Attack", throwIfNotFound: true);
+        m_Gameplay_Climb = m_Gameplay.FindAction("Climb", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -259,6 +279,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Camera;
     private readonly InputAction m_Gameplay_Sprint;
     private readonly InputAction m_Gameplay_Attack;
+    private readonly InputAction m_Gameplay_Climb;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -267,6 +288,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Camera => m_Wrapper.m_Gameplay_Camera;
         public InputAction @Sprint => m_Wrapper.m_Gameplay_Sprint;
         public InputAction @Attack => m_Wrapper.m_Gameplay_Attack;
+        public InputAction @Climb => m_Wrapper.m_Gameplay_Climb;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -288,6 +310,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Attack.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
                 @Attack.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
                 @Attack.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
+                @Climb.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnClimb;
+                @Climb.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnClimb;
+                @Climb.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnClimb;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -304,6 +329,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
+                @Climb.started += instance.OnClimb;
+                @Climb.performed += instance.OnClimb;
+                @Climb.canceled += instance.OnClimb;
             }
         }
     }
@@ -314,5 +342,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnCamera(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+        void OnClimb(InputAction.CallbackContext context);
     }
 }

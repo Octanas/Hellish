@@ -7,7 +7,6 @@ public class LedgeChecker : MonoBehaviour
     private Transform playerTransform;
     public PlayerMovementClimb playerMovement;
 
-    // Start is called before the first frame update
     void Start()
     {
         playerTransform = playerMovement.transform;
@@ -15,7 +14,7 @@ public class LedgeChecker : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.name == "Ledge")
+        if (playerMovement.GetState() == PlayerMovementClimb.State.Moving && other.name == "Ledge")
         {
             Quaternion oldRotation = playerTransform.rotation;
             playerTransform.rotation = other.transform.rotation;
