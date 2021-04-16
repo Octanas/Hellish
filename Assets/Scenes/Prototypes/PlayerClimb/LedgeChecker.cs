@@ -14,21 +14,9 @@ public class LedgeChecker : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (playerMovement.GetState() == PlayerMovementClimb.State.Moving && other.name == "Ledge")
+        if (other.name == "Ledge")
         {
-            Quaternion oldRotation = playerTransform.rotation;
-            playerTransform.rotation = other.transform.rotation;
-
-            Vector3 diffPosition = other.transform.position - transform.GetChild(0).position;
-            diffPosition.x = 0;
-
-            playerTransform.rotation = oldRotation;
-
-            // Move character a total of diffPosition
-            playerMovement.ApplyTranslation(diffPosition);
-            playerMovement.SetAngle(other.transform.eulerAngles.y);
-
-            playerMovement.ChangeState(PlayerMovementClimb.State.Hanging);
+            playerMovement.HangOnLedge(other.transform.position, other.transform.rotation);
 
             // TODO: remove player friction with walls
         }

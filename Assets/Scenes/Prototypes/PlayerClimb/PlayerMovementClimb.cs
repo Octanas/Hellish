@@ -5,19 +5,30 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovementClimb : MonoBehaviour
 {
-    // SUGGESTION: Should try to use the Animator has the sole state holder.
-    public enum State
+    public static class State
     {
-        Moving,
-        Hanging,
-        Climbing
+        public static readonly int Moving = Animator.StringToHash("Base Layer.Moving");
+        public static readonly int Hanging = Animator.StringToHash("Base Layer.Hanging");
+        public static readonly int Climbing = Animator.StringToHash("Base Layer.Climbing");
     }
+
+    public static class AnimatorParameters
+    {
+        public static readonly string Movement = "Movement";
+        public static readonly string Hang = "Hang";
+        public static readonly string Climb = "Climb";
+        public static readonly string ColliderHeight = "ColliderHeight";
+    }
+
+    private AnimatorStateInfo state;
+    private AnimatorStateInfo nextState;
 
     private PlayerControls controls;
     private Animator animator;
     private Rigidbody playerRigidbody;
     private CapsuleCollider playerCollider;
     public Transform cameraTransform;
+    public Transform hangingPoint;
 
     private float defaultColliderHeight;
     private float colliderDiff = -1;
@@ -38,19 +49,14 @@ public class PlayerMovementClimb : MonoBehaviour
     private float movementInputAcceleration;
     public float movementInputAccelerationTime = 0.5f;
 
-    private State state;
-
     private void Awake()
     {
         controls = new PlayerControls();
 
-        controls.Gameplay.Move.performed += context => movementInput = context.ReadValue<Vector2>();
-        controls.Gameplay.Move.canceled += context => movementInput = Vector2.zero;
+        controls.Gameplay.Move.performed += CaptureMovementDirection;
+        controls.Gameplay.Move.canceled += CaptureMovementDirection;
 
-        controls.Gameplay.Climb.performed += context =>
-        {
-            if (state == State.Hanging) ChangeState(State.Climbing);
-        };
+        controls.Gameplay.Climb.performed += TriggerClimb;
     }
 
     private void Start()
@@ -59,25 +65,29 @@ public class PlayerMovementClimb : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody>();
         playerCollider = GetComponent<CapsuleCollider>();
 
-        state = State.Moving;
+        state = animator.GetCurrentAnimatorStateInfo(0);
+        nextState = animator.GetNextAnimatorStateInfo(0);
 
         targetPosition = transform.position;
         targetAngle = transform.eulerAngles.y;
         defaultColliderHeight = playerCollider.height;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (state == State.Moving)
+        state = animator.GetCurrentAnimatorStateInfo(0);
+        nextState = animator.GetNextAnimatorStateInfo(0);
+
+        if (state.fullPathHash == State.Moving)
         {
             movementInputSpeed = Mathf.SmoothDamp(movementInputSpeed, movementInput.magnitude, ref movementInputAcceleration, movementInputAccelerationTime);
 
-            animator.SetFloat("Movement", movementInputSpeed);
+            animator.SetFloat(AnimatorParameters.Movement, movementInputSpeed);
 
             if (movementInput.magnitude >= 0.1f)
                 targetAngle = Mathf.Atan2(movementInput.x, movementInput.y) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
         }
-        else if (state == State.Climbing)
+        else if (state.fullPathHash == State.Climbing)
         {
             float newColliderHeight;
 
@@ -102,7 +112,7 @@ public class PlayerMovementClimb : MonoBehaviour
             }
             else
             {
-                newColliderHeight = animator.GetFloat("ColliderHeight") * defaultColliderHeight;
+                newColliderHeight = animator.GetFloat(AnimatorParameters.ColliderHeight) * defaultColliderHeight;
             }
 
             float diff = playerCollider.height - newColliderHeight;
@@ -112,37 +122,34 @@ public class PlayerMovementClimb : MonoBehaviour
             collCenter.y += diff / 2;
             playerCollider.center = collCenter;
         }
-    }
 
-    private void FixedUpdate()
-    {
         Rotate();
         Move();
     }
 
-    public void ChangeState(State state)
+    // TODO: remove ASAP
+    public void ChangeState(int stateHash)
     {
-        switch (state)
+        if (stateHash == State.Moving)
         {
-            case State.Moving:
-                playerRigidbody.useGravity = true;
-                break;
-            case State.Hanging:
-                playerRigidbody.useGravity = false;
-                playerRigidbody.velocity = Vector3.zero;
-                animator.SetBool("Hanging", true);
-                break;
-            case State.Climbing:
-                animator.SetTrigger("Climb");
-                animator.SetBool("Hanging", false);
-                playerRigidbody.useGravity = true;
-                break;
-        }
+            playerRigidbody.useGravity = true;
 
-        this.state = state;
+        }
+        else if (stateHash == State.Hanging)
+        {
+            playerRigidbody.useGravity = false;
+            playerRigidbody.velocity = Vector3.zero;
+            animator.SetBool(AnimatorParameters.Hang, true);
+        }
+        else if (stateHash == State.Climbing)
+        {
+            animator.SetTrigger(AnimatorParameters.Climb);
+            animator.SetBool(AnimatorParameters.Hang, false);
+            playerRigidbody.useGravity = true;
+        }
     }
 
-    public State GetState()
+    public AnimatorStateInfo GetState()
     {
         return state;
     }
@@ -193,6 +200,47 @@ public class PlayerMovementClimb : MonoBehaviour
         float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turningVelocity, turningTime);
         transform.rotation = Quaternion.Euler(0f, angle, 0f);
     }
+
+    public void HangOnLedge(Vector3 position, Quaternion orientation)
+    {
+        if(state.fullPathHash != State.Moving)
+            return;
+
+        if(nextState.fullPathHash == State.Hanging)
+            return;
+
+        Quaternion oldRotation = transform.rotation;
+        transform.rotation = orientation;
+
+        Vector3 diffPosition = position - hangingPoint.position;
+        
+        // FIXME: this will not always be X
+        diffPosition.x = 0;
+
+        transform.rotation = oldRotation;
+
+        // Move character a total of diffPosition
+        ApplyTranslation(diffPosition);
+        SetAngle(orientation.eulerAngles.y);
+
+        animator.SetTrigger(AnimatorParameters.Hang);
+    }
+
+    #region Input event methods
+    private void CaptureMovementDirection(InputAction.CallbackContext context)
+    {
+        movementInput = context.ReadValue<Vector2>();
+    }
+
+    private void TriggerClimb(InputAction.CallbackContext context)
+    {
+        // Will only trigger climb if current state is hanging
+        if (state.fullPathHash == State.Hanging)
+        {
+            animator.SetTrigger(AnimatorParameters.Climb);
+        }
+    }
+    #endregion
 
     private void OnEnable()
     {
