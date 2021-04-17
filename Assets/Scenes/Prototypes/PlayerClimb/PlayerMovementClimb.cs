@@ -223,13 +223,18 @@ public class PlayerMovementClimb : MonoBehaviour
 
         Vector3 diffPosition = position - hangingPoint.position;
 
-        // FIXME: this will not always be X
-        diffPosition.x = 0;
+        Vector3 translationVectorForward = transform.forward;
+        translationVectorForward = Vector3.Project(diffPosition, translationVectorForward);
+
+        Vector3 translationVectorUp = transform.up;
+        translationVectorUp = Vector3.Project(diffPosition, translationVectorUp);
+
+        Vector3 translationVector = translationVectorForward + translationVectorUp;
 
         transform.rotation = oldRotation;
 
-        // Move character a total of diffPosition
-        ApplyTranslation(diffPosition);
+        // Move character a total of translationVector
+        ApplyTranslation(translationVector);
         SetAngle(orientation.eulerAngles.y);
     }
 
