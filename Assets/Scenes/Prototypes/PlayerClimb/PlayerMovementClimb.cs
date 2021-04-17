@@ -22,6 +22,7 @@ public class PlayerMovementClimb : MonoBehaviour
 
     private AnimatorStateInfo state;
     private AnimatorStateInfo nextState;
+    private bool inStateTransition;
 
     private PlayerControls controls;
     private Animator animator;
@@ -77,18 +78,22 @@ public class PlayerMovementClimb : MonoBehaviour
     {
         state = animator.GetCurrentAnimatorStateInfo(0);
         nextState = animator.GetNextAnimatorStateInfo(0);
+        inStateTransition = animator.IsInTransition(0);
 
-        // FIXME: if abruptly stopped, the movement value can stay not 0
-        if (state.fullPathHash == State.Moving && nextState.fullPathHash != State.Hanging)
-        {
-            movementInputSpeed = Mathf.SmoothDamp(movementInputSpeed, movementInput.magnitude, ref movementInputAcceleration, movementInputAccelerationTime);
+        // Moving speed
+        movementInputSpeed = Mathf.SmoothDamp(movementInputSpeed,
+            state.fullPathHash == State.Moving && !inStateTransition || nextState.fullPathHash == State.Moving ?
+                movementInput.magnitude :
+                0,
+            ref movementInputAcceleration, movementInputAccelerationTime);
 
-            animator.SetFloat(AnimatorParameters.Movement, movementInputSpeed);
+        animator.SetFloat(AnimatorParameters.Movement, movementInputSpeed);
 
-            if (movementInput.magnitude >= 0.1f)
-                targetAngle = Mathf.Atan2(movementInput.x, movementInput.y) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
-        }
-        else if (state.fullPathHash == State.Climbing)
+        // Rotation
+        if (state.fullPathHash == State.Moving && nextState.fullPathHash != State.Hanging && movementInput.magnitude >= 0.1f)
+            targetAngle = Mathf.Atan2(movementInput.x, movementInput.y) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
+
+        if (state.fullPathHash == State.Climbing)
         {
             float newColliderHeight;
 
