@@ -17,8 +17,6 @@ public class LedgeChecker : MonoBehaviour
         if (other.name == "Ledge")
         {
             playerMovement.HangOnLedge(other.transform.position, other.transform.rotation);
-
-            // TODO: remove player friction with walls
         }
     }
 }
