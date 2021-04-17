@@ -14,7 +14,7 @@ public class LedgeCheckerJump : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (playerMovement.GetState() == PlayerMovementClimb.State.Moving && other.name == "Ledge")
+        if (playerMovement.GetState().fullPathHash == PlayerMovementClimb.State.Moving && other.name == "Ledge")
         {
             Quaternion oldRotation = playerTransform.rotation;
             playerTransform.rotation = other.transform.rotation;

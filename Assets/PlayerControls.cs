@@ -61,7 +61,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
-                    ""id"": ""94fc45c3-897f-4528-9130-331e5776325e"",
+                    ""id"": ""111bf83f-ec75-49e4-a9e5-cef3039b00fb"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -213,7 +213,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""6d07e599-1579-4d45-8f97-ceb6a938bb67"",
+                    ""id"": ""2bbfc3d6-a63a-4613-b3d7-0114a87a6ebe"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -346,6 +346,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Climb.started += instance.OnClimb;
                 @Climb.performed += instance.OnClimb;
                 @Climb.canceled += instance.OnClimb;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
             }
         }
     }
