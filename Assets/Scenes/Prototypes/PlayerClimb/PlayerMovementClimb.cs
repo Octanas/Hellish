@@ -78,7 +78,8 @@ public class PlayerMovementClimb : MonoBehaviour
         state = animator.GetCurrentAnimatorStateInfo(0);
         nextState = animator.GetNextAnimatorStateInfo(0);
 
-        if (state.fullPathHash == State.Moving)
+        // FIXME: if abruptly stopped, the movement value can stay not 0
+        if (state.fullPathHash == State.Moving && nextState.fullPathHash != State.Hanging)
         {
             movementInputSpeed = Mathf.SmoothDamp(movementInputSpeed, movementInput.magnitude, ref movementInputAcceleration, movementInputAccelerationTime);
 
@@ -203,17 +204,20 @@ public class PlayerMovementClimb : MonoBehaviour
 
     public void HangOnLedge(Vector3 position, Quaternion orientation)
     {
-        if(state.fullPathHash != State.Moving)
+        if (state.fullPathHash != State.Moving)
             return;
 
-        if(nextState.fullPathHash == State.Hanging)
+        if (nextState.fullPathHash == State.Hanging)
             return;
+
+        animator.SetTrigger(AnimatorParameters.Hang);
+        animator.Update(0f);
 
         Quaternion oldRotation = transform.rotation;
         transform.rotation = orientation;
 
         Vector3 diffPosition = position - hangingPoint.position;
-        
+
         // FIXME: this will not always be X
         diffPosition.x = 0;
 
@@ -222,8 +226,6 @@ public class PlayerMovementClimb : MonoBehaviour
         // Move character a total of diffPosition
         ApplyTranslation(diffPosition);
         SetAngle(orientation.eulerAngles.y);
-
-        animator.SetTrigger(AnimatorParameters.Hang);
     }
 
     #region Input event methods
