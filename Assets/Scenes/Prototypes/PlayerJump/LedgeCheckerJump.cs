@@ -5,7 +5,7 @@ using UnityEngine;
 public class LedgeCheckerJump : MonoBehaviour
 {
     private Transform playerTransform;
-    public PlayerMovementClimb playerMovement;
+    public PlayerMovementJump playerMovement;
 
     void Start()
     {
@@ -14,7 +14,7 @@ public class LedgeCheckerJump : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (playerMovement.GetState().fullPathHash == PlayerMovementClimb.State.Moving && other.name == "Ledge")
+        if (playerMovement.GetState() == PlayerMovementJump.State.Moving && other.name == "Ledge")
         {
             Quaternion oldRotation = playerTransform.rotation;
             playerTransform.rotation = other.transform.rotation;
@@ -28,7 +28,7 @@ public class LedgeCheckerJump : MonoBehaviour
             playerMovement.ApplyTranslation(diffPosition);
             playerMovement.SetAngle(other.transform.eulerAngles.y);
 
-            playerMovement.ChangeState(PlayerMovementClimb.State.Hanging);
+            playerMovement.ChangeState(PlayerMovementJump.State.Moving);
 
             // TODO: remove player friction with walls
         }

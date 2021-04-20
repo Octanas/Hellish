@@ -6,6 +6,6 @@ public class ClimbState : StateMachineBehaviour
 {
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.GetComponent<PlayerMovementClimb>().ChangeState(PlayerMovementClimb.State.Moving);
+        animator.GetComponent<PlayerMovementJump>().ChangeState(PlayerMovementJump.State.Moving);
     }
 }
