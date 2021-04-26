@@ -18,6 +18,9 @@ public class PlayerMovement : MonoBehaviour
         public static readonly int Moving = Animator.StringToHash("Base Layer.Moving");
         public static readonly int Hanging = Animator.StringToHash("Base Layer.Hanging");
         public static readonly int Climbing = Animator.StringToHash("Base Layer.Climbing");
+        public static readonly int JumpingUp = Animator.StringToHash("Base Layer.JumpingUp");
+        public static readonly int Falling = Animator.StringToHash("Base Layer.Falling");
+        public static readonly int Landing = Animator.StringToHash("Base Layer.Landing");
     }
 
     /// <summary>
@@ -31,6 +34,9 @@ public class PlayerMovement : MonoBehaviour
         public static readonly string Hang = "Hang";
         public static readonly string Climb = "Climb";
         public static readonly string ColliderHeight = "ColliderHeight";
+        public static readonly string Jump = "Jump";
+        public static readonly string Fall = "Fall";
+        public static readonly string Land = "Land";
     }
 
     /// <summary>
@@ -78,6 +84,12 @@ public class PlayerMovement : MonoBehaviour
     private float movementInputAcceleration;
     public float movementInputAccelerationTime = 0.5f;
 
+    // FALLING VARIABLES
+    public float timeToLand = 0.25f;
+    public float groundDetectionOffset = 0.1f;
+    public float groundDetectionDistance = 0.5f;
+    private bool isGrounded = false;
+
     private void Awake()
     {
         controls = new PlayerControls();
@@ -85,6 +97,7 @@ public class PlayerMovement : MonoBehaviour
         controls.Gameplay.Move.performed += CaptureMovementDirection;
         controls.Gameplay.Move.canceled += CaptureMovementDirection;
 
+        controls.Gameplay.Jump.performed += Jump;
         controls.Gameplay.Climb.performed += TriggerClimb;
     }
 
@@ -128,13 +141,17 @@ public class PlayerMovement : MonoBehaviour
         if (state.fullPathHash == State.Moving && nextState.fullPathHash != State.Hanging && movementInput.magnitude >= 0.1f)
             targetAngle = Mathf.Atan2(movementInput.x, movementInput.y) * Mathf.Rad2Deg + playerCamera.eulerAngles.y;
 
-        if (state.fullPathHash == State.Climbing)
+        if (state.fullPathHash == State.Climbing
+            || state.fullPathHash == State.JumpingUp
+            || state.fullPathHash == State.Falling
+            || state.fullPathHash == State.Landing)
         {
             // Adjust collider height during climbing animation, according to the animation curves
             // The obtained value from the curves goes from 0 to 1, 1 being full height, 0 being no height
             float newColliderHeight;
 
-            if (animator.IsInTransition(0))
+            // Do not reset collider height at the end of the JumpingUp state
+            if (animator.IsInTransition(0) && state.fullPathHash != State.JumpingUp)
             {
                 // During a transition, gradually adjust collider to full length
                 // Relative to the transition's length
@@ -169,6 +186,32 @@ public class PlayerMovement : MonoBehaviour
             Vector3 collCenter = playerCollider.center;
             collCenter.y += diff / 2;
             playerCollider.center = collCenter;
+        }
+
+
+        // Detect ground with straight down raycast
+        Vector3 auxPosition = transform.position;
+        auxPosition.y += groundDetectionOffset;
+
+        // FIXME: the raycast should actually be fired in the direction of movement,
+        // to detect the floor where the player will land and not the floor right beneath him
+        // (https://github.com/Octanas/Hellish/issues/16)
+        isGrounded = Physics.Raycast(auxPosition, -transform.up,
+            state.fullPathHash == State.Falling ? timeToLand * -playerRigidbody.velocity.y : groundDetectionDistance,
+            LayerMask.GetMask("Default"));
+
+        // If player is Falling and ground is detected, trigger landing
+        if (state.fullPathHash == State.Falling)
+        {
+            if (isGrounded)
+            {
+                PrepareForLanding();
+            }
+        }
+        // If ground is not detected and player isn't falling, trigger fall
+        else if (!isGrounded)
+        {
+            Fall();
         }
 
         Rotate();
@@ -309,12 +352,53 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
+    /// Trigger landing state.
+    /// </summary>
+    private void PrepareForLanding()
+    {
+        // Will only trigger landing if current state is Falling
+        if (state.fullPathHash == State.Falling)
+        {
+            animator.SetTrigger(AnimatorParameters.Land);
+        }
+    }
+
+    /// <summary>
     /// Consumes movement input.
     /// </summary>
     /// <param name="context">Input callback context.</param>
     private void CaptureMovementDirection(InputAction.CallbackContext context)
     {
         movementInput = context.ReadValue<Vector2>();
+    }
+
+    /// <summary>
+    /// Trigger falling state.
+    /// </summary>
+    private void Fall()
+    {
+        // Will only trigger fall if current state is Moving
+        if (state.fullPathHash == State.Moving)
+        {
+            // Disable root motion so movement persists through falling state
+            animator.applyRootMotion = false;
+            animator.SetTrigger(AnimatorParameters.Fall);
+        }
+    }
+
+    /// <summary>
+    /// Consumes jump input.
+    /// </summary>
+    /// <param name="context">Input callback context.</param>
+    private void Jump(InputAction.CallbackContext context)
+    {
+        // Will only trigger jump if current state is Moving
+        if (state.fullPathHash == State.Moving)
+        {
+            // Disable root motion so movement persists through jumping state
+            animator.applyRootMotion = false;
+            animator.SetTrigger(AnimatorParameters.Jump);
+        }
     }
 
     /// <summary>
@@ -328,6 +412,28 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetTrigger(AnimatorParameters.Climb);
         }
+    }
+
+    /// <summary>
+    /// Executes on jumping animation event.
+    /// </summary>
+    private void OnJump()
+    {
+        // Apply jumping force
+        playerRigidbody.AddForce(new Vector3(0, 8, 0), ForceMode.Impulse);
+    }
+
+    /// <summary>
+    /// Executes on landing animation event.
+    /// </summary>
+    private void OnLand()
+    {
+        // Re-enable root motion to give position control back to animations
+        animator.applyRootMotion = true;
+
+        // Disable any left land or fall triggers
+        animator.ResetTrigger(AnimatorParameters.Land);
+        animator.ResetTrigger(AnimatorParameters.Fall);
     }
 
     private void OnEnable()
