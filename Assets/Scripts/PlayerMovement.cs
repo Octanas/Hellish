@@ -84,6 +84,11 @@ public class PlayerMovement : MonoBehaviour
     private float movementInputAcceleration;
     public float movementInputAccelerationTime = 0.5f;
 
+    // AIR CONTROL VARIABLES
+    public float maxAirSpeedHorizontal = 7f;
+    public float airDragHorizontal = 3f;
+    public float airControlForce = 10f;
+
     // FALLING VARIABLES
     public float timeToLand = 0.25f;
     public float groundDetectionOffset = 0.1f;
@@ -126,20 +131,38 @@ public class PlayerMovement : MonoBehaviour
 
         // Calculate current movement speed
         // It will gradually decrease/increase, so the animations and movement are smoother
-        movementInputSpeed = Mathf.SmoothDamp(movementInputSpeed,
-            state.fullPathHash == State.Moving && !inStateTransition || nextState.fullPathHash == State.Moving ?
-                movementInput.magnitude :
-                0,
+        movementInputSpeed = Mathf.SmoothDamp(movementInputSpeed, movementInput.magnitude,
             ref movementInputAcceleration, movementInputAccelerationTime);
 
         // Update movement speed on animator to adjust animation
         animator.SetFloat(AnimatorParameters.Movement, movementInputSpeed);
 
-        // Set rotation value
-        // Do not change rotation when transitioning to Hanging state,
-        // to avoid wrong orientation when hanging on ledge
-        if (state.fullPathHash == State.Moving && nextState.fullPathHash != State.Hanging && movementInput.magnitude >= 0.1f)
-            targetAngle = Mathf.Atan2(movementInput.x, movementInput.y) * Mathf.Rad2Deg + playerCamera.eulerAngles.y;
+        // Do not change rotation and movement when transitioning to Hanging state,
+        // to avoid problems when hanging on ledge
+        if (nextState.fullPathHash != State.Hanging && movementInput.magnitude >= 0.1f)
+        {
+            if (state.fullPathHash == State.Moving)
+            {
+                // Set rotation value
+                targetAngle = Mathf.Atan2(movementInput.x, movementInput.y) * Mathf.Rad2Deg + playerCamera.eulerAngles.y;
+            }
+            else if ((state.fullPathHash == State.JumpingUp || state.fullPathHash == State.Falling))
+            {
+                // Set rotation value
+                targetAngle = Mathf.Atan2(movementInput.x, movementInput.y) * Mathf.Rad2Deg + playerCamera.eulerAngles.y;
+
+                // While velocity is lower than maxAirHorizontalSpeed, player can speed up horizontal movement while falling
+                if (Mathf.Sqrt(Mathf.Pow(playerRigidbody.velocity.x, 2) + Mathf.Pow(playerRigidbody.velocity.z, 2)) < maxAirSpeedHorizontal)
+                    playerRigidbody.AddForce(transform.forward * airControlForce * movementInputSpeed, ForceMode.Force);
+
+                // Get horizonta movement vector
+                Vector3 horizontalMovement = playerRigidbody.velocity.normalized;
+                horizontalMovement.y = 0;
+
+                // Add air drag (contrary to horizontal air movement)
+                playerRigidbody.AddForce(horizontalMovement * -airDragHorizontal, ForceMode.Force);
+            }
+        }
 
         if (state.fullPathHash == State.Climbing
             || state.fullPathHash == State.JumpingUp
@@ -307,13 +330,15 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="orientation">Orientation of the ledge (to where the character will face).</param>
     public void HangOnLedge(Vector3 position, Quaternion orientation)
     {
-        // Only valid if character is in Moving state
-        // and not already transitioning to Hanging state
-        if (state.fullPathHash != State.Moving)
+        // Only executes if the character is already hanging or climbing
+        if (state.fullPathHash == State.Hanging || state.fullPathHash == State.Climbing)
             return;
 
         if (nextState.fullPathHash == State.Hanging)
             return;
+
+        // Make sure root motion will be applied
+        animator.applyRootMotion = true;
 
         animator.SetTrigger(AnimatorParameters.Hang);
 
@@ -411,6 +436,9 @@ public class PlayerMovement : MonoBehaviour
         if (state.fullPathHash == State.Hanging)
         {
             animator.SetTrigger(AnimatorParameters.Climb);
+            
+            // Disable any left fall triggers from when the character was hanging/climbing
+            animator.ResetTrigger(AnimatorParameters.Fall);
         }
     }
 
