@@ -54,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private Rigidbody playerRigidbody;
     private CapsuleCollider playerCollider;
+    [Header("External References")]
     public Transform playerCamera;
     /// <summary>
     /// Reference point to where the hands will be when hanging on a ledge.
@@ -70,26 +71,31 @@ public class PlayerMovement : MonoBehaviour
     private bool translate = false;
     private Vector3 targetPosition;
     private Vector3 movingVelocity;
+    [Header("Character Translation")]
     public float movingTime = 0.1f;
     public float maxMovingVelocity = 10f;
 
     // CHARACTER ROTATION
     private float targetAngle;
     private float turningVelocity;
+    [Header("Character Rotation")]
     public float turningTime = 0.1f;
 
     // MOVEMENT INPUT
     private Vector2 movementInput = Vector2.zero;
     private float movementInputSpeed = 0f;
     private float movementInputAcceleration;
+    [Header("Movement Input")]
     public float movementInputAccelerationTime = 0.5f;
 
-    // AIR CONTROL VARIABLES
+    // AIR CONTROL
+    [Header("Air Control")]
     public float maxAirSpeedHorizontal = 7f;
     public float airDragHorizontal = 3f;
     public float airControlForce = 10f;
 
-    // FALLING VARIABLES
+    // FALLING
+    [Header("Falling")]
     public float timeToLand = 0.25f;
     public float groundDetectionOffset = 0.1f;
     public float groundDetectionDistance = 0.5f;
