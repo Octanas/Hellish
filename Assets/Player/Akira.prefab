@@ -1217,10 +1217,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 0}
   hangingPoint: {fileID: 7384939435783115959}
+  lookAt: {fileID: 0}
   movingTime: 0.1
   maxMovingVelocity: 10
   turningTime: 0.1
   movementInputAccelerationTime: 0.5
+  maxAirSpeedHorizontal: 7
+  airDragHorizontal: 3
+  airControlForce: 10
+  timeToLand: 0.25
+  groundDetectionDistance: 0.5
 --- !u!114 &1598057889351314189
 MonoBehaviour:
   m_ObjectHideFlags: 0

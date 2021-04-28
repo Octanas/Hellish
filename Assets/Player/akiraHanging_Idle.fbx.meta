@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: dce732a8d4ffb2240955cfc81d154932
+labels:
+- Animation
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:

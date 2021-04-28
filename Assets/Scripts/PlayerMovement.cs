@@ -62,10 +62,11 @@ public class PlayerMovement : MonoBehaviour
     [Tooltip("Reference point to where the hands will be when hanging on a ledge.")]
     public Transform hangingPoint;
     /// <summary>
-    /// Reference point to where the camera looks at (used for floor detection raycast too).
+    /// Reference point to be used as origin for floor detection raycast.
     /// </summary>
-    [Tooltip("Reference point to where the camera looks at (used for floor detection raycast too).")]
-    public Transform lookAt;
+    [Tooltip("Reference point to be used as origin for floor detection raycast.")]
+    [UnityEngine.Serialization.FormerlySerializedAs("floorDetectionSource")]
+    public Transform floorDetectionOrigin;
 
     // COLLIDER ADJUSTMENT
     private float defaultColliderHeight;
@@ -183,8 +184,8 @@ public class PlayerMovement : MonoBehaviour
             // The obtained value from the curves goes from 0 to 1, 1 being full height, 0 being no height
             float newColliderHeight;
 
-            // Do not reset collider height at the end of the JumpingUp state
-            if (animator.IsInTransition(0) && state.fullPathHash != State.JumpingUp)
+            // Do not reset collider height at the end of the JumpingUp or Falling state
+            if (inStateTransition && state.fullPathHash != State.JumpingUp && state.fullPathHash != State.Falling)
             {
                 // During a transition, gradually adjust collider to full length
                 // Relative to the transition's length
@@ -221,19 +222,45 @@ public class PlayerMovement : MonoBehaviour
             playerCollider.center = collCenter;
         }
 
+        Vector3 auxVelocity = playerRigidbody.velocity;
+        auxVelocity.y = 0;
 
-        // Detect ground with straight down raycast
-        // FIXME: the raycast should actually be fired in the direction of movement,
-        // to detect the floor where the player will land and not the floor right beneath him
-        // (https://github.com/Octanas/Hellish/issues/16)
-        isGrounded = Physics.Raycast(lookAt.position, -transform.up,
-            state.fullPathHash == State.Falling ? timeToLand * -playerRigidbody.velocity.y : groundDetectionDistance,
-            LayerMask.GetMask("Default"));
+        /**
+         * -- Normal Movement (Walking/Running) -- 
+         * A raycast will be fired straight down to detect the ground.
+         *
+         * The raycast will have a max length of groundDetectionDistance.
+         *
+         * -- Falling --
+         * A raycast will be fired in the direction of velocity to detect the ground, if falling.
+         *
+         * The raycast will have a max length of the distance to the spot where the player will land in timeToLand seconds
+         * timeToLand represents the number of seconds necessary for the landing animation to play.
+         *
+         * The vertical component of the raycast length is calculated taking gravity acceleration into account,
+         * so that the landing animation is as synced with the actual landing as possible.
+         */
+        Vector3 raycastDirection = state.fullPathHash == State.Falling ? playerRigidbody.velocity.normalized : -transform.up;
+        float raycastLength = state.fullPathHash == State.Falling ?
+            Mathf.Sqrt(
+                Mathf.Pow(Mathf.Pow(timeToLand, 2) * -Physics.gravity.y + timeToLand * -playerRigidbody.velocity.y, 2)
+                + (timeToLand * auxVelocity.magnitude))
+            : groundDetectionDistance;
+
+        RaycastHit hitInfo;
+
+        isGrounded = Physics.Raycast(floorDetectionOrigin.position, raycastDirection, out hitInfo, raycastLength, LayerMask.GetMask("Default"));
+
+        Debug.DrawRay(floorDetectionOrigin.position, raycastDirection * raycastLength, Color.red);
 
         // If player is Falling and ground is detected, trigger landing
         if (state.fullPathHash == State.Falling)
         {
-            if (isGrounded)
+            // If ground is to close to player, do not trigger landing,
+            // because there is not enough time to play the animation.
+            // This is considered a bug, as it does not look nice
+            // (https://github.com/Octanas/Hellish/issues/21)
+            if (isGrounded && hitInfo.distance >= raycastLength * 0.5)
             {
                 PrepareForLanding();
             }
