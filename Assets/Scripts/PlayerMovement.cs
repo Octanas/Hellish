@@ -61,6 +61,11 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     [Tooltip("Reference point to where the hands will be when hanging on a ledge.")]
     public Transform hangingPoint;
+    /// <summary>
+    /// Reference point to where the camera looks at (used for floor detection raycast too).
+    /// </summary>
+    [Tooltip("Reference point to where the camera looks at (used for floor detection raycast too).")]
+    public Transform lookAt;
 
     // COLLIDER ADJUSTMENT
     private float defaultColliderHeight;
@@ -97,7 +102,6 @@ public class PlayerMovement : MonoBehaviour
     // FALLING
     [Header("Falling")]
     public float timeToLand = 0.25f;
-    public float groundDetectionOffset = 0.1f;
     public float groundDetectionDistance = 0.5f;
     private bool isGrounded = false;
 
@@ -219,13 +223,10 @@ public class PlayerMovement : MonoBehaviour
 
 
         // Detect ground with straight down raycast
-        Vector3 auxPosition = transform.position;
-        auxPosition.y += groundDetectionOffset;
-
         // FIXME: the raycast should actually be fired in the direction of movement,
         // to detect the floor where the player will land and not the floor right beneath him
         // (https://github.com/Octanas/Hellish/issues/16)
-        isGrounded = Physics.Raycast(auxPosition, -transform.up,
+        isGrounded = Physics.Raycast(lookAt.position, -transform.up,
             state.fullPathHash == State.Falling ? timeToLand * -playerRigidbody.velocity.y : groundDetectionDistance,
             LayerMask.GetMask("Default"));
 
