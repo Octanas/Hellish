@@ -109,7 +109,9 @@ public class PlayerMovement : MonoBehaviour
     public float groundDetectionDistance = 0.5f;
     private bool isGrounded = false;
 
-    private RaycastHit hit;
+    // JUMPING
+    [Header("Jumping")]
+    private RaycastHit downgrade;
 
     private void Awake()
     {
@@ -258,13 +260,23 @@ public class PlayerMovement : MonoBehaviour
 
         Debug.DrawRay(floorDetectionOrigin.position, raycastDirection * raycastLength, Color.red);
 
+
+        /*
+         * -- Deciding between from jumping up and jumping down --
+         * downgrade is a raycasthit that will determine if the player jumps down or up;
+         * the ray starts on the hips and points to a little bit ahead of the feet;
+         * if the ray doesn't collide with anything, the player jumps down
+         * 
+         * for the debug purposes, the color of the ray changes depending on colliding or not
+         * default is blue and green when collides
+        */
         Color color = Color.blue;
 
         Vector3 raycastDown = transform.forward - transform.up;
 
-        bool isDown = Physics.Raycast(jumpingDownDetectionPoint.position, raycastDown, out hit, 2, LayerMask.GetMask("Default"));
+        bool isDown = Physics.Raycast(jumpingDownDetectionPoint.position, raycastDown, out downgrade, 2, LayerMask.GetMask("Default"));
 
-        if(hit.collider != null)
+        if(downgrade.collider != null)
             color = Color.green;
 
         Debug.DrawRay(jumpingDownDetectionPoint.position, raycastDown * 2, color);
@@ -467,13 +479,15 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="context">Input callback context.</param>
     private void Jump(InputAction.CallbackContext context)
     {
+
         Vector3 velocity = playerRigidbody.velocity;
         velocity.y = 0;
 
         // Will only trigger jump if current state is Moving
         if (state.fullPathHash == State.Moving)
         {
-            if(hit.collider == null && velocity.magnitude < 0.1f) {
+            // if there is a downgrade ahead and the player is almost still, it triggers jump down instead of normal jumping
+            if(downgrade.collider == null && velocity.magnitude < 0.1f) {
                 animator.applyRootMotion = false;
                 animator.SetTrigger(AnimatorParameters.JumpDown);
             }
@@ -507,7 +521,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnJump()
     {
         // Apply jumping force
-        if(hit.collider == null)
+        if(state.fullPathHash == State.JumpingDown)
             playerRigidbody.AddForce(new Vector3(transform.forward.x * 3, transform.forward.y + 2, transform.forward.z * 3), ForceMode.Impulse);
         else
             playerRigidbody.AddForce(new Vector3(0, 8, 0), ForceMode.Impulse);
