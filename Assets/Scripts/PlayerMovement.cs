@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
         public static readonly int Hanging = Animator.StringToHash("Base Layer.Hanging");
         public static readonly int Climbing = Animator.StringToHash("Base Layer.Climbing");
         public static readonly int JumpingUp = Animator.StringToHash("Base Layer.JumpingUp");
+        public static readonly int JumpingDown = Animator.StringToHash("Base Layer.JumpingDown");
         public static readonly int Falling = Animator.StringToHash("Base Layer.Falling");
         public static readonly int Landing = Animator.StringToHash("Base Layer.Landing");
     }
@@ -35,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
         public static readonly string Climb = "Climb";
         public static readonly string ColliderHeight = "ColliderHeight";
         public static readonly string Jump = "Jump";
+        public static readonly string JumpDown = "JumpDown";
         public static readonly string Fall = "Fall";
         public static readonly string Land = "Land";
     }
@@ -67,6 +69,7 @@ public class PlayerMovement : MonoBehaviour
     [Tooltip("Reference point to be used as origin for floor detection raycast.")]
     [UnityEngine.Serialization.FormerlySerializedAs("floorDetectionSource")]
     public Transform floorDetectionOrigin;
+    public Transform jumpingDownDetectionPoint;
 
     // COLLIDER ADJUSTMENT
     private float defaultColliderHeight;
@@ -105,6 +108,8 @@ public class PlayerMovement : MonoBehaviour
     public float timeToLand = 0.25f;
     public float groundDetectionDistance = 0.5f;
     private bool isGrounded = false;
+
+    private RaycastHit hit;
 
     private void Awake()
     {
@@ -157,7 +162,7 @@ public class PlayerMovement : MonoBehaviour
                 // Set rotation value
                 targetAngle = Mathf.Atan2(movementInput.x, movementInput.y) * Mathf.Rad2Deg + playerCamera.eulerAngles.y;
             }
-            else if ((state.fullPathHash == State.JumpingUp || state.fullPathHash == State.Falling))
+            else if ((state.fullPathHash == State.JumpingUp || state.fullPathHash == State.JumpingDown || state.fullPathHash == State.Falling))
             {
                 // Set rotation value
                 targetAngle = Mathf.Atan2(movementInput.x, movementInput.y) * Mathf.Rad2Deg + playerCamera.eulerAngles.y;
@@ -252,6 +257,17 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = Physics.Raycast(floorDetectionOrigin.position, raycastDirection, out hitInfo, raycastLength, LayerMask.GetMask("Default"));
 
         Debug.DrawRay(floorDetectionOrigin.position, raycastDirection * raycastLength, Color.red);
+
+        Color color = Color.blue;
+
+        Vector3 raycastDown = transform.forward - transform.up;
+
+        bool isDown = Physics.Raycast(jumpingDownDetectionPoint.position, raycastDown, out hit, 2, LayerMask.GetMask("Default"));
+
+        if(hit.collider != null)
+            color = Color.green;
+
+        Debug.DrawRay(jumpingDownDetectionPoint.position, raycastDown * 2, color);
 
         // If player is Falling and ground is detected, trigger landing
         if (state.fullPathHash == State.Falling)
@@ -451,12 +467,21 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="context">Input callback context.</param>
     private void Jump(InputAction.CallbackContext context)
     {
+        Vector3 velocity = playerRigidbody.velocity;
+        velocity.y = 0;
+
         // Will only trigger jump if current state is Moving
         if (state.fullPathHash == State.Moving)
         {
-            // Disable root motion so movement persists through jumping state
-            animator.applyRootMotion = false;
-            animator.SetTrigger(AnimatorParameters.Jump);
+            if(hit.collider == null && velocity.magnitude < 0.1f) {
+                animator.applyRootMotion = false;
+                animator.SetTrigger(AnimatorParameters.JumpDown);
+            }
+            else {
+                // Disable root motion so movement persists through jumping state
+                animator.applyRootMotion = false;
+                animator.SetTrigger(AnimatorParameters.Jump);
+            }
         }
     }
 
@@ -482,7 +507,10 @@ public class PlayerMovement : MonoBehaviour
     private void OnJump()
     {
         // Apply jumping force
-        playerRigidbody.AddForce(new Vector3(0, 8, 0), ForceMode.Impulse);
+        if(hit.collider == null)
+            playerRigidbody.AddForce(new Vector3(transform.forward.x * 3, transform.forward.y + 2, transform.forward.z * 3), ForceMode.Impulse);
+        else
+            playerRigidbody.AddForce(new Vector3(0, 8, 0), ForceMode.Impulse);
     }
 
     /// <summary>
