@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,25 +8,26 @@ public class WeaponManager : MonoBehaviour
     // This WeaponManger is right on top of our model where the animator is
     // In Unity, if any methods(scripts) sit on the model you can use any public methods
     // from those scripts in the Animation Events
-    
-    // Open the animations clip and add animation events when the collider should "damage" or not
-    
-    private DamageCollider weaponCollider;
-    
-    public void LoadWeapon(DamageCollider collider)
-    {
-        // TODO: this method should load the weapon mesh to the scene??
-        weaponCollider = collider;
-    }
 
-    public void openDamageCollider()
+    public List<DamageCollider> listDamageColliders;
+    
+    // Maybe use later
+    //private DamageCollider _currCollider;
+    //public void LoadCollider(DamageCollider collider)
+    //{
+    //    _currCollider = collider;
+    //}
+    
+    public void openDamageCollider(int index)
     {
-        weaponCollider.enableDamageCollider();    
+        if(listDamageColliders.Capacity != 0)
+            listDamageColliders[index].enableDamageCollider();    
     }
     
-    public void closeDamageCollider()
+    public void closeDamageCollider(int index)
     {
-        weaponCollider.disableDamageCollider();
+        if(listDamageColliders.Capacity != 0)
+            listDamageColliders[index].disableDamageCollider();
     }
 
 }

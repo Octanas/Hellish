@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/PlayerControls.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Scripts/PlayerControls.inputactions'
 
 using System;
 using System.Collections;
@@ -62,6 +62,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""111bf83f-ec75-49e4-a9e5-cef3039b00fb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Equip"",
+                    ""type"": ""Button"",
+                    ""id"": ""e3aba286-383b-424d-affc-a325a1940eec"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -221,6 +229,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""986fa1fc-c3a1-42db-aeb9-f6fe81fedd87"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Equip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -235,6 +254,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Gameplay_Attack = m_Gameplay.FindAction("Attack", throwIfNotFound: true);
         m_Gameplay_Climb = m_Gameplay.FindAction("Climb", throwIfNotFound: true);
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
+        m_Gameplay_Equip = m_Gameplay.FindAction("Equip", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -290,6 +310,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Attack;
     private readonly InputAction m_Gameplay_Climb;
     private readonly InputAction m_Gameplay_Jump;
+    private readonly InputAction m_Gameplay_Equip;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -300,6 +321,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Attack => m_Wrapper.m_Gameplay_Attack;
         public InputAction @Climb => m_Wrapper.m_Gameplay_Climb;
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
+        public InputAction @Equip => m_Wrapper.m_Gameplay_Equip;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -327,6 +349,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
+                @Equip.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEquip;
+                @Equip.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEquip;
+                @Equip.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEquip;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -349,6 +374,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Equip.started += instance.OnEquip;
+                @Equip.performed += instance.OnEquip;
+                @Equip.canceled += instance.OnEquip;
             }
         }
     }
@@ -361,5 +389,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnClimb(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnEquip(InputAction.CallbackContext context);
     }
 }
