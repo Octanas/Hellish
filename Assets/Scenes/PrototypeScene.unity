@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -926,7 +926,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 491768912}
-  m_LocalRotation: {x: 0.03970206, y: 0.000000034385632, z: -0.0000000013662576, w: 0.9992116}
+  m_LocalRotation: {x: 0.03970206, y: -0.000000034385636, z: 0.0000000013662577, w: 0.9992116}
   m_LocalPosition: {x: 0, y: 16.7, z: -4.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1033,7 +1033,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 498744705}
-  m_LocalRotation: {x: -0.003018234, y: -0.000000017414838, z: 0.0000000014389969, w: 0.9999955}
+  m_LocalRotation: {x: -0.003018234, y: -0.000000051710717, z: 0.0000000042728834, w: 0.9999955}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1107,7 +1107,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 546674419}
-  m_LocalRotation: {x: 0.015171677, y: -0.000000034737667, z: 0.0000000035076293, w: 0.99988496}
+  m_LocalRotation: {x: 0.0151716545, y: -0.0000000050852087, z: 5.134779e-10, w: 0.99988496}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1857,6 +1857,11 @@ MonoBehaviour:
 --- !u!137 &1011469967 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5792919820746222954, guid: 9533529d2f598a342ab600b45231a4be, type: 3}
+  m_PrefabInstance: {fileID: 7384939436023448101}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1160534016 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1308558487769395853, guid: 9533529d2f598a342ab600b45231a4be, type: 3}
   m_PrefabInstance: {fileID: 7384939436023448101}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1227792897
@@ -2929,6 +2934,10 @@ PrefabInstance:
       propertyPath: groundDetectionDistance
       value: 1.7
       objectReference: {fileID: 0}
+    - target: {fileID: 6139370988303747234, guid: 9533529d2f598a342ab600b45231a4be, type: 3}
+      propertyPath: jumpingDownDetectionPoint
+      value: 
+      objectReference: {fileID: 1160534016}
     - target: {fileID: 6139370988303747235, guid: 9533529d2f598a342ab600b45231a4be, type: 3}
       propertyPath: m_Name
       value: Akira
