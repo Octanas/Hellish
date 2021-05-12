@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 946566617}
   - component: {fileID: 946566620}
   - component: {fileID: 946566618}
+  - component: {fileID: 946566619}
+  - component: {fileID: 946566621}
   m_Layer: 3
   m_Name: StompArea
   m_TagString: Untagged
@@ -54,6 +56,34 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &946566619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946566616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f84f635641b7c541a45ec0bd8291491, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stompRange: 5
+  interval: 1
+  expandTime: 1
+  shrinkTime: 0.01
+--- !u!114 &946566621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946566616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68d849590ce76b2478dac8b0a222387a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &258142426293581758
 GameObject:
   m_ObjectHideFlags: 0
@@ -1708,7 +1738,7 @@ MonoBehaviour:
   hangingPoint: {fileID: 7384939435783115959}
   floorDetectionOrigin: {fileID: 5075889034032023035}
   jumpingDownDetectionPoint: {fileID: 1308558487769395853}
-  stompArea: {fileID: 946566617}
+  stompArea: {fileID: 946566619}
   movingTime: 0.001
   maxMovingVelocity: 10
   turningTime: 0.1
@@ -1719,7 +1749,6 @@ MonoBehaviour:
   timeToLandFromJump: 0.34
   timeToLandFromLeap: 0.53
   groundDetectionDistance: 1.7
-  stompRange: 5
 --- !u!114 &1598057889351314189
 MonoBehaviour:
   m_ObjectHideFlags: 0

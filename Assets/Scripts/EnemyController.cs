@@ -13,7 +13,7 @@ public class EnemyController : MonoBehaviour
     [Header("Enemy proprieties:")] public float chaseTargetRadius = 50;
     [SerializeField] private float maxMovingVelocity = 5f;
     [SerializeField] private float stoppingDistanceRadius = 1.2f;
-    [SerializeField] private float maxDetectionAngle = 120f;
+    [SerializeField] private float maxDetectionAngle = 90f;
     [Header("Animation:")] public float animationDampTime = 0.1f;
     [Header("Rotation:")] public float quaternionInterpolationRatio = 5f;
 
@@ -52,9 +52,8 @@ public class EnemyController : MonoBehaviour
             {
                 var position = transform.position;
                 Vector3 raycastOrigin = new Vector3(position.x, position.y + 1, position.z);
-                RaycastHit hit;
                 //TODO change default to environment and obstacles layer when exists
-                Physics.Raycast(raycastOrigin, targetDirection, out hit, targetDistance + 1,
+                Physics.Raycast(raycastOrigin, targetDirection, out var hit, targetDistance + 1,
                     LayerMask.GetMask("Default", "Player"));
                 if (hit.transform && hit.transform.gameObject.layer == LayerMask.NameToLayer("Player")) // if can see player without obstacles in the way
                 {
