@@ -73,6 +73,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Leap"",
+                    ""type"": ""Button"",
+                    ""id"": ""837021f4-907d-4e07-b7a9-8610c3895c7f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -251,6 +259,28 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Equip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0a3e48c0-cd79-45e7-bffc-9b9748ef58f7"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Leap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""182e2743-9cc5-4d8b-8164-44939f716824"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Leap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -266,6 +296,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Gameplay_Climb = m_Gameplay.FindAction("Climb", throwIfNotFound: true);
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_Equip = m_Gameplay.FindAction("Equip", throwIfNotFound: true);
+        m_Gameplay_Leap = m_Gameplay.FindAction("Leap", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -322,6 +353,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Climb;
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_Equip;
+    private readonly InputAction m_Gameplay_Leap;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -333,6 +365,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Climb => m_Wrapper.m_Gameplay_Climb;
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
         public InputAction @Equip => m_Wrapper.m_Gameplay_Equip;
+        public InputAction @Leap => m_Wrapper.m_Gameplay_Leap;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -363,6 +396,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Equip.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEquip;
                 @Equip.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEquip;
                 @Equip.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEquip;
+                @Leap.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeap;
+                @Leap.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeap;
+                @Leap.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeap;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -388,6 +424,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Equip.started += instance.OnEquip;
                 @Equip.performed += instance.OnEquip;
                 @Equip.canceled += instance.OnEquip;
+                @Leap.started += instance.OnLeap;
+                @Leap.performed += instance.OnLeap;
+                @Leap.canceled += instance.OnLeap;
             }
         }
     }
@@ -401,5 +440,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnClimb(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnEquip(InputAction.CallbackContext context);
+        void OnLeap(InputAction.CallbackContext context);
     }
 }

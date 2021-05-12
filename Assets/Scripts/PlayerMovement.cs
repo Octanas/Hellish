@@ -22,6 +22,9 @@ public class PlayerMovement : MonoBehaviour
         public static readonly int JumpingDown = Animator.StringToHash("Base Layer.JumpingDown");
         public static readonly int Falling = Animator.StringToHash("Base Layer.Falling");
         public static readonly int Landing = Animator.StringToHash("Base Layer.Landing");
+        public static readonly int StartingLeap = Animator.StringToHash("Base Layer.StartingLeap");
+        public static readonly int Leaping = Animator.StringToHash("Base Layer.Leaping");
+        public static readonly int EndingLeap = Animator.StringToHash("Base Layer.EndingLeap");
     }
 
     /// <summary>
@@ -37,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
         public static readonly string ColliderHeight = "ColliderHeight";
         public static readonly string Jump = "Jump";
         public static readonly string JumpDown = "JumpDown";
+        public static readonly string Leap = "Leap";
         public static readonly string Fall = "Fall";
         public static readonly string Land = "Land";
     }
@@ -70,6 +74,11 @@ public class PlayerMovement : MonoBehaviour
     [UnityEngine.Serialization.FormerlySerializedAs("floorDetectionSource")]
     public Transform floorDetectionOrigin;
     public Transform jumpingDownDetectionPoint;
+    /// <summary>
+    /// Damage area when stomping from a leap.
+    /// </summary>
+    [Tooltip("Damage area when stomping from a leap.")]
+    public StompArea stompArea;
 
     // COLLIDER ADJUSTMENT
     private float defaultColliderHeight;
@@ -105,7 +114,8 @@ public class PlayerMovement : MonoBehaviour
 
     // FALLING
     [Header("Falling")]
-    public float timeToLand = 0.25f;
+    public float timeToLandFromJump = 0.25f;
+    public float timeToLandFromLeap = 0.25f;
     public float groundDetectionDistance = 0.5f;
     private bool isGrounded = false;
 
@@ -121,6 +131,7 @@ public class PlayerMovement : MonoBehaviour
         controls.Gameplay.Move.canceled += CaptureMovementDirection;
 
         controls.Gameplay.Jump.performed += Jump;
+        controls.Gameplay.Leap.performed += Leap;
         controls.Gameplay.Climb.performed += TriggerClimb;
     }
 
@@ -164,7 +175,7 @@ public class PlayerMovement : MonoBehaviour
                 // Set rotation value
                 targetAngle = Mathf.Atan2(movementInput.x, movementInput.y) * Mathf.Rad2Deg + playerCamera.eulerAngles.y;
             }
-            else if ((state.fullPathHash == State.JumpingUp || state.fullPathHash == State.JumpingDown || state.fullPathHash == State.Falling))
+            else if ((state.fullPathHash == State.JumpingUp || state.fullPathHash == State.JumpingDown || state.fullPathHash == State.Falling || state.fullPathHash == State.Leaping))
             {
                 // Set rotation value
                 targetAngle = Mathf.Atan2(movementInput.x, movementInput.y) * Mathf.Rad2Deg + playerCamera.eulerAngles.y;
@@ -185,14 +196,18 @@ public class PlayerMovement : MonoBehaviour
         if (state.fullPathHash == State.Climbing
             || state.fullPathHash == State.JumpingUp
             || state.fullPathHash == State.Falling
-            || state.fullPathHash == State.Landing)
+            || state.fullPathHash == State.Landing
+            || state.fullPathHash == State.StartingLeap
+            || state.fullPathHash == State.Leaping
+            || state.fullPathHash == State.EndingLeap)
         {
             // Adjust collider height during climbing animation, according to the animation curves
             // The obtained value from the curves goes from 0 to 1, 1 being full height, 0 being no height
             float newColliderHeight;
 
-            // Do not reset collider height at the end of the JumpingUp or Falling state
-            if (inStateTransition && state.fullPathHash != State.JumpingUp && state.fullPathHash != State.Falling)
+            // Do not reset collider height at the end of the JumpingUp, Falling, StartingLeap or Leaping state
+            if (inStateTransition && state.fullPathHash != State.JumpingUp && state.fullPathHash != State.Falling
+                && state.fullPathHash != State.StartingLeap && state.fullPathHash != State.Leaping)
             {
                 // During a transition, gradually adjust collider to full length
                 // Relative to the transition's length
@@ -241,18 +256,30 @@ public class PlayerMovement : MonoBehaviour
          * -- Falling --
          * A raycast will be fired in the direction of velocity to detect the ground, if falling.
          *
-         * The raycast will have a max length of the distance to the spot where the player will land in timeToLand seconds
-         * timeToLand represents the number of seconds necessary for the landing animation to play.
+         * The raycast will have a max length of the distance to the spot where the player will land in timeToLandFromJump seconds
+         * timeToLandFromJump represents the number of seconds necessary for the landing animation to play.
          *
          * The vertical component of the raycast length is calculated taking gravity acceleration into account,
          * so that the landing animation is as synced with the actual landing as possible.
+         *
+         * -- Leaping --
+         * The same as Falling, but instead of using timeToLandFromJump it uses timeToLandFromLeap.
          */
-        Vector3 raycastDirection = state.fullPathHash == State.Falling ? playerRigidbody.velocity.normalized : -transform.up;
-        float raycastLength = state.fullPathHash == State.Falling ?
-            Mathf.Sqrt(
-                Mathf.Pow(Mathf.Pow(timeToLand, 2) * -Physics.gravity.y + timeToLand * -playerRigidbody.velocity.y, 2)
-                + (timeToLand * auxVelocity.magnitude))
-            : groundDetectionDistance;
+        Vector3 raycastDirection = state.fullPathHash == State.Falling || state.fullPathHash == State.Leaping ? playerRigidbody.velocity.normalized : -transform.up;
+        float raycastLength = groundDetectionDistance;
+
+        if (state.fullPathHash == State.Falling)
+        {
+            raycastLength = Mathf.Sqrt(
+                Mathf.Pow(Mathf.Pow(timeToLandFromJump, 2) * -Physics.gravity.y + timeToLandFromJump * -playerRigidbody.velocity.y, 2)
+                + (timeToLandFromJump * auxVelocity.magnitude));
+        }
+        else if (state.fullPathHash == State.Leaping)
+        {
+            raycastLength = Mathf.Sqrt(
+                Mathf.Pow(Mathf.Pow(timeToLandFromLeap, 2) * -Physics.gravity.y + timeToLandFromLeap * -playerRigidbody.velocity.y, 2)
+                + (timeToLandFromLeap * auxVelocity.magnitude));
+        }
 
         RaycastHit hitInfo;
 
@@ -276,13 +303,13 @@ public class PlayerMovement : MonoBehaviour
 
         bool isDown = Physics.Raycast(jumpingDownDetectionPoint.position, raycastDown, out downgrade, 2, LayerMask.GetMask("Default"));
 
-        if(downgrade.collider != null)
+        if (downgrade.collider != null)
             color = Color.green;
 
         Debug.DrawRay(jumpingDownDetectionPoint.position, raycastDown * 2, color);
 
-        // If player is Falling and ground is detected, trigger landing
-        if (state.fullPathHash == State.Falling)
+        // If player is Falling or Leaping and ground is detected, trigger landing
+        if (state.fullPathHash == State.Falling || state.fullPathHash == State.Leaping)
         {
             // If ground is to close to player, do not trigger landing,
             // because there is not enough time to play the animation.
@@ -443,8 +470,8 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void PrepareForLanding()
     {
-        // Will only trigger landing if current state is Falling
-        if (state.fullPathHash == State.Falling)
+        // Will only trigger landing if current state is Falling or Leaping
+        if (state.fullPathHash == State.Falling || state.fullPathHash == State.Leaping)
         {
             animator.SetTrigger(AnimatorParameters.Land);
         }
@@ -487,15 +514,32 @@ public class PlayerMovement : MonoBehaviour
         if (state.fullPathHash == State.Moving)
         {
             // if there is a downgrade ahead and the player is almost still, it triggers jump down instead of normal jumping
-            if(downgrade.collider == null && velocity.magnitude < 0.1f) {
+            if (downgrade.collider == null && velocity.magnitude < 0.1f)
+            {
                 animator.applyRootMotion = false;
                 animator.SetTrigger(AnimatorParameters.JumpDown);
             }
-            else {
+            else
+            {
                 // Disable root motion so movement persists through jumping state
                 animator.applyRootMotion = false;
                 animator.SetTrigger(AnimatorParameters.Jump);
             }
+        }
+    }
+
+    /// <summary>
+    /// Consumes leap input.
+    /// </summary>
+    /// <param name="context">Input callback context.</param>
+    private void Leap(InputAction.CallbackContext context)
+    {
+        // Will only trigger leap if current state is Moving
+        if (state.fullPathHash == State.Moving)
+        {
+            // Disable root motion so movement persists through leaping state
+            animator.applyRootMotion = false;
+            animator.SetTrigger(AnimatorParameters.Leap);
         }
     }
 
@@ -509,7 +553,7 @@ public class PlayerMovement : MonoBehaviour
         if (state.fullPathHash == State.Hanging)
         {
             animator.SetTrigger(AnimatorParameters.Climb);
-            
+
             // Disable any left fall triggers from when the character was hanging/climbing
             animator.ResetTrigger(AnimatorParameters.Fall);
         }
@@ -521,10 +565,16 @@ public class PlayerMovement : MonoBehaviour
     private void OnJump()
     {
         // Apply jumping force
-        if(state.fullPathHash == State.JumpingDown)
+        if (state.fullPathHash == State.JumpingDown)
+            // Jumping Down force - slightly up and forward
             playerRigidbody.AddForce(new Vector3(transform.forward.x * 3, transform.forward.y + 2, transform.forward.z * 3), ForceMode.Impulse);
+        else if (state.fullPathHash == State.StartingLeap)
+            // Leaping force - up and forward
+            playerRigidbody.AddForce(new Vector3(transform.forward.x * 5, 8, transform.forward.z * 5), ForceMode.Impulse);
         else
+            // Leaping Up force - up
             playerRigidbody.AddForce(new Vector3(0, 8, 0), ForceMode.Impulse);
+
     }
 
     /// <summary>
@@ -538,6 +588,10 @@ public class PlayerMovement : MonoBehaviour
         // Disable any left land or fall triggers
         animator.ResetTrigger(AnimatorParameters.Land);
         animator.ResetTrigger(AnimatorParameters.Fall);
+
+        // Expand stomp area on Leap land
+        if (state.fullPathHash == State.EndingLeap)
+            stompArea.Expand();
     }
 
     private void OnEnable()
