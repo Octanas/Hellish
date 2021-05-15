@@ -25,6 +25,8 @@ public class PlayerMovement : MonoBehaviour
         public static readonly int StartingLeap = Animator.StringToHash("Base Layer.StartingLeap");
         public static readonly int Leaping = Animator.StringToHash("Base Layer.Leaping");
         public static readonly int EndingLeap = Animator.StringToHash("Base Layer.EndingLeap");
+        public static readonly int Punch_Slash = Animator.StringToHash("Base Layer.Punch_Slash");
+        public static readonly int Kick_Combo = Animator.StringToHash("Base Layer.Kick_Combo");
     }
 
     /// <summary>
@@ -170,7 +172,7 @@ public class PlayerMovement : MonoBehaviour
         // to avoid problems when hanging on ledge
         if (nextState.fullPathHash != State.Hanging && movementInput.magnitude >= 0.1f)
         {
-            if (state.fullPathHash == State.Moving)
+            if (state.fullPathHash == State.Moving || state.fullPathHash == State.Punch_Slash || state.fullPathHash == State.Kick_Combo)
             {
                 // Set rotation value
                 targetAngle = Mathf.Atan2(movementInput.x, movementInput.y) * Mathf.Rad2Deg + playerCamera.eulerAngles.y;

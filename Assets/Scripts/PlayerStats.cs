@@ -14,7 +14,7 @@ public class PlayerStats : CharacterStats
          // - TODO: not in attack mode?
          // - TODO: radius?
          if (CurrentHealth < maxHealth && TimeWithoutTakingDamage > intervalTime)
-             CurrentHealth += 0.02f;
+             CurrentHealth += 0.1f;
      }
 
     protected override void Die()
