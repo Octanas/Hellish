@@ -25,7 +25,7 @@ public class CharacterCombat : MonoBehaviour
         {
             // The attack damage will depend on who is attacking and who is been attacked, different enemies can have
             // different maxHealths
-            targetStats.takeDamage(_myStats.damagePower);
+            targetStats.TakeDamage(_myStats.damagePower);
             _waitForNextAttack = 1f;
         }
     }
