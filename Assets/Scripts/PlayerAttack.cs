@@ -62,6 +62,9 @@ public class PlayerAttack : MonoBehaviour
         UpdateMeshes();
         // Update "weapon" animations clips
         UpdateClips();
+        // Update "avatar mask - right hand layer"
+        _animator.SetLayerWeight(1, hasSword ? 1 : 0);
+
     }
 
     private void UpdateMeshes()
