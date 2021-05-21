@@ -5,6 +5,12 @@ using UnityEngine;
 public class PlayerStats : CharacterStats
 {
     public float intervalTime = 10f;
+    private Animator _animator;
+    
+    void Start()
+    {
+        _animator = GetComponent<Animator>();
+    }
     
     protected override void Recover()
      {
@@ -14,13 +20,18 @@ public class PlayerStats : CharacterStats
          // - TODO: not in attack mode?
          // - TODO: radius?
          if (CurrentHealth < maxHealth && TimeWithoutTakingDamage > intervalTime)
-             CurrentHealth += 0.1f;
+             CurrentHealth += 1;
+
      }
 
     protected override void Die()
     {
-        print("u dead");
-        //TODO: apply death animation and game over screen
+        //TODO: deactivate controls when player is dead
+        GetComponent<PlayerAttack>().enabled = false;
+        
+        _animator.SetTrigger("Death");
+        //TODO: game over screen
+        
     }
 }
 

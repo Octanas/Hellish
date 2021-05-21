@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class CharacterStats : MonoBehaviour
 {
-    public int maxHealth = 100;
-    public int damagePower = 20;
+    public int maxHealth = 1000;
+    public int damagePower = 200;
 
     // UI test
     public Image barHealth;
     
-    protected float CurrentHealth;
+    protected int CurrentHealth;
     protected float TimeWithoutTakingDamage = 0f;
     
     void Awake()
@@ -26,10 +26,10 @@ public class CharacterStats : MonoBehaviour
         
         // Update Bar health [0,1]
         if (barHealth)
-            barHealth.fillAmount = CurrentHealth/maxHealth ;
+            barHealth.fillAmount = (float)CurrentHealth/maxHealth ;
         
         // Character health recovery system
-        Recover();
+        if(CurrentHealth > 0) Recover();
     }
 
     
