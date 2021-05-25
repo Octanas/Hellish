@@ -42,9 +42,16 @@ public class StompArea : MonoBehaviour
 
     private float speed = 0f;
 
+    public StompAreaParticles stompAreaParticles;
+
     private void Awake()
     {
         damageCollider = GetComponent<DamageCollider>();
+    }
+
+    private void Start()
+    {
+        Expand();
     }
 
     private void Update()
@@ -105,6 +112,11 @@ public class StompArea : MonoBehaviour
         {
             // When it enters here, it means it reached the target value, so the speed can be nulled
             speed = 0;
+
+            if (targetRange == 0)
+                Destroy(gameObject);
+            else
+                stompAreaParticles.FadeOut();
         }
     }
 }

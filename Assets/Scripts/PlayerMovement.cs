@@ -80,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
     /// Damage area when stomping from a leap.
     /// </summary>
     [Tooltip("Damage area when stomping from a leap.")]
-    public StompArea stompArea;
+    public GameObject stompArea;
 
     // COLLIDER ADJUSTMENT
     private float defaultColliderHeight;
@@ -124,6 +124,7 @@ public class PlayerMovement : MonoBehaviour
     // JUMPING
     [Header("Jumping")]
     private RaycastHit downgrade;
+    private RaycastHit ground;
 
     private void Awake()
     {
@@ -289,6 +290,9 @@ public class PlayerMovement : MonoBehaviour
 
         Debug.DrawRay(floorDetectionOrigin.position, raycastDirection * raycastLength, Color.red);
 
+        if(isGrounded)
+            ground = hitInfo;
+
 
         /*
          * -- Deciding between from jumping up and jumping down --
@@ -317,7 +321,7 @@ public class PlayerMovement : MonoBehaviour
             // because there is not enough time to play the animation.
             // This is considered a bug, as it does not look nice
             // (https://github.com/Octanas/Hellish/issues/21)
-            if (isGrounded && hitInfo.distance >= raycastLength * 0.5)
+            if (isGrounded && ground.distance >= raycastLength * 0.5)
             {
                 PrepareForLanding();
             }
@@ -593,7 +597,12 @@ public class PlayerMovement : MonoBehaviour
 
         // Expand stomp area on Leap land
         if (state.fullPathHash == State.EndingLeap)
-            stompArea.Expand();
+        {
+            // DOUBT: may need a raycast here to get precise landing position
+            
+            // Instantiate Stomp Area in the point that the ground detection collider hit the ground
+            Instantiate(stompArea, ground.point, Quaternion.identity);
+        }
     }
 
     private void OnEnable()
