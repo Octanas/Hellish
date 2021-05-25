@@ -1,6 +1,5 @@
 using UnityEngine;
 
-// TODO: change Leap animations
 // TODO: create fire effect for stomp
 
 /// <summary>
