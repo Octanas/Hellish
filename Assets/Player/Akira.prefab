@@ -1,89 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &946566616
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 946566617}
-  - component: {fileID: 946566620}
-  - component: {fileID: 946566618}
-  - component: {fileID: 946566619}
-  - component: {fileID: 946566621}
-  m_Layer: 3
-  m_Name: StompArea
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &946566617
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 946566616}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.045, z: 0}
-  m_LocalScale: {x: 0, y: 0.045, z: 0}
-  m_Children: []
-  m_Father: {fileID: 6807399530516927001}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &946566620
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 946566616}
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &946566618
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 946566616}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &946566619
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 946566616}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f84f635641b7c541a45ec0bd8291491, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stompRange: 5
-  interval: 1
-  expandTime: 1
-  shrinkTime: 0.01
---- !u!114 &946566621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 946566616}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68d849590ce76b2478dac8b0a222387a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &258142426293581758
 GameObject:
   m_ObjectHideFlags: 0
@@ -1669,7 +1585,6 @@ Transform:
   - {fileID: 769062373990437665}
   - {fileID: 7384939435183730395}
   - {fileID: 7384939436837365872}
-  - {fileID: 946566617}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1738,7 +1653,7 @@ MonoBehaviour:
   hangingPoint: {fileID: 7384939435783115959}
   floorDetectionOrigin: {fileID: 5075889034032023035}
   jumpingDownDetectionPoint: {fileID: 1308558487769395853}
-  stompArea: {fileID: 946566619}
+  stompArea: {fileID: 2701322142316742576, guid: cb9aa3457e9b834448ed9daea9531900, type: 3}
   movingTime: 0.001
   maxMovingVelocity: 10
   turningTime: 0.1
@@ -1812,10 +1727,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 906ca956556421a45b478ede5375de83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  damagePower: 20
+  maxHealth: 1000
+  damagePower: 200
   barHealth: {fileID: 0}
-  currentHealth: 0
   intervalTime: 10
 --- !u!1 &6266482008739736568
 GameObject:
