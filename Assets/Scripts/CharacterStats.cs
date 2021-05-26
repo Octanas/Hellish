@@ -42,7 +42,8 @@ public class CharacterStats : MonoBehaviour
     {
         TimeWithoutTakingDamage = 0;
         CurrentHealth -= damage;
-        if (isPlayer) barHealth.fillAmount = (float) Math.Max(CurrentHealth, 0) / maxHealth;
+        if (isPlayer) barHealth.fillAmount = Math.Max(CurrentHealth, 0) / maxHealth;
+        Debug.Log(transform.name + " takes " + damage + " damage.");
         if (CurrentHealth <= 0)
         {
             CurrentHealth = 0;
