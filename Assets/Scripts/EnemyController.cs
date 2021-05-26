@@ -98,6 +98,10 @@ public class EnemyController : MonoBehaviour
             FaceTheTarget();
             AttackTarget();
         }
+        else
+        {
+            _animator.SetBool("Attack",false);
+        }
     }
 
     private void FaceTheTarget()
@@ -114,7 +118,7 @@ public class EnemyController : MonoBehaviour
         if (_targetStats.barHealth.fillAmount > 0)
         {
             _myCombat.attack(_targetStats);
-            _animator.SetTrigger("Attack");
+            _animator.SetBool("Attack",true);
         }
     }
 
