@@ -51,7 +51,7 @@ public class EnemyController : MonoBehaviour
             if (targetAngle < maxDetectionAngle)
             {
                 var position = transform.position;
-                Vector3 raycastOrigin = new Vector3(position.x, position.y + 1, position.z);
+                Vector3 raycastOrigin = new Vector3(position.x, position.y + 1.5f, position.z);
                 //TODO change default to environment and obstacles layer when exists
                 Physics.Raycast(raycastOrigin, targetDirection, out var hit, targetDistance + 1,
                     LayerMask.GetMask("Default", "Player"));
@@ -63,16 +63,16 @@ public class EnemyController : MonoBehaviour
                     if (targetDistance <= _agent.stoppingDistance)
                     {
                         FaceTheTarget();
-                        //AttackTarget();
+                        AttackTarget();
                     }
                 }
 
-                /*if (hit.transform)
+                if (hit.transform)
                     Debug.Log("Hit" + LayerMask.LayerToName(hit.transform.gameObject.layer));
                 else Debug.Log(("didnt hit"));
                 Debug.DrawRay(raycastOrigin,
                     targetDirection,
-                    Color.black);*/
+                    Color.black);
             }
         }
 
@@ -91,7 +91,10 @@ public class EnemyController : MonoBehaviour
     {
         // Check if target is still alive
         if (_target)
-            _myCombat.attack(_targetStats);
+        {
+           // _myCombat.attack(_targetStats);
+            _animator.SetTrigger("Attack");
+        }
     }
 
     private void UpdateAnimatorParameters()

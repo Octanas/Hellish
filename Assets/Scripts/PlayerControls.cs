@@ -262,6 +262,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""1bbe6269-b9bf-4ed3-9f16-320374a71094"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Equip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""0a3e48c0-cd79-45e7-bffc-9b9748ef58f7"",
                     ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",

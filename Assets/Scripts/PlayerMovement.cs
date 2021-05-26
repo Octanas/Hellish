@@ -186,7 +186,7 @@ public class PlayerMovement : MonoBehaviour
                 if (Mathf.Sqrt(Mathf.Pow(playerRigidbody.velocity.x, 2) + Mathf.Pow(playerRigidbody.velocity.z, 2)) < maxAirSpeedHorizontal)
                     playerRigidbody.AddForce(transform.forward * airControlForce * movementInputSpeed, ForceMode.Force);
 
-                // Get horizonta movement vector
+                // Get horizontal movement vector
                 Vector3 horizontalMovement = playerRigidbody.velocity.normalized;
                 horizontalMovement.y = 0;
 

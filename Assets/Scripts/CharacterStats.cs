@@ -10,29 +10,34 @@ public class CharacterStats : MonoBehaviour
 
     // UI test
     public Image barHealth;
-    
+
     protected int CurrentHealth;
     protected float TimeWithoutTakingDamage = 0f;
-    
+
+    private bool isEnemy;
+    private Animator animator;
+
     void Awake()
     {
         CurrentHealth = maxHealth;
+        isEnemy = !barHealth;
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
         // Update time without taking damage
         TimeWithoutTakingDamage += Time.deltaTime;
-        
+
         // Update Bar health [0,1]
-        if (barHealth)
-            barHealth.fillAmount = (float)CurrentHealth/maxHealth ;
-        
-        // Character health recovery system
-        if(CurrentHealth > 0) Recover();
+        if (!isEnemy)
+        {
+            if (CurrentHealth > 0) Recover(); // Character health recovery system
+            barHealth.fillAmount = (float) CurrentHealth / maxHealth;
+        }
     }
 
-    
+
     public void TakeDamage(int damage)
     {
         TimeWithoutTakingDamage = 0;
@@ -40,10 +45,15 @@ public class CharacterStats : MonoBehaviour
         CurrentHealth -= damage;
         if (CurrentHealth <= 0)
             Die();
+        if (isEnemy)
+        {
+            //TODO add animation for when hit?
+        }
     }
-    
-    // TODO: override the next methods for each character (enemy, player)
-    protected virtual void Recover() {}
-    protected virtual void Die() {}
-    
+
+    protected virtual void Recover()
+    {
+    }
+
+    protected virtual void Die(){}
 }
