@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,15 +12,16 @@ public class CharacterStats : MonoBehaviour
     // UI test
     public Image barHealth;
 
-    protected int CurrentHealth;
+    protected float CurrentHealth;
     protected float TimeWithoutTakingDamage = 0f;
 
-    private bool isEnemy;
+    private bool isPlayer;
 
     void Awake()
     {
         CurrentHealth = maxHealth;
-        isEnemy = !barHealth;
+        isPlayer = barHealth;
+        if (isPlayer) barHealth.fillAmount = 1;
     }
 
     private void Update()
@@ -28,10 +30,10 @@ public class CharacterStats : MonoBehaviour
         TimeWithoutTakingDamage += Time.deltaTime;
 
         // Update Bar health [0,1]
-        if (!isEnemy)
+        if (isPlayer)
         {
             if (CurrentHealth > 0) Recover(); // Character health recovery system
-            barHealth.fillAmount = (float) CurrentHealth / maxHealth;
+            barHealth.fillAmount = (float) Math.Max(CurrentHealth, 0) / maxHealth;
         }
     }
 
@@ -39,11 +41,15 @@ public class CharacterStats : MonoBehaviour
     public void TakeDamage(int damage)
     {
         TimeWithoutTakingDamage = 0;
-        Debug.Log(transform.name + " takes " + damage + " damage.");
         CurrentHealth -= damage;
+        if (isPlayer) barHealth.fillAmount = (float) Math.Max(CurrentHealth, 0) / maxHealth;
         if (CurrentHealth <= 0)
+        {
+            CurrentHealth = 0;
             Die();
-        if (isEnemy)
+        }
+
+        if (isPlayer)
         {
             //TODO add animation for when hit?
         }
@@ -53,5 +59,7 @@ public class CharacterStats : MonoBehaviour
     {
     }
 
-    protected virtual void Die(){}
+    protected virtual void Die()
+    {
+    }
 }

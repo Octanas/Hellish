@@ -72,9 +72,9 @@ public class EnemyController : MonoBehaviour
                 }
 
 
-                if (hit.transform)
+                /*if (hit.transform)
                     Debug.Log("Hit" + LayerMask.LayerToName(hit.transform.gameObject.layer));
-                else Debug.Log(("didnt hit"));
+                else Debug.Log(("didnt hit"));*/
                 Debug.DrawRay(raycastOrigin,
                     targetDirection,
                     Color.black);
@@ -111,7 +111,7 @@ public class EnemyController : MonoBehaviour
     private void AttackTarget()
     {
         // Check if target is still alive
-        if (_targetStats.barHealth.fillAmount <= 0)
+        if (_targetStats.barHealth.fillAmount > 0)
         {
             _myCombat.attack(_targetStats);
             _animator.SetTrigger("Attack");
