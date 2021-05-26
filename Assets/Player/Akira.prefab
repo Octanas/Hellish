@@ -1653,7 +1653,7 @@ MonoBehaviour:
   hangingPoint: {fileID: 7384939435783115959}
   floorDetectionOrigin: {fileID: 5075889034032023035}
   jumpingDownDetectionPoint: {fileID: 1308558487769395853}
-  stompArea: {fileID: 0}
+  stompArea: {fileID: 2701322142316742576, guid: cb9aa3457e9b834448ed9daea9531900, type: 3}
   movingTime: 0.001
   maxMovingVelocity: 10
   turningTime: 0.1
