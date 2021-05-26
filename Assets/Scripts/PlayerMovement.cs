@@ -425,7 +425,7 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="orientation">Orientation of the ledge (to where the character will face).</param>
     public void HangOnLedge(Vector3 position, Quaternion orientation)
     {
-        // Only executes if the character is already hanging or climbing
+        // Don't execute if the character is already hanging or climbing
         if (state.fullPathHash == State.Hanging || state.fullPathHash == State.Climbing)
             return;
 
