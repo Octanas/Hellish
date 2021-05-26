@@ -15,13 +15,11 @@ public class CharacterStats : MonoBehaviour
     protected float TimeWithoutTakingDamage = 0f;
 
     private bool isEnemy;
-    private Animator animator;
 
     void Awake()
     {
         CurrentHealth = maxHealth;
         isEnemy = !barHealth;
-        animator = GetComponent<Animator>();
     }
 
     private void Update()

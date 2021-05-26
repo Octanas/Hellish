@@ -20,7 +20,7 @@ public class EnemyStats : CharacterStats
 
     private IEnumerator Disappear()
     {
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(10);
         Destroy(gameObject);
     }
 }

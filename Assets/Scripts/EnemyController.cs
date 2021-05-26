@@ -83,6 +83,7 @@ public class EnemyController : MonoBehaviour
         else if (foundPlayer)
         {
             foundPlayer = false;
+            _agent.SetDestination(transform.position);
         }
 
         UpdateAnimatorParameters();
@@ -91,7 +92,6 @@ public class EnemyController : MonoBehaviour
     private void SeeingPlayer(float targetDistance)
     {
         _agent.SetDestination(_target.position);
-
         // Enemy reached the minimum radius
         if (targetDistance <= _agent.stoppingDistance)
         {
@@ -111,9 +111,9 @@ public class EnemyController : MonoBehaviour
     private void AttackTarget()
     {
         // Check if target is still alive
-        if (_target)
+        if (_targetStats.barHealth.fillAmount <= 0)
         {
-            // _myCombat.attack(_targetStats);
+            _myCombat.attack(_targetStats);
             _animator.SetTrigger("Attack");
         }
     }

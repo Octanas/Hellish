@@ -28,10 +28,11 @@ public class PlayerStats : CharacterStats
     {
         //TODO: deactivate controls when player is dead
         GetComponent<PlayerAttack>().enabled = false;
-        
+        GetComponent<PlayerMovement>().enabled = false;
+
         _animator.SetTrigger("Death");
         //TODO: game over screen
-        
+        this.enabled = false;
     }
 }
 
