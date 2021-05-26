@@ -14,6 +14,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float maxMovingVelocity = 5f;
     [SerializeField] private float stoppingDistanceRadius = 1.2f;
     [SerializeField] private float maxDetectionAngle = 90f;
+    private bool foundPlayer = false;
     [Header("Animation:")] public float animationDampTime = 0.1f;
     [Header("Rotation:")] public float quaternionInterpolationRatio = 5f;
 
@@ -47,25 +48,29 @@ public class EnemyController : MonoBehaviour
         // Check if target is on radius
         if (targetDistance <= chaseTargetRadius)
         {
-            // Check if enemy can see the target
-            if (targetAngle < maxDetectionAngle)
+            if (foundPlayer)
+            {
+                SeeingPlayer(targetDistance);
+            }
+            else if (targetAngle < maxDetectionAngle) // Check if enemy can see the target
             {
                 var position = transform.position;
                 Vector3 raycastOrigin = new Vector3(position.x, position.y + 1.5f, position.z);
                 //TODO change default to environment and obstacles layer when exists
                 Physics.Raycast(raycastOrigin, targetDirection, out var hit, targetDistance + 1,
                     LayerMask.GetMask("Default", "Player"));
-                if (hit.transform && hit.transform.gameObject.layer == LayerMask.NameToLayer("Player")) // if can see player without obstacles in the way
+                if (hit.transform &&
+                    hit.transform.gameObject.layer ==
+                    LayerMask.NameToLayer("Player")) // if can see player without obstacles in the way
                 {
-                    _agent.SetDestination(_target.position);
-
-                    // Enemy reached the minimum radius
-                    if (targetDistance <= _agent.stoppingDistance)
+                    if (!foundPlayer)
                     {
-                        FaceTheTarget();
-                        AttackTarget();
+                        foundPlayer = true;
                     }
+
+                    SeeingPlayer(targetDistance);
                 }
+
 
                 if (hit.transform)
                     Debug.Log("Hit" + LayerMask.LayerToName(hit.transform.gameObject.layer));
@@ -75,8 +80,24 @@ public class EnemyController : MonoBehaviour
                     Color.black);
             }
         }
+        else if (foundPlayer)
+        {
+            foundPlayer = false;
+        }
 
         UpdateAnimatorParameters();
+    }
+
+    private void SeeingPlayer(float targetDistance)
+    {
+        _agent.SetDestination(_target.position);
+
+        // Enemy reached the minimum radius
+        if (targetDistance <= _agent.stoppingDistance)
+        {
+            FaceTheTarget();
+            AttackTarget();
+        }
     }
 
     private void FaceTheTarget()
@@ -92,7 +113,7 @@ public class EnemyController : MonoBehaviour
         // Check if target is still alive
         if (_target)
         {
-           // _myCombat.attack(_targetStats);
+            // _myCombat.attack(_targetStats);
             _animator.SetTrigger("Attack");
         }
     }
