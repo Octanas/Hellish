@@ -22,8 +22,6 @@ public class StompAreaParticles : MonoBehaviour
     {
         for (int i = 0; i < particleSystems.Length; i++)
         {
-            Debug.Log("right");
-            
             ParticleSystem particles = particleSystems[i];
 
             ParticleSystem.MainModule main = particles.main;
