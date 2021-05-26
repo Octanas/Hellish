@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,40 +11,55 @@ public class CharacterStats : MonoBehaviour
 
     // UI test
     public Image barHealth;
-    
-    protected int CurrentHealth;
+
+    protected float CurrentHealth;
     protected float TimeWithoutTakingDamage = 0f;
-    
+
+    private bool isPlayer;
+
     void Awake()
     {
         CurrentHealth = maxHealth;
+        isPlayer = barHealth;
+        if (isPlayer) barHealth.fillAmount = 1;
     }
 
     private void Update()
     {
         // Update time without taking damage
         TimeWithoutTakingDamage += Time.deltaTime;
-        
+
         // Update Bar health [0,1]
-        if (barHealth)
-            barHealth.fillAmount = (float)CurrentHealth/maxHealth ;
-        
-        // Character health recovery system
-        if(CurrentHealth > 0) Recover();
+        if (isPlayer)
+        {
+            if (CurrentHealth > 0) Recover(); // Character health recovery system
+            barHealth.fillAmount = (float) Math.Max(CurrentHealth, 0) / maxHealth;
+        }
     }
 
-    
+
     public void TakeDamage(int damage)
     {
         TimeWithoutTakingDamage = 0;
-        Debug.Log(transform.name + " takes " + damage + " damage.");
         CurrentHealth -= damage;
+        if (isPlayer) barHealth.fillAmount = (float) Math.Max(CurrentHealth, 0) / maxHealth;
         if (CurrentHealth <= 0)
+        {
+            CurrentHealth = 0;
             Die();
+        }
+
+        if (isPlayer)
+        {
+            //TODO add animation for when hit?
+        }
     }
-    
-    // TODO: override the next methods for each character (enemy, player)
-    protected virtual void Recover() {}
-    protected virtual void Die() {}
-    
+
+    protected virtual void Recover()
+    {
+    }
+
+    protected virtual void Die()
+    {
+    }
 }

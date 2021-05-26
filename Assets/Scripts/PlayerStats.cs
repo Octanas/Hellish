@@ -20,18 +20,18 @@ public class PlayerStats : CharacterStats
          // - TODO: not in attack mode?
          // - TODO: radius?
          if (CurrentHealth < maxHealth && TimeWithoutTakingDamage > intervalTime)
-             CurrentHealth += 1;
-
+             CurrentHealth += 0.5f;
      }
 
     protected override void Die()
     {
         //TODO: deactivate controls when player is dead
         GetComponent<PlayerAttack>().enabled = false;
-        
+        GetComponent<PlayerMovement>().enabled = false;
+
         _animator.SetTrigger("Death");
         //TODO: game over screen
-        
+        this.enabled = false;
     }
 }
 
