@@ -317,11 +317,15 @@ public class PlayerMovement : MonoBehaviour
         // If player is Falling or Leaping and ground is detected, trigger landing
         if (state.fullPathHash == State.Falling || state.fullPathHash == State.Leaping)
         {
+            // If ground's normal vector is more than 45 degrees in relation with up vector,
+            // do not trigger landing.
+            //
             // If ground is to close to player, do not trigger landing,
             // because there is not enough time to play the animation.
             // This is considered a bug, as it does not look nice
             // (https://github.com/Octanas/Hellish/issues/21)
-            if (isGrounded && ground.distance >= raycastLength * 0.5)
+            if (isGrounded && ground.distance >= raycastLength * 0.5
+                && Vector3.Angle(Vector3.up, ground.normal) <= 45)
             {
                 PrepareForLanding();
             }
@@ -448,6 +452,9 @@ public class PlayerMovement : MonoBehaviour
         // Disable player colliders while hanging/climbing
         playerCollider.enabled = false;
 
+        // Current player movement stops
+        playerRigidbody.velocity = Vector3.zero;
+
         // Character is temporarily rotated to target orientation
         // to calculate necessary translation relative to the final hand position
         Quaternion oldRotation = transform.rotation;
@@ -480,7 +487,9 @@ public class PlayerMovement : MonoBehaviour
     private void PrepareForLanding()
     {
         // Will only trigger landing if current state is Falling or Leaping
-        if (state.fullPathHash == State.Falling || state.fullPathHash == State.Leaping)
+        // And is not transitioning into Hanging or Climbing
+        if ((state.fullPathHash == State.Falling || state.fullPathHash == State.Leaping) &&
+            nextState.fullPathHash != State.Hanging && nextState.fullPathHash != State.Climbing)
         {
             animator.SetTrigger(AnimatorParameters.Land);
         }
@@ -501,7 +510,8 @@ public class PlayerMovement : MonoBehaviour
     private void Fall()
     {
         // Will only trigger fall if current state is Moving
-        if (state.fullPathHash == State.Moving)
+        // And is not transitioning into Hanging or Climbing
+        if (state.fullPathHash == State.Moving && nextState.fullPathHash != State.Hanging && nextState.fullPathHash != State.Climbing)
         {
             // Disable root motion so movement persists through falling state
             animator.applyRootMotion = false;
