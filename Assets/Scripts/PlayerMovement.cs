@@ -290,7 +290,7 @@ public class PlayerMovement : MonoBehaviour
 
         Debug.DrawRay(floorDetectionOrigin.position, raycastDirection * raycastLength, Color.red);
 
-        if(isGrounded)
+        if (isGrounded)
             ground = hitInfo;
 
 
@@ -444,6 +444,9 @@ public class PlayerMovement : MonoBehaviour
         // This fixes an issue with FixedUpdate running after trigger is set,
         // but before transition to Hanging state starts
         animator.Update(0f);
+
+        // Disable player colliders while hanging/climbing
+        playerCollider.enabled = false;
 
         // Character is temporarily rotated to target orientation
         // to calculate necessary translation relative to the final hand position
@@ -599,10 +602,19 @@ public class PlayerMovement : MonoBehaviour
         if (state.fullPathHash == State.EndingLeap)
         {
             // DOUBT: may need a raycast here to get precise landing position
-            
+
             // Instantiate Stomp Area in the point that the ground detection collider hit the ground
             Instantiate(stompArea, ground.point, Quaternion.identity);
         }
+    }
+
+    /// <summary>
+    /// Executes on climbing animation event.
+    /// </summary>
+    private void OnClimb()
+    {
+        // Re-enable player collider after climbing
+        playerCollider.enabled = true;
     }
 
     private void OnEnable()
