@@ -542,7 +542,12 @@ public class PlayerMovement : MonoBehaviour
     {
         // Will only trigger fall if current state is Moving
         // And is not transitioning into Hanging or Climbing
-        if (state.fullPathHash == State.Moving && nextState.fullPathHash != State.Hanging && nextState.fullPathHash != State.Climbing)
+        // And has not been triggered to transition into Hanging
+        // (This function can be called right after the trigger,
+        // which will set applyRootMotion to false and breka Hanging)
+        // SUGGESTION: animator.applyRootMotion = false should probably go to an animation event
+        if (state.fullPathHash == State.Moving && nextState.fullPathHash != State.Hanging && nextState.fullPathHash != State.Climbing
+            && !animator.GetBool(AnimatorParameters.Hang))
         {
             // Disable root motion so movement persists through falling state
             animator.applyRootMotion = false;
