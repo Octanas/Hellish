@@ -119,6 +119,7 @@ public class PlayerMovement : MonoBehaviour
     public float timeToLandFromJump = 0.25f;
     public float timeToLandFromLeap = 0.25f;
     public float groundDetectionDistance = 0.5f;
+    public float groundDetectionRadius = 0.25f;
     private bool isGrounded = false;
 
     // JUMPING
@@ -288,11 +289,41 @@ public class PlayerMovement : MonoBehaviour
 
         isGrounded = Physics.Raycast(floorDetectionOrigin.position, raycastDirection, out hitInfo, raycastLength, LayerMask.GetMask("Default"));
 
-        Debug.DrawRay(floorDetectionOrigin.position, raycastDirection * raycastLength, Color.red);
+        Debug.DrawRay(floorDetectionOrigin.position, raycastDirection * raycastLength, isGrounded ? Color.green : Color.red);
 
         if (isGrounded)
             ground = hitInfo;
 
+        for (int i = 0; i < 2; i++)
+        {
+            if (isGrounded)
+                break;
+
+            for (int j = 0; j < 2; j++)
+            {
+                if (isGrounded)
+                    break;
+
+                Vector3 raycastOrigin = floorDetectionOrigin.position;
+
+                if (i == 0)
+                    raycastOrigin.x -= groundDetectionRadius;
+                else
+                    raycastOrigin.x += groundDetectionRadius;
+
+                if (j == 0)
+                    raycastOrigin.z -= groundDetectionRadius;
+                else
+                    raycastOrigin.z += groundDetectionRadius;
+
+                isGrounded = Physics.Raycast(raycastOrigin, raycastDirection, out hitInfo, raycastLength, LayerMask.GetMask("Default"));
+
+                Debug.DrawRay(raycastOrigin, raycastDirection * raycastLength, isGrounded ? Color.green : Color.red);
+
+                if (isGrounded)
+                    ground = hitInfo;
+            }
+        }
 
         /*
          * -- Deciding between from jumping up and jumping down --

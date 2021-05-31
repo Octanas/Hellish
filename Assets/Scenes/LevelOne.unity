@@ -8187,6 +8187,10 @@ PrefabInstance:
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 1687258585}
+    - target: {fileID: 6139370988303747234, guid: 9533529d2f598a342ab600b45231a4be, type: 3}
+      propertyPath: groundDetectionRadius
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 6139370988303747235, guid: 9533529d2f598a342ab600b45231a4be, type: 3}
       propertyPath: m_Name
       value: Akira
