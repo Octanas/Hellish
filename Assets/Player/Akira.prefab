@@ -1662,8 +1662,9 @@ MonoBehaviour:
   airDragHorizontal: 3
   airControlForce: 10
   timeToLandFromJump: 0.34
-  timeToLandFromLeap: 0.53
+  timeToLandFromLeap: 0.5
   groundDetectionDistance: 1.7
+  groundDetectionRadius: 0.05
 --- !u!114 &1598057889351314189
 MonoBehaviour:
   m_ObjectHideFlags: 0

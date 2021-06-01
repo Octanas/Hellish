@@ -25,6 +25,8 @@ public class PlayerMovement : MonoBehaviour
         public static readonly int StartingLeap = Animator.StringToHash("Base Layer.StartingLeap");
         public static readonly int Leaping = Animator.StringToHash("Base Layer.Leaping");
         public static readonly int EndingLeap = Animator.StringToHash("Base Layer.EndingLeap");
+        public static readonly int LeapDown = Animator.StringToHash("Base Layer.LeapDown");
+        public static readonly int LeapStand = Animator.StringToHash("Base Layer.LeapStand");
         public static readonly int Punch_Slash = Animator.StringToHash("Base Layer.Punch_Slash");
         public static readonly int Kick_Combo = Animator.StringToHash("Base Layer.Kick_Combo");
     }
@@ -203,7 +205,8 @@ public class PlayerMovement : MonoBehaviour
             || state.fullPathHash == State.Landing
             || state.fullPathHash == State.StartingLeap
             || state.fullPathHash == State.Leaping
-            || state.fullPathHash == State.EndingLeap)
+            || state.fullPathHash == State.EndingLeap
+            || state.fullPathHash == State.LeapDown)
         {
             // Adjust collider height during climbing animation, according to the animation curves
             // The obtained value from the curves goes from 0 to 1, 1 being full height, 0 being no height
@@ -625,7 +628,7 @@ public class PlayerMovement : MonoBehaviour
             playerRigidbody.AddForce(new Vector3(transform.forward.x * 3, transform.forward.y + 2, transform.forward.z * 3), ForceMode.Impulse);
         else if (state.fullPathHash == State.StartingLeap)
             // Leaping force - up and forward
-            playerRigidbody.AddForce(new Vector3(transform.forward.x * 5, 8, transform.forward.z * 5), ForceMode.Impulse);
+            playerRigidbody.AddForce(new Vector3(transform.forward.x * 5, 12, transform.forward.z * 5), ForceMode.Impulse);
         else
             // Leaping Up force - up
             playerRigidbody.AddForce(new Vector3(0, 8, 0), ForceMode.Impulse);
