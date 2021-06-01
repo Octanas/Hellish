@@ -71,7 +71,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stompRange: 5
   interval: 3
-  expandTime: 1
+  expandTime: 0.5
   shrinkTime: 0.01
   stompAreaParticles: {fileID: 8773321615785205822}
 --- !u!114 &2701322142316742581
