@@ -81,8 +81,8 @@ public class PlayerStats : CharacterStats
             Vector3 position = playerCamera.position;
             Quaternion rotation = playerCamera.localRotation;
             
-            // Increase y 
-            position.y += minY;
+            // TODO: increase y?
+            // position.y = minY;
             
             // Increase priority of fell out camera
             fellOutCamera.ForceCameraPosition(position, rotation);
