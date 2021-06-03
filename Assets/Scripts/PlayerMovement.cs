@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
         public static readonly int EndingLeap = Animator.StringToHash("Base Layer.EndingLeap");
         public static readonly int LeapDown = Animator.StringToHash("Base Layer.LeapDown");
         public static readonly int LeapStand = Animator.StringToHash("Base Layer.LeapStand");
+        public static readonly int DodgeRoll = Animator.StringToHash("Base Layer.DodgeRoll");
         public static readonly int Punch_Slash = Animator.StringToHash("Base Layer.Punch_Slash");
         public static readonly int Kick_Combo = Animator.StringToHash("Base Layer.Kick_Combo");
     }
@@ -47,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
         public static readonly string Leap = "Leap";
         public static readonly string Fall = "Fall";
         public static readonly string Land = "Land";
+        public static readonly string Dodge = "Dodge";
     }
 
     /// <summary>
@@ -128,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Jumping")]
     private RaycastHit downgrade;
     private RaycastHit ground;
-    
+
     // PlayerStats, check if player fell out of the scene
     private PlayerStats myStats;
 
@@ -140,6 +142,7 @@ public class PlayerMovement : MonoBehaviour
         controls.Gameplay.Move.canceled += CaptureMovementDirection;
 
         controls.Gameplay.Jump.performed += Jump;
+        controls.Gameplay.Dodge.performed += Dodge;
         controls.Gameplay.Leap.performed += Leap;
         controls.Gameplay.Climb.performed += TriggerClimb;
     }
@@ -180,7 +183,8 @@ public class PlayerMovement : MonoBehaviour
         // to avoid problems when hanging on ledge
         if (nextState.fullPathHash != State.Hanging && movementInput.magnitude >= 0.1f)
         {
-            if (state.fullPathHash == State.Moving || state.fullPathHash == State.Punch_Slash || state.fullPathHash == State.Kick_Combo)
+            if (state.fullPathHash == State.Moving || state.fullPathHash == State.Punch_Slash
+                || state.fullPathHash == State.Kick_Combo || state.fullPathHash == State.DodgeRoll)
             {
                 // Set rotation value
                 targetAngle = Mathf.Atan2(movementInput.x, movementInput.y) * Mathf.Rad2Deg + playerCamera.eulerAngles.y;
@@ -210,7 +214,8 @@ public class PlayerMovement : MonoBehaviour
             || state.fullPathHash == State.StartingLeap
             || state.fullPathHash == State.Leaping
             || state.fullPathHash == State.EndingLeap
-            || state.fullPathHash == State.LeapDown)
+            || state.fullPathHash == State.LeapDown
+            || state.fullPathHash == State.DodgeRoll)
         {
             // Adjust collider height during climbing animation, according to the animation curves
             // The obtained value from the curves goes from 0 to 1, 1 being full height, 0 being no height
@@ -245,7 +250,9 @@ public class PlayerMovement : MonoBehaviour
                 newColliderHeight = animator.GetFloat(AnimatorParameters.ColliderHeight) * defaultColliderHeight;
             }
 
-            float diff = playerCollider.height - newColliderHeight;
+            // If the current state is DodgeRoll, the top of the collider will move,
+            // the bottom will stay in the same position
+            float diff = (state.fullPathHash == State.DodgeRoll ? -1 : 1) * (playerCollider.height - newColliderHeight);
             playerCollider.height = newColliderHeight;
 
             // The collider is moved, so the top of the collider
@@ -367,7 +374,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 PrepareForLanding();
             }
-            
+
             // check if player fell out of the scene
             myStats.CheckFellOut(transform.position.y);
 
@@ -557,6 +564,8 @@ public class PlayerMovement : MonoBehaviour
         // (This function can be called right after the trigger,
         // which will set applyRootMotion to false and breka Hanging)
         // SUGGESTION: animator.applyRootMotion = false should probably go to an animation event
+        // Problem with this suggestion: player loses velocity when between
+        // the beginning of the animation and the event being fired
         if (state.fullPathHash == State.Moving && nextState.fullPathHash != State.Hanging && nextState.fullPathHash != State.Climbing
             && !animator.GetBool(AnimatorParameters.Hang))
         {
@@ -572,12 +581,12 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="context">Input callback context.</param>
     private void Jump(InputAction.CallbackContext context)
     {
-
         Vector3 velocity = playerRigidbody.velocity;
         velocity.y = 0;
 
-        // Will only trigger jump if current state is Moving
-        if (state.fullPathHash == State.Moving)
+        // Will only trigger jump if current state is Moving and is not transitioning to one of these states
+        if (state.fullPathHash == State.Moving && nextState.fullPathHash != State.DodgeRoll
+            && nextState.fullPathHash != State.JumpingUp && nextState.fullPathHash != State.StartingLeap)
         {
             // if there is a downgrade ahead and the player is almost still, it triggers jump down instead of normal jumping
             if (downgrade.collider == null && velocity.magnitude < 0.1f)
@@ -595,13 +604,28 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
+    /// Consumes dodge input.
+    /// </summary>
+    /// <param name="context">Input callback context.</param>F
+    private void Dodge(InputAction.CallbackContext context)
+    {
+        // Will only trigger jump if current state is Moving and is not transitioning to one of these states
+        if (state.fullPathHash == State.Moving && nextState.fullPathHash != State.DodgeRoll
+            && nextState.fullPathHash != State.JumpingUp && nextState.fullPathHash != State.StartingLeap)
+        {
+            animator.SetTrigger(AnimatorParameters.Dodge);
+        }
+    }
+
+    /// <summary>
     /// Consumes leap input.
     /// </summary>
     /// <param name="context">Input callback context.</param>
     private void Leap(InputAction.CallbackContext context)
     {
-        // Will only trigger leap if current state is Moving
-        if (state.fullPathHash == State.Moving)
+        // Will only trigger jump if current state is Moving and is not transitioning to one of these states
+        if (state.fullPathHash == State.Moving && nextState.fullPathHash != State.DodgeRoll
+            && nextState.fullPathHash != State.JumpingUp && nextState.fullPathHash != State.StartingLeap)
         {
             // Disable root motion so movement persists through leaping state
             animator.applyRootMotion = false;
@@ -644,6 +668,17 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
+    /// Executes on dodge animation event.
+    /// </summary>
+    private void OnDodge()
+    {
+        // Reset triggers that maybe have been set during the dodge
+        animator.ResetTrigger(AnimatorParameters.Dodge);
+        animator.ResetTrigger(AnimatorParameters.Jump);
+        animator.ResetTrigger(AnimatorParameters.Leap);
+    }
+
+    /// <summary>
     /// Executes on landing animation event.
     /// </summary>
     private void OnLand()
@@ -654,6 +689,11 @@ public class PlayerMovement : MonoBehaviour
         // Disable any left land or fall triggers
         animator.ResetTrigger(AnimatorParameters.Land);
         animator.ResetTrigger(AnimatorParameters.Fall);
+
+        // Reset triggers that maybe have been set during the jump
+        animator.ResetTrigger(AnimatorParameters.Dodge);
+        animator.ResetTrigger(AnimatorParameters.Jump);
+        animator.ResetTrigger(AnimatorParameters.Leap);
 
         // Expand stomp area on Leap land
         if (state.fullPathHash == State.EndingLeap)

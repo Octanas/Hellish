@@ -81,6 +81,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Dodge"",
+                    ""type"": ""Button"",
+                    ""id"": ""d6a0dee4-512d-41aa-a790-d3a3d15e0d0d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -303,6 +311,28 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Leap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""496a47e5-0dea-4363-a387-f4544e0b29c9"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dodge"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d969fccf-5081-4af7-95a6-fcae5131c825"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dodge"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -319,6 +349,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_Equip = m_Gameplay.FindAction("Equip", throwIfNotFound: true);
         m_Gameplay_Leap = m_Gameplay.FindAction("Leap", throwIfNotFound: true);
+        m_Gameplay_Dodge = m_Gameplay.FindAction("Dodge", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -376,6 +407,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_Equip;
     private readonly InputAction m_Gameplay_Leap;
+    private readonly InputAction m_Gameplay_Dodge;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -388,6 +420,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
         public InputAction @Equip => m_Wrapper.m_Gameplay_Equip;
         public InputAction @Leap => m_Wrapper.m_Gameplay_Leap;
+        public InputAction @Dodge => m_Wrapper.m_Gameplay_Dodge;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -421,6 +454,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Leap.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeap;
                 @Leap.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeap;
                 @Leap.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeap;
+                @Dodge.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
+                @Dodge.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
+                @Dodge.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -449,6 +485,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Leap.started += instance.OnLeap;
                 @Leap.performed += instance.OnLeap;
                 @Leap.canceled += instance.OnLeap;
+                @Dodge.started += instance.OnDodge;
+                @Dodge.performed += instance.OnDodge;
+                @Dodge.canceled += instance.OnDodge;
             }
         }
     }
@@ -463,5 +502,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnEquip(InputAction.CallbackContext context);
         void OnLeap(InputAction.CallbackContext context);
+        void OnDodge(InputAction.CallbackContext context);
     }
 }

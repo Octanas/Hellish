@@ -1732,6 +1732,9 @@ MonoBehaviour:
   damagePower: 200
   barHealth: {fileID: 0}
   intervalTime: 10
+  minY: -5
+  fellOutCamera: {fileID: 0}
+  playerCamera: {fileID: 0}
 --- !u!1 &6266482008739736568
 GameObject:
   m_ObjectHideFlags: 0
