@@ -2,26 +2,24 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 public class CharacterStats : MonoBehaviour
 {
     public int maxHealth = 1000;
     public int damagePower = 200;
-
-    // UI test
+    
+    // UI - Health Bar 
     public Image barHealth;
-
+    
     protected float CurrentHealth;
     protected float TimeWithoutTakingDamage = 0f;
-
-    private bool isPlayer;
-
+    
     void Awake()
     {
         CurrentHealth = maxHealth;
-        isPlayer = barHealth;
-        if (isPlayer) barHealth.fillAmount = 1;
+        FillBar();
     }
 
     private void Update()
@@ -29,20 +27,20 @@ public class CharacterStats : MonoBehaviour
         // Update time without taking damage
         TimeWithoutTakingDamage += Time.deltaTime;
 
-        // Update Bar health [0,1]
-        if (isPlayer)
+        // Character health recovery system
+        if (CurrentHealth > 0)
         {
-            if (CurrentHealth > 0) Recover(); // Character health recovery system
-            barHealth.fillAmount = (float) Math.Max(CurrentHealth, 0) / maxHealth;
+            Recover();
+            UpdateBarHealth();
         }
     }
-
 
     public void TakeDamage(int damage)
     {
         TimeWithoutTakingDamage = 0;
         CurrentHealth -= damage;
-        if (isPlayer) barHealth.fillAmount = Math.Max(CurrentHealth, 0) / maxHealth;
+        UpdateBarHealth();
+        
         Debug.Log(transform.name + " takes " + damage + " damage.");
         if (CurrentHealth <= 0)
         {
@@ -50,17 +48,26 @@ public class CharacterStats : MonoBehaviour
             Die();
         }
 
-        if (isPlayer)
-        {
-            //TODO add animation for when hit?
-        }
+        HitReaction();
     }
-
+    
+    protected virtual void UpdateBarHealth()
+    {
+    }
+    
+    protected virtual void FillBar()
+    {
+    }
+    
     protected virtual void Recover()
     {
     }
 
     protected virtual void Die()
+    {
+    }
+    
+    protected virtual void HitReaction()
     {
     }
 }

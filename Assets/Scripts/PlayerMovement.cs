@@ -128,6 +128,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("Jumping")]
     private RaycastHit downgrade;
     private RaycastHit ground;
+    
+    // PlayerStats, check if player fell out of the scene
+    private PlayerStats myStats;
 
     private void Awake()
     {
@@ -146,6 +149,7 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         playerRigidbody = GetComponent<Rigidbody>();
         playerCollider = GetComponent<CapsuleCollider>();
+        myStats = GetComponent<PlayerStats>();
 
         // Initialize variables
         state = animator.GetCurrentAnimatorStateInfo(0);
@@ -363,6 +367,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 PrepareForLanding();
             }
+            
+            // check if player fell out of the scene
+            myStats.CheckFellOut(transform.position.y);
+
         }
         // If ground is not detected and player isn't falling, trigger fall
         else if (!isGrounded)
