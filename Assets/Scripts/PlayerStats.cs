@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,8 +13,10 @@ public class PlayerStats : CharacterStats
     public float intervalTime = 10f;
 
     // Fell Out
+    //TODO: every time Akira changes island set min Y, or add a floor to collide and die
     public int minY = -10;
     private bool _fellOut = false;
+    public CinemachineVirtualCamera fellOutCamera;
     public Transform playerCamera;
 
     void Start()
@@ -73,11 +76,17 @@ public class PlayerStats : CharacterStats
         
         if (CurrentHealth <= 0)
         {
-            // TODO: Stop camera
-           /* Vector3 position = playerCamera.position;
-            position.y += 20;
-            Quaternion rotation = playerCamera.rotation;
-            playerCamera.SetPositionAndRotation(position, rotation);*/
+            // Exchange cameras
+            // Set position and rotation of fell out camera according to last player position
+            Vector3 position = playerCamera.position;
+            Quaternion rotation = playerCamera.localRotation;
+            
+            // Increase y 
+            position.y += minY;
+            
+            // Increase priority of fell out camera
+            fellOutCamera.ForceCameraPosition(position, rotation);
+            fellOutCamera.Priority = 11; //The other is 10
             
             GameOver();
         }
