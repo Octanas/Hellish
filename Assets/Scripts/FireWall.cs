@@ -66,7 +66,7 @@ public class FireWall : MonoBehaviour
     private void WallEvent()
     {
         if (!walled) {
-            wallObject = Instantiate(wallPrefab, transform.position + transform.forward + Vector3.up * -0.4f, transform.rotation);
+            wallObject = Instantiate(wallPrefab, transform.position + transform.forward * 0.5f + Vector3.up * -0.4f, transform.rotation);
             walled = true;
             coroutine = cooldown(cooldownTime);
             StartCoroutine(coroutine);
