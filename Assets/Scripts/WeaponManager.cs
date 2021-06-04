@@ -11,13 +11,6 @@ public class WeaponManager : MonoBehaviour
 
     public List<DamageCollider> listDamageColliders;
     
-    // Maybe use later
-    //private DamageCollider _currCollider;
-    //public void LoadCollider(DamageCollider collider)
-    //{
-    //    _currCollider = collider;
-    //}
-    
     public void openDamageCollider(int index)
     {
         if(listDamageColliders.Capacity != 0)

@@ -3,28 +3,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.PlayerLoop;
 using Object = System.Object;
 
 public class PlayerAttack : MonoBehaviour
 {
+    [Header("Sword & Bolsa Meshes:")]
     public List<SkinnedMeshRenderer> ListBolsaMeshes;
     public MeshRenderer sword;
     public bool hasSword = false;
-    
-    // Enable the damage collider of the current "weapon" and turn off after the animation is done,
-    // with animation events, functions are available in the WeaponManager script on the player
-    // Maybe use later
-    //private WeaponManager _weaponManager;
-    //public DamageCollider _currentDamageCollider;
-    
+
     private PlayerControls _controls;
     private Animator _animator;
     private bool _isAttacking;
     
+    [Header("Animations:")]
     public AnimationClip[] defaultAnimationClips;
     public AnimationClip[] swordAnimationClips;
     private AnimationClip[] _currAnimationClips;
     private AnimatorOverrideController _overrideController;
+    
+    [Header("Move while attacking:")]
+    public float movingTime = 0.1f;
+    public float maxMovingVelocity = 10f;
+    public float movementForce = 2.5f;
+    private bool _move = false;
+    private Vector3 _targetPosition;
+    private Vector3 movingVelocity;
 
     private void Awake()
     {
@@ -37,11 +42,6 @@ public class PlayerAttack : MonoBehaviour
 
     private void Start()
     {
-        // Maybe use later
-        //_weaponManager = GetComponent<WeaponManager>();
-        //_currentDamageCollider = GetComponentInChildren<DamageCollider>();
-        //_weaponManager.LoadCollider(_currentDamageCollider);
-        
         _animator = GetComponent<Animator>();
         
         // Initializes meshes state depending on hasSword
@@ -80,13 +80,61 @@ public class PlayerAttack : MonoBehaviour
         _overrideController["kick"] = _currAnimationClips[1];
 
     }
-    
+
+    private void FixedUpdate()
+    {
+        // Adds +1 position to movement
+        if (_move)
+        {
+            Vector3 position = Vector3.SmoothDamp(transform.position, _targetPosition, ref movingVelocity, movingTime, maxMovingVelocity);
+            transform.position = position;
+        }
+        
+    }
     private void Update()
     {
         _animator.SetBool("Attack", _isAttacking);
+
+        // If move is still possible and player keeps trying to move
+        // - update target position
+        // if (_move)
+        //     UpdateTargetPosition();
+        
+    }
+    
+    /// <summary>
+    ///  Event Function in attack animations
+    /// - initiates movement
+    /// </summary>
+    public void ApplyMovement()
+    {
+        UpdateTargetPosition();
+        _move = true;
     }
 
- 
+    private void UpdateTargetPosition()
+    {
+        // Get movement speed from animator
+        float spped = _animator.GetFloat("Movement");
+        
+        Vector3 aux = transform.forward;
+        aux.x *= spped*movementForce;
+        aux.z *= spped*movementForce;
+        
+        Debug.Log(aux);
+        _targetPosition = transform.position + aux;
+        
+    }
+    
+    /// <summary>
+    ///  Event Function in attack animations
+    ///  - stops movement
+    /// </summary>
+    public void StopMovement()
+    {
+        _move = false;
+    }
+    
     private void OnEnable()
     {
         _controls.Gameplay.Enable();
