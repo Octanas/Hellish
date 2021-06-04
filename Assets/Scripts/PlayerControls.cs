@@ -89,6 +89,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Wall"",
+                    ""type"": ""Button"",
+                    ""id"": ""ba3ed3e8-2a8e-4ca9-af8f-0778f6ee0a59"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -333,6 +341,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Dodge"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bddeed76-24e0-4c13-b320-f42c30962211"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Wall"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -350,6 +369,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Gameplay_Equip = m_Gameplay.FindAction("Equip", throwIfNotFound: true);
         m_Gameplay_Leap = m_Gameplay.FindAction("Leap", throwIfNotFound: true);
         m_Gameplay_Dodge = m_Gameplay.FindAction("Dodge", throwIfNotFound: true);
+        m_Gameplay_Wall = m_Gameplay.FindAction("Wall", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -408,6 +428,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Equip;
     private readonly InputAction m_Gameplay_Leap;
     private readonly InputAction m_Gameplay_Dodge;
+    private readonly InputAction m_Gameplay_Wall;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -421,6 +442,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Equip => m_Wrapper.m_Gameplay_Equip;
         public InputAction @Leap => m_Wrapper.m_Gameplay_Leap;
         public InputAction @Dodge => m_Wrapper.m_Gameplay_Dodge;
+        public InputAction @Wall => m_Wrapper.m_Gameplay_Wall;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -457,6 +479,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Dodge.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
                 @Dodge.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
                 @Dodge.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
+                @Wall.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWall;
+                @Wall.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWall;
+                @Wall.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWall;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -488,6 +513,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Dodge.started += instance.OnDodge;
                 @Dodge.performed += instance.OnDodge;
                 @Dodge.canceled += instance.OnDodge;
+                @Wall.started += instance.OnWall;
+                @Wall.performed += instance.OnWall;
+                @Wall.canceled += instance.OnWall;
             }
         }
     }
@@ -503,5 +531,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnEquip(InputAction.CallbackContext context);
         void OnLeap(InputAction.CallbackContext context);
         void OnDodge(InputAction.CallbackContext context);
+        void OnWall(InputAction.CallbackContext context);
     }
 }
