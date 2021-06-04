@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class FireWall : MonoBehaviour
 {
     private PlayerControls _controls;
+    private Animator animator;
     public GameObject wallPrefab;
     private GameObject wallObject;
     public float maxWallLength = 15;
@@ -23,6 +24,7 @@ public class FireWall : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>();
         walled = false;
         wallLength = maxWallLength;
     }
@@ -52,8 +54,12 @@ public class FireWall : MonoBehaviour
         }
     }
 
+    private void Wall (InputAction.CallbackContext context) {
+        animator.SetTrigger("FireWall");
+    }
 
-    private void Wall(InputAction.CallbackContext context)
+
+    private void WallEvent()
     {
         if (!walled) {
             wallObject = Instantiate(wallPrefab, transform.position + transform.forward + Vector3.up * -0.4f, transform.rotation);
