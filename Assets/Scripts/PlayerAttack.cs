@@ -94,26 +94,40 @@ public class PlayerAttack : MonoBehaviour
     private void Update()
     {
         _animator.SetBool("Attack", _isAttacking);
+
+        // If move is still possible and player keeps trying to move
+        // - update target position
+        if (_move)
+            UpdateTargetPosition();
+        
     }
     
     /// <summary>
-    ///  Event Functions in attack animations
+    ///  Event Function in attack animations
     /// - initiates movement
     /// </summary>
     public void ApplyMovement()
     {
-        // Get movement speed on animator
+        UpdateTargetPosition();
+        _move = true;
+    }
+
+    private void UpdateTargetPosition()
+    {
+        // Get movement speed from animator
         float spped = _animator.GetFloat("Movement");
         
         Vector3 aux = transform.forward;
         aux.x *= spped*movementForce;
         aux.z *= spped*movementForce;
         
-        _move = true;
+        Debug.Log(aux);
         _targetPosition = transform.position + aux;
+        
     }
+    
     /// <summary>
-    ///  Event Functions in attack animations
+    ///  Event Function in attack animations
     ///  - stops movement
     /// </summary>
     public void StopMovement()
