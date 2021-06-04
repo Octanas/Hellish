@@ -7,6 +7,7 @@ public class FireWall : MonoBehaviour
 {
     private PlayerControls _controls;
     private Animator animator;
+    private PlayerAttack playerAttack;
     public GameObject wallPrefab;
     private GameObject wallObject;
     public float maxWallLength = 15;
@@ -25,6 +26,7 @@ public class FireWall : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+        playerAttack = GetComponent<PlayerAttack>();
         walled = false;
         wallLength = maxWallLength;
     }
@@ -55,7 +57,9 @@ public class FireWall : MonoBehaviour
     }
 
     private void Wall (InputAction.CallbackContext context) {
-        animator.SetTrigger("FireWall");
+        if(playerAttack.hasSword && !walled) {
+            animator.SetTrigger("FireWall");
+        }
     }
 
 
