@@ -12,6 +12,21 @@ public class FireBreath : MonoBehaviour
     private PlayerAttack playerAttack;
 
     /// <summary>
+    /// Fire particles prefab.
+    /// </summary>
+    public GameObject fireParticles;
+    /// <summary>
+    /// Point from which to instantiante fire particles.
+    /// </summary>
+    public Transform fireBreathOrigin;
+
+    /// <summary>
+    /// Fire rate particles per second.
+    /// </summary>
+    public float fireRate = 1;
+    private float timePassed;
+
+    /// <summary>
     /// If the ability can be used.
     /// </summary>
     private bool available;
@@ -41,6 +56,24 @@ public class FireBreath : MonoBehaviour
 
         available = true;
         breathingFire = false;
+
+        timePassed = fireRate;
+    }
+
+    private void Update()
+    {
+        // If currently breathing fire, spawn particle according to fire rate.
+        if (breathingFire)
+        {
+            timePassed += Time.deltaTime;
+
+            if (timePassed >= fireRate)
+            {
+                timePassed -= fireRate;
+
+                Instantiate(fireParticles, fireBreathOrigin.position, fireBreathOrigin.rotation);
+            }
+        }
     }
 
     private void FireBreathInput(InputAction.CallbackContext context)
