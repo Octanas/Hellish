@@ -97,6 +97,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""FireBreath"",
+                    ""type"": ""Button"",
+                    ""id"": ""7c815b93-bfa1-4289-92c8-364ead4db535"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -352,6 +360,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Wall"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f77a8b06-d33e-414c-ac6e-5012f8d3bd99"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FireBreath"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -370,6 +389,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Gameplay_Leap = m_Gameplay.FindAction("Leap", throwIfNotFound: true);
         m_Gameplay_Dodge = m_Gameplay.FindAction("Dodge", throwIfNotFound: true);
         m_Gameplay_Wall = m_Gameplay.FindAction("Wall", throwIfNotFound: true);
+        m_Gameplay_FireBreath = m_Gameplay.FindAction("FireBreath", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -429,6 +449,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Leap;
     private readonly InputAction m_Gameplay_Dodge;
     private readonly InputAction m_Gameplay_Wall;
+    private readonly InputAction m_Gameplay_FireBreath;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -443,6 +464,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Leap => m_Wrapper.m_Gameplay_Leap;
         public InputAction @Dodge => m_Wrapper.m_Gameplay_Dodge;
         public InputAction @Wall => m_Wrapper.m_Gameplay_Wall;
+        public InputAction @FireBreath => m_Wrapper.m_Gameplay_FireBreath;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -482,6 +504,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Wall.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWall;
                 @Wall.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWall;
                 @Wall.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWall;
+                @FireBreath.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnFireBreath;
+                @FireBreath.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnFireBreath;
+                @FireBreath.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnFireBreath;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -516,6 +541,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Wall.started += instance.OnWall;
                 @Wall.performed += instance.OnWall;
                 @Wall.canceled += instance.OnWall;
+                @FireBreath.started += instance.OnFireBreath;
+                @FireBreath.performed += instance.OnFireBreath;
+                @FireBreath.canceled += instance.OnFireBreath;
             }
         }
     }
@@ -532,5 +560,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnLeap(InputAction.CallbackContext context);
         void OnDodge(InputAction.CallbackContext context);
         void OnWall(InputAction.CallbackContext context);
+        void OnFireBreath(InputAction.CallbackContext context);
     }
 }

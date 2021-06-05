@@ -31,6 +31,13 @@ public class PlayerAttack : MonoBehaviour
     private Vector3 _targetPosition;
     private Vector3 movingVelocity;
 
+    [Header("Rotate in target direction:")]
+    public float radius = 10;
+    public float turningTime = 0.1f;
+    private Transform _target;
+    private float turningVelocity;
+    private bool _rotate = false;
+    
     private void Awake()
     {
         _controls = new PlayerControls();
@@ -89,17 +96,67 @@ public class PlayerAttack : MonoBehaviour
             Vector3 position = Vector3.SmoothDamp(transform.position, _targetPosition, ref movingVelocity, movingTime, maxMovingVelocity);
             transform.position = position;
         }
-        
+
+        // If target exists, then face it 
+        if (_target && _rotate)
+        {
+            Debug.DrawLine(transform.position, _target.position, Color.yellow);
+            
+            // Target direction
+            Vector3 direction = (_target.position - transform.position).normalized;
+            Quaternion rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            
+            // Angle to add to rotation y
+            float targetAngle = rotation.eulerAngles.y ;
+
+
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turningVelocity, turningTime);
+            transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
+        }
+
+
     }
+
     private void Update()
     {
         _animator.SetBool("Attack", _isAttacking);
 
-        // If move is still possible and player keeps trying to move
-        // - update target position
-        // if (_move)
-        //     UpdateTargetPosition();
+        // Start rotation around target 
+        if (_isAttacking)
+            _rotate = true;
         
+        if (_rotate) 
+            FindEnemies();
+        
+    }
+
+    private void FindEnemies()
+    {
+        // Find all enemies in the radius 
+        Collider[] enemiesColliderRadius = Physics.OverlapSphere(transform.position, radius, LayerMask.GetMask("Enemy"));
+
+        // Reset target as null
+        if (enemiesColliderRadius.Length == 0)
+            _target = null;
+
+        // Check for the nearest enemy
+        float distance = radius;
+        foreach (var enemyCollider in enemiesColliderRadius) 
+        {
+            Transform enemy = enemyCollider.transform;
+            float enemyDistance = (transform.position - enemy.position).magnitude;
+            if (!_target || distance > enemyDistance) 
+            {
+                _target = enemy;
+                distance = enemyDistance;
+            }
+        }
+    }
+    
+    // Stop rotation when movement begins
+    public void StopRotation()
+    {
+        _rotate = false;
     }
     
     /// <summary>
@@ -115,13 +172,12 @@ public class PlayerAttack : MonoBehaviour
     private void UpdateTargetPosition()
     {
         // Get movement speed from animator
-        float spped = _animator.GetFloat("Movement");
+        float speed = _animator.GetFloat("Movement");
         
         Vector3 aux = transform.forward;
-        aux.x *= spped*movementForce;
-        aux.z *= spped*movementForce;
+        aux.x *= speed*movementForce;
+        aux.z *= speed*movementForce;
         
-        Debug.Log(aux);
         _targetPosition = transform.position + aux;
         
     }
