@@ -27,6 +27,9 @@ public class PlayerMovement : MonoBehaviour
         public static readonly int EndingLeap = Animator.StringToHash("Base Layer.EndingLeap");
         public static readonly int LeapDown = Animator.StringToHash("Base Layer.LeapDown");
         public static readonly int LeapStand = Animator.StringToHash("Base Layer.LeapStand");
+        public static readonly int StartingBreatheFire = Animator.StringToHash("Base Layer.StartingBreatheFire");
+        public static readonly int BreatheFire = Animator.StringToHash("Base Layer.BreatheFire");
+        public static readonly int EndingBreatheFire = Animator.StringToHash("Base Layer.EndingBreatheFire");
         public static readonly int DodgeRoll = Animator.StringToHash("Base Layer.DodgeRoll");
         public static readonly int Punch_Slash = Animator.StringToHash("Base Layer.Punch_Slash");
         public static readonly int Kick_Combo = Animator.StringToHash("Base Layer.Kick_Combo");
@@ -49,6 +52,9 @@ public class PlayerMovement : MonoBehaviour
         public static readonly string Fall = "Fall";
         public static readonly string Land = "Land";
         public static readonly string Dodge = "Dodge";
+        public static readonly string FireWall = "FireWall";
+        public static readonly string BreatheFire = "BreatheFire";
+        public static readonly string StopBreatheFire = "StopBreatheFire";
     }
 
     /// <summary>
@@ -133,7 +139,7 @@ public class PlayerMovement : MonoBehaviour
 
     // PlayerStats, check if player fell out of the scene
     private PlayerStats myStats;
-    
+
     // PlayerAttack, stop rotation around enemy
     private PlayerAttack playerAttack;
 
@@ -188,7 +194,8 @@ public class PlayerMovement : MonoBehaviour
         if (nextState.fullPathHash != State.Hanging && movementInput.magnitude >= 0.1f)
         {
             if (state.fullPathHash == State.Moving || state.fullPathHash == State.Punch_Slash
-                || state.fullPathHash == State.Kick_Combo || state.fullPathHash == State.DodgeRoll)
+                || state.fullPathHash == State.Kick_Combo || state.fullPathHash == State.DodgeRoll
+                || state.fullPathHash == State.BreatheFire)
             {
                 // Set rotation value
                 targetAngle = Mathf.Atan2(movementInput.x, movementInput.y) * Mathf.Rad2Deg + playerCamera.eulerAngles.y;
@@ -209,7 +216,7 @@ public class PlayerMovement : MonoBehaviour
                 // Add air drag (contrary to horizontal air movement)
                 playerRigidbody.AddForce(horizontalMovement * -airDragHorizontal, ForceMode.Force);
             }
-            
+
             //Stop attack rotation around enemy when player starts moving
             playerAttack.StopRotation();
         }
@@ -474,7 +481,13 @@ public class PlayerMovement : MonoBehaviour
         if (Mathf.Abs(transform.eulerAngles.y - targetAngle) < 0.001)
             return;
 
-        float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turningVelocity, turningTime);
+        // If player is in BreatheFire state, turning is slower
+        float currentTurningTime = turningTime * (state.fullPathHash == State.StartingBreatheFire
+            || state.fullPathHash == State.BreatheFire
+            || state.fullPathHash == State.EndingBreatheFire ?
+            8 : 1);
+
+        float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turningVelocity, currentTurningTime);
         transform.rotation = Quaternion.Euler(0f, angle, 0f);
     }
 
@@ -683,6 +696,8 @@ public class PlayerMovement : MonoBehaviour
         animator.ResetTrigger(AnimatorParameters.Dodge);
         animator.ResetTrigger(AnimatorParameters.Jump);
         animator.ResetTrigger(AnimatorParameters.Leap);
+        animator.ResetTrigger(AnimatorParameters.BreatheFire);
+        animator.ResetTrigger(AnimatorParameters.FireWall);
     }
 
     /// <summary>
@@ -701,6 +716,8 @@ public class PlayerMovement : MonoBehaviour
         animator.ResetTrigger(AnimatorParameters.Dodge);
         animator.ResetTrigger(AnimatorParameters.Jump);
         animator.ResetTrigger(AnimatorParameters.Leap);
+        animator.ResetTrigger(AnimatorParameters.BreatheFire);
+        animator.ResetTrigger(AnimatorParameters.FireWall);
 
         // Expand stomp area on Leap land
         if (state.fullPathHash == State.EndingLeap)
