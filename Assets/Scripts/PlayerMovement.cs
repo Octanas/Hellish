@@ -133,6 +133,9 @@ public class PlayerMovement : MonoBehaviour
 
     // PlayerStats, check if player fell out of the scene
     private PlayerStats myStats;
+    
+    // PlayerAttack, stop rotation around enemy
+    private PlayerAttack playerAttack;
 
     private void Awake()
     {
@@ -153,6 +156,7 @@ public class PlayerMovement : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody>();
         playerCollider = GetComponent<CapsuleCollider>();
         myStats = GetComponent<PlayerStats>();
+        playerAttack = GetComponent<PlayerAttack>();
 
         // Initialize variables
         state = animator.GetCurrentAnimatorStateInfo(0);
@@ -205,6 +209,9 @@ public class PlayerMovement : MonoBehaviour
                 // Add air drag (contrary to horizontal air movement)
                 playerRigidbody.AddForce(horizontalMovement * -airDragHorizontal, ForceMode.Force);
             }
+            
+            //Stop attack rotation around enemy when player starts moving
+            playerAttack.StopRotation();
         }
 
         if (state.fullPathHash == State.Climbing
