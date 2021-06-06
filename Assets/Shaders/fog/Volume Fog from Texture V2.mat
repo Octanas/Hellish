@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Volume Fog from Texture V2
-  m_Shader: {fileID: -6465566751694194690, guid: 7f0c3240ab8bee84ebf1ef9b1887b3dc, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: fe62c40dc1604cc44b03a7a62e7851a4, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -20,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Noise:
-        m_Texture: {fileID: 11700000, guid: 30f8e26307d135449aae67c8f450264a, type: 2}
+        m_Texture: {fileID: 11700000, guid: de1c7511d116aba4b8bda2d3704901ff, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
