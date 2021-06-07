@@ -33,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
         public static readonly int DodgeRoll = Animator.StringToHash("Base Layer.DodgeRoll");
         public static readonly int Punch_Slash = Animator.StringToHash("Base Layer.Punch_Slash");
         public static readonly int Kick_Combo = Animator.StringToHash("Base Layer.Kick_Combo");
+        public static readonly int SwingZipline = Animator.StringToHash("Base Layer.SwingZipline");
     }
 
     /// <summary>
@@ -55,6 +56,7 @@ public class PlayerMovement : MonoBehaviour
         public static readonly string FireWall = "FireWall";
         public static readonly string BreatheFire = "BreatheFire";
         public static readonly string StopBreatheFire = "StopBreatheFire";
+        public static readonly string HangZipline = "HangZipline";
     }
 
     /// <summary>
@@ -79,6 +81,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     [Tooltip("Reference point to where the hands will be when hanging on a ledge.")]
     public Transform hangingPoint;
+    public Transform hangingPointZipLine;
     /// <summary>
     /// Reference point to be used as origin for floor detection raycast.
     /// </summary>
@@ -736,6 +739,33 @@ public class PlayerMovement : MonoBehaviour
     {
         // Re-enable player collider after climbing
         playerCollider.enabled = true;
+    }
+    
+    /// <summary>
+    /// Hang character on zipline.
+    /// </summary>
+    /// <param name="position">Central position of the zipline.</param>
+    /// <param name="orientation">Orientation of the zipline (to where the character will face).</param>
+    public void HangOnZipline(Vector3 position, Quaternion orientation)
+    {
+        // Don't execute if the character is already hanging in the zipline
+        if (state.fullPathHash == State.SwingZipline)
+            return;
+        if (nextState.fullPathHash == State.SwingZipline)
+           return;
+        
+        Debug.Log("ZIP ZIP...");
+
+        // Make sure root motion will be applied
+        animator.applyRootMotion = true;
+
+        animator.SetTrigger(AnimatorParameters.HangZipline);
+        
+        // Vector from hands to center of ledge
+        Vector3 diffPosition = position - hangingPointZipLine.position;
+
+        ApplyTranslation(diffPosition);
+        SetAngle(orientation.eulerAngles.y);
     }
 
     private void OnEnable()
