@@ -4682,6 +4682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae3875e92854b81448264853e5edb77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderDuration: 1.82
   particleSpeed: 3
   damage: 50
 --- !u!135 &6167315882268942811
