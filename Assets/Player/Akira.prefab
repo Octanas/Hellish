@@ -1686,6 +1686,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 0}
   hangingPoint: {fileID: 7384939435783115959}
+  hangingPointZipLine: {fileID: 1570560157767435515}
   floorDetectionOrigin: {fileID: 5075889034032023035}
   jumpingDownDetectionPoint: {fileID: 1308558487769395853}
   stompArea: {fileID: 2701322142316742576, guid: cb9aa3457e9b834448ed9daea9531900, type: 3}
@@ -3051,8 +3052,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8695148296864015102}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.7, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.017, y: 2.164, z: 0.415}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1.2}
   m_Children:
   - {fileID: 1570560157767435515}
   m_Father: {fileID: 6807399530516927001}
@@ -3073,7 +3074,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8695148296864015102}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3116,7 +3117,7 @@ BoxCollider:
   m_GameObject: {fileID: 8695148296864015102}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
