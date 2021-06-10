@@ -6,12 +6,12 @@ public class EnemyController : MonoBehaviour
 {
     private Animator _animator;
     private Transform _target;
-    private NavMeshAgent _agent;
+    protected NavMeshAgent _agent;
     private CharacterCombat _myCombat;
     private CharacterStats _targetStats;
 
     [Header("Enemy proprieties:")] public float chaseTargetRadius = 50;
-    [SerializeField] private float maxMovingVelocity = 5f;
+    [SerializeField] protected float maxMovingVelocity = 5f;
     [SerializeField] private float stoppingDistanceRadius = 1.2f;
     [SerializeField] private float maxDetectionAngle = 90f;
     [SerializeField] private float warnDistance = 10f;
@@ -117,7 +117,7 @@ public class EnemyController : MonoBehaviour
             Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * quaternionInterpolationRatio);
     }
 
-    private void AttackTarget()
+    protected virtual void AttackTarget()
     {
         // Check if target is still alive
         if (_targetStats.barHealth.fillAmount > 0)
@@ -148,7 +148,7 @@ public class EnemyController : MonoBehaviour
     private void UpdateAnimatorParameters()
     {
         // Agent current speed/ agent maximum speed, will return a value between 0 and 1
-        var speed = _agent.velocity.magnitude / _agent.speed;
+        var speed = _agent.speed == 0 ? 0 : _agent.velocity.magnitude / _agent.speed;
         _animator.SetFloat("Movement", speed, animationDampTime, Time.deltaTime);
     }
 
