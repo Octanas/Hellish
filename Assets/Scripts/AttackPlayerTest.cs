@@ -14,7 +14,7 @@ public class AttackPlayerTest : MonoBehaviour
     
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.CompareTag("Player"))
         {
             CharacterStats playerStats = collision.gameObject.GetComponent<CharacterStats>();
             _myCombat.attack(playerStats);

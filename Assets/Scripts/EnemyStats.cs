@@ -11,6 +11,11 @@ public class EnemyStats : CharacterStats
         _animator = GetComponent<Animator>();
     }
 
+    protected override void HitReaction()
+    {
+        GetComponent<EnemyController>().WarnEnemies();
+    }
+
     protected override void Die()
     {
         GetComponent<EnemyController>().enabled = false;

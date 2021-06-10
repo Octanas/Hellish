@@ -14,7 +14,12 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float maxMovingVelocity = 5f;
     [SerializeField] private float stoppingDistanceRadius = 1.2f;
     [SerializeField] private float maxDetectionAngle = 90f;
+    [SerializeField] private float warnDistance = 10f;
+    [SerializeField] private float warningCooldown = 10f;
+    private float lastWarning = -10f;
     private bool foundPlayer = false;
+    public Transform handFireball;
+    public GameObject fireball;
     [Header("Animation:")] public float animationDampTime = 0.1f;
     [Header("Rotation:")] public float quaternionInterpolationRatio = 5f;
 
@@ -100,7 +105,7 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            _animator.SetBool("Attack",false);
+            _animator.SetBool("Attack", false);
         }
     }
 
@@ -117,9 +122,27 @@ public class EnemyController : MonoBehaviour
         // Check if target is still alive
         if (_targetStats.barHealth.fillAmount > 0)
         {
-            _myCombat.attack(_targetStats);
-            _animator.SetBool("Attack",true);
+            WarnEnemies();
+            _animator.SetBool("Attack", true);
         }
+        else _animator.SetBool("Attack", false);
+    }
+
+    public void WarnEnemies() //called when hit or when it attacks
+    {
+        if (Time.time - lastWarning < warningCooldown) return;
+        Collider[] colliders = Physics.OverlapSphere(transform.position, warnDistance, LayerMask.GetMask("Enemy"));
+        foreach (var collide in colliders)
+        {
+            collide.GetComponent<EnemyController>().FindTarget();
+        }
+
+        lastWarning = Time.time;
+    }
+
+    private void FindTarget()
+    {
+        foundPlayer = true;
     }
 
     private void UpdateAnimatorParameters()
@@ -127,6 +150,19 @@ public class EnemyController : MonoBehaviour
         // Agent current speed/ agent maximum speed, will return a value between 0 and 1
         var speed = _agent.velocity.magnitude / _agent.speed;
         _animator.SetFloat("Movement", speed, animationDampTime, Time.deltaTime);
+    }
+
+    void CreateBall()
+    {
+        handFireball.gameObject.SetActive(true);
+    }
+
+    void ShootBall()
+    {
+        handFireball.gameObject.SetActive(false);
+        GameObject bullet = Instantiate(fireball, handFireball.position, handFireball.rotation);
+        Rigidbody rb = bullet.GetComponent<Rigidbody>();
+        rb.AddForce((_target.position - transform.position).normalized * 10, ForceMode.Impulse);
     }
 
     private void OnDrawGizmosSelected()

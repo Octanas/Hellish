@@ -47,8 +47,7 @@ public class CharacterStats : MonoBehaviour
             CurrentHealth = 0;
             Die();
         }
-
-        HitReaction();
+        else HitReaction();
     }
     
     protected virtual void UpdateBarHealth()
