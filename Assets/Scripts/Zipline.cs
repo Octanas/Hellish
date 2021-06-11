@@ -13,9 +13,6 @@ public class Zipline : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        //TODO: ENABLE COLLIDER ONLY WHEN PLAYER WANTS
-        //TODO: PODER SALTAR E AGARRAR DE NOVO
-
         if (collider.gameObject.layer == LayerMask.NameToLayer("Zipline"))
         {
             name = collider.gameObject.name;

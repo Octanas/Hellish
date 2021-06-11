@@ -777,27 +777,29 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="direction">Direction of the zipline.</param>
     public void HangOnZipline(Vector3 position, Quaternion orientation, Vector3 direction)
     {
-        //TODO: dá erro em alguns casos as animações
-        if (state.fullPathHash == State.Falling || nextState.fullPathHash == State.Falling 
-            || nextState.fullPathHash == State.JumpingUp || state.fullPathHash == State.JumpingUp)
+        if (state.fullPathHash == State.Falling 
+            || nextState.fullPathHash == State.Falling 
+            || nextState.fullPathHash == State.JumpingUp 
+            || state.fullPathHash == State.JumpingUp
+            /*|| nextState.fullPathHash == State.Landing 
+            || state.fullPathHash == State.Landing*/)
        {
            // Don't execute if the character is already hanging in the zipline
-           if (state.fullPathHash == State.SwingZipline)
+           if (state.fullPathHash == State.SwingZipline || inZip)
                return;
            if (nextState.fullPathHash == State.SwingZipline)
                return;
-           if (nextState.fullPathHash == State.Landing)
-               return;
-
+           
+           
            // Make sure root motion will be applied
            animator.applyRootMotion = true;
 
            animator.SetTrigger(AnimatorParameters.HangZipline);
+           animator.SetBool("InZip", true);
            
            // Disable triggers
-           //animator.ResetTrigger(AnimatorParameters.Jump);
-           //animator.ResetTrigger(AnimatorParameters.Fall);
-           //animator.ResetTrigger(AnimatorParameters.Land);
+           animator.ResetTrigger(AnimatorParameters.Fall);
+           animator.ResetTrigger(AnimatorParameters.Land);
 
            // Force update animator to start state transition immediately 
            // deltaTime is 0 so animations are not affected
@@ -842,7 +844,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (state.fullPathHash != State.SwingZipline)
             return;
-        
+
         inZip = false;
         translate = false;
 
@@ -850,14 +852,15 @@ public class PlayerMovement : MonoBehaviour
         maxMovingVelocity = oldMaxMovingVelocity;
         
         // Current player movement stops
-        playerRigidbody.velocity = Vector3.zero;
+        //playerRigidbody.velocity = Vector3.zero;
         
         // Enable player colliders
         playerCollider.enabled = true;
 
         // Disable root motion so movement persists through falling state
         animator.applyRootMotion = false;
-        animator.SetTrigger(AnimatorParameters.Land);
+        animator.SetBool("InZip", false);
+        animator.SetTrigger(AnimatorParameters.Fall);
         
         // Force update animator to start state transition immediately 
         // deltaTime is 0 so animations are not affected
