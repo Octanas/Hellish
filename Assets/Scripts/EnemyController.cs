@@ -12,6 +12,7 @@ public class EnemyController : MonoBehaviour
 
     [Header("Enemy proprieties:")] public float chaseTargetRadius = 50;
     [SerializeField] protected float maxMovingVelocity = 5f;
+    [Tooltip("Minimum distance to trigger attack.")]
     [SerializeField] private float stoppingDistanceRadius = 1.2f;
     [SerializeField] private float maxDetectionAngle = 90f;
     [SerializeField] private float warnDistance = 10f;
@@ -134,7 +135,7 @@ public class EnemyController : MonoBehaviour
         Collider[] colliders = Physics.OverlapSphere(transform.position, warnDistance, LayerMask.GetMask("Enemy"));
         foreach (var collide in colliders)
         {
-            collide.GetComponent<EnemyController>().FindTarget();
+            collide.GetComponent<EnemyController>()?.FindTarget();
         }
 
         lastWarning = Time.time;

@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 550111721}
   - component: {fileID: 550111722}
+  - component: {fileID: 345457761}
   m_Layer: 0
   m_Name: bolderCollider
   m_TagString: Untagged
@@ -75,6 +76,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &345457761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550111720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2961658322342764e8ef8dcc10fe6f6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2146509182
 GameObject:
   m_ObjectHideFlags: 0
@@ -2211,6 +2224,7 @@ GameObject:
   - component: {fileID: 4765485356915380833}
   - component: {fileID: 4765485356915380834}
   - component: {fileID: 4765485356915380835}
+  - component: {fileID: 2014602681}
   m_Layer: 0
   m_Name: EnemyBoss
   m_TagString: Enemy
@@ -2319,7 +2333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaseTargetRadius: 50
   maxMovingVelocity: 5
-  stoppingDistanceRadius: 1.2
+  stoppingDistanceRadius: 3.6
   maxDetectionAngle: 90
   warnDistance: 10
   warningCooldown: 10
@@ -2354,6 +2368,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c8171e2247a59418edd3d0350bd221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2014602681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8042418902482609641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4311c120c02c50f4abc51e4ffc9b4264, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyBossMeleeAttack: {fileID: 345457761}
 --- !u!1 &8198928429469577045
 GameObject:
   m_ObjectHideFlags: 0
