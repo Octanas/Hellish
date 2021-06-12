@@ -98,7 +98,7 @@ public class PlayerStats : CharacterStats
     public bool CheckWall() {
         return fireWall;
     }
-    public bool Checkleap() {
+    public bool CheckLeap() {
         return leap;
     }
     public void CheckFellOut(float y)

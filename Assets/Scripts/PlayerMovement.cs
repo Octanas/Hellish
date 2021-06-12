@@ -673,6 +673,9 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="context">Input callback context.</param>
     private void Leap(InputAction.CallbackContext context)
     {
+        if(!myStats.CheckLeap()) {
+            return;
+        }
         // Will only trigger jump if current state is Moving and is not transitioning to one of these states
         if (state.fullPathHash == State.Moving && nextState.fullPathHash != State.DodgeRoll
             && nextState.fullPathHash != State.JumpingUp && nextState.fullPathHash != State.StartingLeap)
