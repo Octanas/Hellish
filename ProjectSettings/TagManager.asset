@@ -9,6 +9,7 @@ TagManager:
   - Chest
   - Heart
   - Energy
+  - FireBreath
   layers:
   - Default
   - TransparentFX

@@ -8,6 +8,9 @@ using UnityEngine.UI;
 public class PlayerStats : CharacterStats
 {
     private Animator _animator;
+    private bool fireBreath;
+    private bool fireWall;
+    private bool leap;
     
     // Time without taking damage necessary to enable recover
     public float intervalTime = 10f;
@@ -22,7 +25,17 @@ public class PlayerStats : CharacterStats
     void Start()
     {
         _animator = GetComponent<Animator>();
+        fireBreath = false;
+        fireWall = false;
+        leap = false;
     }
+    void Update () {
+        Debug.Log("Health " + maxHealth);
+        Debug.Log("Mana " + maxMana);
+        Debug.Log("Breath " + fireBreath);
+        Debug.Log("Wall " + fireWall);
+        Debug.Log("leap " + leap);
+    } 
 
     protected override void FillBar()
     {
@@ -61,15 +74,33 @@ public class PlayerStats : CharacterStats
     {
         //TODO add animation for when hit?
     }
-    public override void upgradeHealthBar()
+    public override void UpgradeHealthBar()
     {
         maxHealth += 500;
     }
-    public override void upgradeManaBar()
+    public override void UpgradeManaBar()
     {
         maxMana += 500;
     }
-    
+    public void GainFireBreath() {
+        fireBreath = true;
+    }
+    public void GainFireWall() {
+        fireWall = true;
+    }
+    public void GainLeap() {
+        leap = true;
+    }
+
+    public bool CheckBreath() {
+        return fireBreath;
+    }
+    public bool CheckWall() {
+        return fireWall;
+    }
+    public bool Checkleap() {
+        return leap;
+    }
     public void CheckFellOut(float y)
     {
         if (y < minY)

@@ -31,10 +31,19 @@ public class PowerUpManager : MonoBehaviour
         if (collider.gameObject.CompareTag("Player")) {
             PlayerStats stats = collider.gameObject.GetComponent<PlayerStats>();
             if(gameObject.CompareTag("Heart")) {
-                stats.upgradeHealthBar();
+                stats.UpgradeHealthBar();
             }
             else if (gameObject.CompareTag("Energy")) {
-                stats.upgradeManaBar();
+                stats.UpgradeManaBar();
+            }
+            else if (gameObject.CompareTag("FireBreath")) {
+                stats.GainFireBreath();
+            }
+            else if (gameObject.CompareTag("FireWall")) {
+                stats.GainFireWall();
+            }
+            else if (gameObject.CompareTag("Leap")) {
+                stats.GainLeap();
             }
             Destroy(gameObject);
         }

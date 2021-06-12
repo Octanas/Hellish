@@ -34,8 +34,6 @@ public class CharacterStats : MonoBehaviour
             Recover();
             UpdateBarHealth();
         }
-        Debug.Log(maxHealth);
-        Debug.Log(maxMana);
     }
 
     public void TakeDamage(int damage)
@@ -73,10 +71,10 @@ public class CharacterStats : MonoBehaviour
     {
     }
 
-    public virtual void upgradeHealthBar()
+    public virtual void UpgradeHealthBar()
     {
     }
-    public virtual void upgradeManaBar()
+    public virtual void UpgradeManaBar()
     {
     }
 }
