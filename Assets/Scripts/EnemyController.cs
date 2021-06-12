@@ -4,7 +4,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(CharacterStats))]
 public class EnemyController : MonoBehaviour
 {
-    private Animator _animator;
+    protected Animator _animator;
     private Transform _target;
     protected NavMeshAgent _agent;
     private CharacterCombat _myCombat;
@@ -27,7 +27,7 @@ public class EnemyController : MonoBehaviour
     // NavMesh Agent and Animator: https://docs.unity3d.com/540/Documentation/Manual/nav-MixingComponents.html
     // Navigation Control: https://docs.unity3d.com/540/Documentation/Manual/nav-CouplingAnimationAndNavigation.html
 
-    void Start()
+    protected virtual void Start()
     {
         // Use singleton instead of inserting manually
         _target = PlayerManager.Instance.player.transform;
@@ -45,7 +45,7 @@ public class EnemyController : MonoBehaviour
     }
 
 
-    void Update()
+    protected virtual void Update()
     {
         Vector3 targetDirection = _target.position - transform.position;
         float targetDistance = targetDirection.magnitude;

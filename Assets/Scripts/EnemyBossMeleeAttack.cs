@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class EnemyBossMeleeAttack : MonoBehaviour
 {
+    private int attackState = Animator.StringToHash("Base Layer.Attack");
+
+    [SerializeField] private Animator _animator;
     private Rigidbody _rigidbody;
     private Collider weaponCollider;
 
@@ -34,9 +37,7 @@ public class EnemyBossMeleeAttack : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        // TODO: check if it is in attack animation to apply damage
-
-        if (other.gameObject.CompareTag("Player"))
+        if (_animator.GetCurrentAnimatorStateInfo(0).fullPathHash == attackState && other.gameObject.CompareTag("Player"))
         {
             // TODO: apply force to player
 
