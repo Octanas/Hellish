@@ -12,6 +12,8 @@ public class PlayerStats : CharacterStats
     private bool fireWall;
     private bool leap;
     
+    private Rigidbody _rigidbody;
+
     // Time without taking damage necessary to enable recover
     public float intervalTime = 10f;
 
@@ -28,6 +30,7 @@ public class PlayerStats : CharacterStats
         fireBreath = false;
         fireWall = false;
         leap = false;
+        _rigidbody = GetComponent<Rigidbody>();
     }
     void Update () {
         Debug.Log("Health " + maxHealth);
@@ -41,18 +44,18 @@ public class PlayerStats : CharacterStats
     {
         barHealth.fillAmount = 1;
     }
-    
-    protected override void Recover()
-     {
-         // Player health recovery system
-         // If player:
-         // - time without being attacked > interval time 
-         // - TODO: not in attack mode?
-         // - TODO: radius?
-         if (CurrentHealth < maxHealth && TimeWithoutTakingDamage > intervalTime)
-             CurrentHealth += 0.5f;
 
-     }
+    protected override void Recover()
+    {
+        // Player health recovery system
+        // If player:
+        // - time without being attacked > interval time 
+        // - TODO: not in attack mode?
+        // - TODO: radius?
+        if (CurrentHealth < maxHealth && TimeWithoutTakingDamage > intervalTime)
+            CurrentHealth += 0.5f;
+
+    }
     protected override void UpdateBarHealth()
     {
         // Update Bar health [0,1]
@@ -62,17 +65,22 @@ public class PlayerStats : CharacterStats
     protected override void Die()
     {
         // Dying due to falling out of the scene
-        if (_fellOut) 
+        if (_fellOut)
             return;
-        
+
         // Dying due to enemies damage
         _animator.SetTrigger("Death");
         GameOver();
     }
 
-    protected override void HitReaction()
+    protected override void HitReaction(Vector3 knockback)
     {
-        //TODO add animation for when hit?
+        if (knockback.magnitude != 0)
+            _animator.applyRootMotion = false;
+
+        _animator.SetTrigger("Hit");
+
+        _rigidbody.AddForce(knockback, ForceMode.Impulse);
     }
     public override void UpgradeHealthBar()
     {
@@ -106,27 +114,27 @@ public class PlayerStats : CharacterStats
         if (y < minY)
         {
             _fellOut = true;
-            
+
             // Take damage
             if (CurrentHealth < 50f) CurrentHealth = 0;
             else CurrentHealth -= 50f;
             UpdateBarHealth();
         }
-        
+
         if (CurrentHealth <= 0)
         {
             // Exchange cameras
             // Set position and rotation of fell out camera according to last player position
             Vector3 position = playerCamera.position;
             Quaternion rotation = playerCamera.localRotation;
-            
+
             // TODO: increase y?
             // position.y = minY;
-            
+
             // Increase priority of fell out camera
             fellOutCamera.ForceCameraPosition(position, rotation);
             fellOutCamera.Priority = 11; //The other is 10
-            
+
             GameOver();
         }
     }
@@ -137,10 +145,10 @@ public class PlayerStats : CharacterStats
         GetComponent<PlayerAttack>().enabled = false; // x -> equip weapon
         GetComponent<PlayerMovement>().enabled = false;
         this.enabled = false;
-        
+
         //TODO: game over screen
-        
-        
+
+
         Debug.Log("GAME OVER");
     }
 }

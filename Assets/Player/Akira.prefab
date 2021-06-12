@@ -1795,7 +1795,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 0}
   hangingPoint: {fileID: 7384939435783115959}
-  hangingPointZipLine: {fileID: 0}
+  hangingPointZipLine: {fileID: 2677646498618519292}
   floorDetectionOrigin: {fileID: 5075889034032023035}
   jumpingDownDetectionPoint: {fileID: 1308558487769395853}
   stompArea: {fileID: 2701322142316742576, guid: cb9aa3457e9b834448ed9daea9531900, type: 3}
