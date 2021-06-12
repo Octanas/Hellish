@@ -16,10 +16,22 @@ public class CharacterStats : MonoBehaviour
     protected float CurrentHealth;
     protected float TimeWithoutTakingDamage = 0f;
 
+    [SerializeField] private SkinnedMeshRenderer _skinnedMeshRenderer;
+
+    [SerializeField] private Material hitMaterial;
+
+    private Material defaultMaterial;
+
     void Awake()
     {
         CurrentHealth = maxHealth;
         FillBar();
+    }
+
+    private void Start()
+    {
+        if (_skinnedMeshRenderer)
+            defaultMaterial = _skinnedMeshRenderer.material;
     }
 
     private void Update()
@@ -46,6 +58,15 @@ public class CharacterStats : MonoBehaviour
         CurrentHealth -= damage;
         UpdateBarHealth();
 
+        if (_skinnedMeshRenderer)
+        {
+            if (!defaultMaterial)
+                defaultMaterial = _skinnedMeshRenderer.material;
+
+            _skinnedMeshRenderer.material = hitMaterial;
+            StartCoroutine(ChangeToDefaultMaterial());
+        }
+
         Debug.Log(transform.name + " takes " + damage + " damage.");
         if (CurrentHealth <= 0)
         {
@@ -53,6 +74,14 @@ public class CharacterStats : MonoBehaviour
             Die();
         }
         else HitReaction(knockback);
+    }
+
+    private IEnumerator ChangeToDefaultMaterial()
+    {
+        yield return new WaitForSecondsRealtime(0.1f);
+
+        if (_skinnedMeshRenderer)
+            _skinnedMeshRenderer.material = defaultMaterial;
     }
 
     protected virtual void UpdateBarHealth()
