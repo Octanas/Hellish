@@ -55,10 +55,40 @@ public class EnemyBossController : EnemyController
         }
     }
 
+    protected override void SeeingPlayer(float targetDistance)
+    {
+        base.SeeingPlayer(targetDistance);
+
+        if (targetDistance <= chaseTargetRadius && _agent.pathStatus != UnityEngine.AI.NavMeshPathStatus.PathComplete)
+        {
+            _animator.SetTrigger(AnimatorParameters.MagicAttack);
+        }
+    }
+
     protected override void AttackTarget()
     {
         _agent.speed = 0;
         base.AttackTarget();
+    }
+
+    protected override void ShootBall()
+    {
+        handFireball.gameObject.SetActive(false);
+        GameObject bullet = Instantiate(fireball, handFireball.position, handFireball.rotation);
+        Rigidbody rb = bullet.GetComponent<Rigidbody>();
+
+        Vector3 distance = PlayerManager.Instance.playerCenter.position - handFireball.position;
+        float heightDifference = distance.y;
+        distance.y = 0;
+
+        float horizontalTravellingSpeed = 10;
+        float gravityForce = Physics.gravity.y;
+
+        float neededTime = distance.magnitude / horizontalTravellingSpeed;
+
+        float verticalTravellingSpeed = (heightDifference - 0.5f * gravityForce * Mathf.Pow(neededTime, 2)) / neededTime;
+
+        rb.velocity = distance.normalized * horizontalTravellingSpeed + Vector3.up * verticalTravellingSpeed;
     }
 
     public void InhibitMovement()

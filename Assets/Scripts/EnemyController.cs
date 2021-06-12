@@ -5,7 +5,7 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
     protected Animator _animator;
-    private Transform _target;
+    protected Transform _target;
     protected NavMeshAgent _agent;
     private CharacterCombat _myCombat;
     private CharacterStats _targetStats;
@@ -95,7 +95,7 @@ public class EnemyController : MonoBehaviour
         UpdateAnimatorParameters();
     }
 
-    private void SeeingPlayer(float targetDistance)
+    protected virtual void SeeingPlayer(float targetDistance)
     {
         _agent.SetDestination(_target.position);
         // Enemy reached the minimum radius
@@ -158,7 +158,7 @@ public class EnemyController : MonoBehaviour
         handFireball.gameObject.SetActive(true);
     }
 
-    void ShootBall()
+    protected virtual void ShootBall()
     {
         handFireball.gameObject.SetActive(false);
         GameObject bullet = Instantiate(fireball, handFireball.position, handFireball.rotation);
