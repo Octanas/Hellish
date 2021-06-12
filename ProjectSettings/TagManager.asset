@@ -10,6 +10,8 @@ TagManager:
   - Heart
   - Energy
   - FireBreath
+  - FireWall
+  - Leap
   layers:
   - Default
   - TransparentFX
