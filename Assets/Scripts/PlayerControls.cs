@@ -105,6 +105,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""PickUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""7bebc030-52cf-4552-bbb0-c96b85ace110"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -371,6 +379,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""FireBreath"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2d972ff9-03ca-407e-b72d-e5b512656d35"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PickUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -390,6 +409,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Gameplay_Dodge = m_Gameplay.FindAction("Dodge", throwIfNotFound: true);
         m_Gameplay_Wall = m_Gameplay.FindAction("Wall", throwIfNotFound: true);
         m_Gameplay_FireBreath = m_Gameplay.FindAction("FireBreath", throwIfNotFound: true);
+        m_Gameplay_PickUp = m_Gameplay.FindAction("PickUp", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -450,6 +470,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Dodge;
     private readonly InputAction m_Gameplay_Wall;
     private readonly InputAction m_Gameplay_FireBreath;
+    private readonly InputAction m_Gameplay_PickUp;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -465,6 +486,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Dodge => m_Wrapper.m_Gameplay_Dodge;
         public InputAction @Wall => m_Wrapper.m_Gameplay_Wall;
         public InputAction @FireBreath => m_Wrapper.m_Gameplay_FireBreath;
+        public InputAction @PickUp => m_Wrapper.m_Gameplay_PickUp;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -507,6 +529,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @FireBreath.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnFireBreath;
                 @FireBreath.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnFireBreath;
                 @FireBreath.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnFireBreath;
+                @PickUp.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPickUp;
+                @PickUp.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPickUp;
+                @PickUp.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPickUp;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -544,6 +569,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @FireBreath.started += instance.OnFireBreath;
                 @FireBreath.performed += instance.OnFireBreath;
                 @FireBreath.canceled += instance.OnFireBreath;
+                @PickUp.started += instance.OnPickUp;
+                @PickUp.performed += instance.OnPickUp;
+                @PickUp.canceled += instance.OnPickUp;
             }
         }
     }
@@ -561,5 +589,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnDodge(InputAction.CallbackContext context);
         void OnWall(InputAction.CallbackContext context);
         void OnFireBreath(InputAction.CallbackContext context);
+        void OnPickUp(InputAction.CallbackContext context);
     }
 }
