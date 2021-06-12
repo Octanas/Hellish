@@ -10,6 +10,7 @@ public class FireBreath : MonoBehaviour
     private PlayerControls _controls;
     private Animator animator;
     private PlayerAttack playerAttack;
+    private PlayerStats playerStats;
 
     /// <summary>
     /// Fire particles prefab.
@@ -53,6 +54,7 @@ public class FireBreath : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
+        playerStats = GetComponent<PlayerStats>();
 
         available = true;
         breathingFire = false;
@@ -79,7 +81,7 @@ public class FireBreath : MonoBehaviour
     private void FireBreathInput(InputAction.CallbackContext context)
     {
         // If the ability is available, trigger it
-        if (available)
+        if (available && playerStats.CheckBreath())
             animator.SetTrigger(PlayerMovement.AnimatorParameters.BreatheFire);
     }
 

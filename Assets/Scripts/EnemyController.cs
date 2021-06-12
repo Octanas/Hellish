@@ -4,14 +4,15 @@ using UnityEngine.AI;
 [RequireComponent(typeof(CharacterStats))]
 public class EnemyController : MonoBehaviour
 {
-    private Animator _animator;
-    private Transform _target;
+    protected Animator _animator;
+    protected Transform _target;
     protected NavMeshAgent _agent;
     private CharacterCombat _myCombat;
     private CharacterStats _targetStats;
 
     [Header("Enemy proprieties:")] public float chaseTargetRadius = 50;
     [SerializeField] protected float maxMovingVelocity = 5f;
+    [Tooltip("Minimum distance to trigger attack.")]
     [SerializeField] private float stoppingDistanceRadius = 1.2f;
     [SerializeField] private float maxDetectionAngle = 90f;
     [SerializeField] private float warnDistance = 10f;
@@ -27,7 +28,7 @@ public class EnemyController : MonoBehaviour
     // NavMesh Agent and Animator: https://docs.unity3d.com/540/Documentation/Manual/nav-MixingComponents.html
     // Navigation Control: https://docs.unity3d.com/540/Documentation/Manual/nav-CouplingAnimationAndNavigation.html
 
-    void Start()
+    protected virtual void Start()
     {
         // Use singleton instead of inserting manually
         _target = PlayerManager.Instance.player.transform;
@@ -45,7 +46,7 @@ public class EnemyController : MonoBehaviour
     }
 
 
-    void Update()
+    protected virtual void Update()
     {
         Vector3 targetDirection = _target.position - transform.position;
         float targetDistance = targetDirection.magnitude;
@@ -95,7 +96,7 @@ public class EnemyController : MonoBehaviour
         UpdateAnimatorParameters();
     }
 
-    private void SeeingPlayer(float targetDistance)
+    protected virtual void SeeingPlayer(float targetDistance)
     {
         _agent.SetDestination(_target.position);
         // Enemy reached the minimum radius
@@ -136,7 +137,7 @@ public class EnemyController : MonoBehaviour
         Collider[] colliders = Physics.OverlapSphere(transform.position, warnDistance, LayerMask.GetMask("Enemy"));
         foreach (var collide in colliders)
         {
-            collide.GetComponent<EnemyController>().FindTarget();
+            collide.GetComponent<EnemyController>()?.FindTarget();
         }
 
         lastWarning = Time.time;
@@ -159,7 +160,7 @@ public class EnemyController : MonoBehaviour
         handFireball.gameObject.SetActive(true);
     }
 
-    void ShootBall()
+    protected virtual void ShootBall()
     {
         handFireball.gameObject.SetActive(false);
         GameObject bullet = Instantiate(fireball, handFireball.position, handFireball.rotation);
