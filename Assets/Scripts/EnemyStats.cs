@@ -11,7 +11,7 @@ public class EnemyStats : CharacterStats
         _animator = GetComponent<Animator>();
     }
 
-    protected override void HitReaction()
+    protected override void HitReaction(Vector3 knockback)
     {
         GetComponent<EnemyController>().WarnEnemies();
     }
