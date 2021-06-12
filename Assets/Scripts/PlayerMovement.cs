@@ -661,7 +661,8 @@ public class PlayerMovement : MonoBehaviour
     {
         // Will only trigger jump if current state is Moving and is not transitioning to one of these states
         if (state.fullPathHash == State.Moving && nextState.fullPathHash != State.DodgeRoll
-            && nextState.fullPathHash != State.JumpingUp && nextState.fullPathHash != State.StartingLeap)
+            && nextState.fullPathHash != State.JumpingUp && nextState.fullPathHash != State.StartingLeap
+            || state.fullPathHash == State.Punch_Slash || state.fullPathHash == State.Kick_Combo)
         {
             animator.SetTrigger(AnimatorParameters.Dodge);
         }

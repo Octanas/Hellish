@@ -42,7 +42,8 @@ GameObject:
   - component: {fileID: 550111721}
   - component: {fileID: 550111722}
   - component: {fileID: 345457761}
-  m_Layer: 0
+  - component: {fileID: 345457764}
+  m_Layer: 6
   m_Name: bolderCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,6 +89,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2961658322342764e8ef8dcc10fe6f6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animator: {fileID: 3618524762479879465}
+  damage: 50
+--- !u!54 &345457764
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550111720}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 3
 --- !u!1 &2146509182
 GameObject:
   m_ObjectHideFlags: 0
@@ -2341,6 +2360,8 @@ MonoBehaviour:
   fireball: {fileID: 5190794063817964564, guid: 88afb20708087f542b49be15bf3e7e27, type: 3}
   animationDampTime: 0.1
   quaternionInterpolationRatio: 5
+  tauntChances: 0.2
+  tauntInterval: 40
 --- !u!114 &4765485356915380834
 MonoBehaviour:
   m_ObjectHideFlags: 0
