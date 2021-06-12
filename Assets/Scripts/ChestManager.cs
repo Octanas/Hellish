@@ -64,7 +64,14 @@ public class ChestManager : MonoBehaviour
         for(int i = 0; i < Colectables.Length; i++) {
             GameObject powerUp = Instantiate(Colectables[i], transform.position + transform.up, transform.rotation);
             Rigidbody rigid = powerUp.GetComponent<Rigidbody>();
-            rigid.AddForce(rigid.transform.up * 5 + rigid.transform.forward * 2, ForceMode.Impulse);
+            Vector3 direction = Random(rigid.transform.forward, -3f, 3f);
+            Debug.Log(direction);
+            rigid.AddForce(rigid.transform.up * 5 + direction, ForceMode.Impulse);
         }
     }
+    public static Vector3 Random(Vector3 myVector, float min, float max)
+     {
+         Vector3 random = new Vector3(UnityEngine.Random.Range(min, max), 0, UnityEngine.Random.Range(min, max));
+         return myVector + random;
+     }
 }
