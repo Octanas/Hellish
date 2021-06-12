@@ -25,4 +25,18 @@ public class PowerUpManager : MonoBehaviour
 
         transform.localScale = newScale;
     }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.CompareTag("Player")) {
+            PlayerStats stats = collider.gameObject.GetComponent<PlayerStats>();
+            if(gameObject.CompareTag("Heart")) {
+                stats.upgradeHealthBar();
+            }
+            else if (gameObject.CompareTag("Energy")) {
+                stats.upgradeManaBar();
+            }
+            Destroy(gameObject);
+        }
+    }
 }

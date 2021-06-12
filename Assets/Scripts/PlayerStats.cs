@@ -61,6 +61,14 @@ public class PlayerStats : CharacterStats
     {
         //TODO add animation for when hit?
     }
+    public override void upgradeHealthBar()
+    {
+        maxHealth += 500;
+    }
+    public override void upgradeManaBar()
+    {
+        maxMana += 500;
+    }
     
     public void CheckFellOut(float y)
     {

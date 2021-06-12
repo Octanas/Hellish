@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - Platform
   - Chest
+  - Heart
+  - Energy
   layers:
   - Default
   - TransparentFX

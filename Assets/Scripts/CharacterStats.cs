@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class CharacterStats : MonoBehaviour
 {
     public int maxHealth = 1000;
+    public int maxMana = 1000;
     public int damagePower = 200;
     
     // UI - Health Bar 
@@ -33,6 +34,8 @@ public class CharacterStats : MonoBehaviour
             Recover();
             UpdateBarHealth();
         }
+        Debug.Log(maxHealth);
+        Debug.Log(maxMana);
     }
 
     public void TakeDamage(int damage)
@@ -67,6 +70,13 @@ public class CharacterStats : MonoBehaviour
     }
     
     protected virtual void HitReaction()
+    {
+    }
+
+    public virtual void upgradeHealthBar()
+    {
+    }
+    public virtual void upgradeManaBar()
     {
     }
 }

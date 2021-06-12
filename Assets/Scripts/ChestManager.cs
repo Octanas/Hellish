@@ -8,7 +8,6 @@ public class ChestManager : MonoBehaviour
     private Transform cover;
     private GameObject interior;
     private bool alreadyPicked;
-    private bool isAkiraNear;
     private float targetAngle;
     private float targetBrightness;
     private float h,s,v;
@@ -17,7 +16,6 @@ public class ChestManager : MonoBehaviour
         cover = transform.GetChild(0).GetChild(0);
         interior = transform.GetChild(1).gameObject;
         alreadyPicked = false;
-        isAkiraNear = false;
         targetAngle = 0f;
         targetBrightness = 0.9f;
     }
@@ -48,15 +46,12 @@ public class ChestManager : MonoBehaviour
     }
     private void OnTriggerEnter (Collider collision) {
         if (collision.CompareTag("Player")) {
-            // targetAngle = alreadyPicked ? 0f : 120f;
             targetAngle = 120f;
-            isAkiraNear = true;
         }
     }
     private void OnTriggerExit (Collider collision) {
         if (collision.CompareTag("Player")) {
             targetAngle = 0f;
-            isAkiraNear = false;
         }
     }
     public void pickUpItems() {
