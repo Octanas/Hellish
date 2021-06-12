@@ -43,7 +43,7 @@ public class FireWall : MonoBehaviour
             Vector3 groundRay = new Vector3(pos.x, pos.y + 1f, pos.z);
             RaycastHit ground;
 
-            if(!Physics.Raycast(groundRay, Vector3.down, out ground, 1) && wallLength == maxWallLength && ground.collider != null && ground.collider.tag != "Enemy") {
+            if(!Physics.Raycast(groundRay, Vector3.down, out ground, 1) && wallLength == maxWallLength) {
                 wallLength = Vector3.Distance(groundRay, transform.position) - 1f;
             }
             else if(Physics.Raycast(groundRay, wallObject.transform.forward, out ground, 0.1f) && wallLength == maxWallLength && ground.collider != null && ground.collider.tag != "Enemy") {
