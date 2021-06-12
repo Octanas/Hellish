@@ -18,6 +18,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float warningCooldown = 10f;
     private float lastWarning = -10f;
     private bool foundPlayer = false;
+    private bool blocked=false;
     public Transform handFireball;
     public GameObject fireball;
     [Header("Animation:")] public float animationDampTime = 0.1f;
@@ -111,6 +112,7 @@ public class EnemyController : MonoBehaviour
 
     private void FaceTheTarget()
     {
+        if (blocked) return;
         Vector3 direction = (_target.position - transform.position).normalized;
         Quaternion newRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation =
@@ -162,7 +164,19 @@ public class EnemyController : MonoBehaviour
         handFireball.gameObject.SetActive(false);
         GameObject bullet = Instantiate(fireball, handFireball.position, handFireball.rotation);
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        rb.AddForce((_target.position - transform.position).normalized * 10, ForceMode.Impulse);
+        rb.AddForce((_target.position - handFireball.position).normalized * 10, ForceMode.Impulse);
+    }
+
+    void BlockMovement()
+    {
+        _agent.speed = 0;
+        blocked = true;
+    }
+
+    void RegainMovement()
+    {
+        _agent.speed = maxMovingVelocity;
+        blocked = false;
     }
 
     private void OnDrawGizmosSelected()
