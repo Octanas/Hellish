@@ -41,8 +41,8 @@ ModelImporter:
       name: Take 001
       takeName: Take 001
       internalID: 0
-      firstFrame: 0
-      lastFrame: 360
+      firstFrame: 55
+      lastFrame: 283
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -62,15 +62,15 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.92094016
-        functionName: RegainMovement
+      - time: 0.11394557
+        functionName: BlockMovement
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.01736695
-        functionName: BlockMovement
+      - time: 0.92094016
+        functionName: RegainMovement
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

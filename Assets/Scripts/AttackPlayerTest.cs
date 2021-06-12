@@ -9,7 +9,7 @@ public class AttackPlayerTest : MonoBehaviour
 
     void Start()
     {
-        _myCombat = GetComponent<CharacterCombat>();
+        _myCombat = GetComponentInParent<CharacterCombat>();
     }
     
     private void OnCollisionEnter(Collision collision)

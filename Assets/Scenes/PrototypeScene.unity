@@ -861,6 +861,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Flying Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 2860301241335757086, guid: 74ae8fb77b010e64ea5748c31191fd12, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3240907827683615652, guid: 74ae8fb77b010e64ea5748c31191fd12, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1432,7 +1436,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5526099611244873005, guid: 37e0f171fc9961846b7cf061834e4085, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37e0f171fc9961846b7cf061834e4085, type: 3}
@@ -2020,8 +2024,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 1000
+  maxMana: 1000
   damagePower: 200
   barHealth: {fileID: 0}
+  _skinnedMeshRenderer: {fileID: 0}
+  hitMaterial: {fileID: 0}
 --- !u!1 &1007847330
 GameObject:
   m_ObjectHideFlags: 3
@@ -2689,6 +2696,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 7384939436023448102}
+  playerCenter: {fileID: 0}
 --- !u!4 &1787298881
 Transform:
   m_ObjectHideFlags: 0

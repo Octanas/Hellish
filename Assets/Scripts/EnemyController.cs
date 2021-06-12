@@ -162,22 +162,26 @@ public class EnemyController : MonoBehaviour
 
     protected virtual void ShootBall()
     {
+        var position = _target.position;
         handFireball.gameObject.SetActive(false);
         GameObject bullet = Instantiate(fireball, handFireball.position, handFireball.rotation);
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        rb.AddForce((_target.position - handFireball.position).normalized * 10, ForceMode.Impulse);
+        rb.AddForce((new Vector3(position.x, position.y + 1.5f, position.z) - handFireball.position).normalized * 10, ForceMode.Impulse);
+       // Debug.DrawRay(handFireball.position,(new Vector3(position.x, position.y + 1.5f, position.z) -  handFireball.position).normalized * 10,Color.blue,2);
     }
 
     void BlockMovement()
     {
         _agent.speed = 0;
         blocked = true;
+        handFireball.gameObject.SetActive(true);
     }
 
     void RegainMovement()
     {
         _agent.speed = maxMovingVelocity;
         blocked = false;
+        handFireball.gameObject.SetActive(false);
     }
 
     private void OnDrawGizmosSelected()
