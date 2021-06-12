@@ -33,11 +33,11 @@ public class PlayerStats : CharacterStats
         _rigidbody = GetComponent<Rigidbody>();
     }
     void Update () {
-        Debug.Log("Health " + maxHealth);
-        Debug.Log("Mana " + maxMana);
-        Debug.Log("Breath " + fireBreath);
-        Debug.Log("Wall " + fireWall);
-        Debug.Log("leap " + leap);
+        // Debug.Log("Health " + maxHealth);
+        // Debug.Log("Mana " + maxMana);
+        // Debug.Log("Breath " + fireBreath);
+        // Debug.Log("Wall " + fireWall);
+        // Debug.Log("leap " + leap);
     } 
 
     protected override void FillBar()
