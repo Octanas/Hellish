@@ -65,7 +65,6 @@ public class ChestManager : MonoBehaviour
             GameObject powerUp = Instantiate(Colectables[i], transform.position + transform.up, transform.rotation);
             Rigidbody rigid = powerUp.GetComponent<Rigidbody>();
             Vector3 direction = Random(rigid.transform.forward, -3f, 3f);
-            Debug.Log(direction);
             rigid.AddForce(rigid.transform.up * 5 + direction, ForceMode.Impulse);
         }
     }
