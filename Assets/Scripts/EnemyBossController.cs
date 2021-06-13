@@ -26,32 +26,43 @@ public class EnemyBossController : EnemyController
         public static readonly string MagicAttack = "MagicAttack";
     }
 
+    [Header("Taunt")]
     [SerializeField]
     [Range(0f, 1f)]
     private float tauntChances = 0.25f;
-
     [SerializeField]
     private float tauntInterval = 10f;
+    private float tauntTimePassed = 0f;
 
-    private float timePassed = 0f;
+    [Header("Stomp")]
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float stompChances = 0.25f;
+    [SerializeField]
+    private float stompInterval = 10f;
+    [SerializeField]
+    private float stompRadius = 5f;
+    private float stompTimePassed = 0f;
 
     protected override void Start()
     {
         base.Start();
 
-        timePassed = tauntInterval;
+        tauntTimePassed = tauntInterval;
+        stompTimePassed = stompInterval;
     }
 
     protected override void Update()
     {
         base.Update();
 
-        timePassed += Time.deltaTime;
+        tauntTimePassed += Time.deltaTime;
+        stompTimePassed += Time.deltaTime;
 
-        if (timePassed >= tauntInterval && Random.value <= tauntChances)
+        if (tauntTimePassed >= tauntInterval && Random.value <= tauntChances)
         {
             _animator.SetTrigger(AnimatorParameters.Taunt);
-            timePassed = 0;
+            tauntTimePassed = 0;
         }
     }
 
@@ -62,6 +73,11 @@ public class EnemyBossController : EnemyController
         if (targetDistance <= chaseTargetRadius && _agent.pathStatus != UnityEngine.AI.NavMeshPathStatus.PathComplete)
         {
             _animator.SetTrigger(AnimatorParameters.MagicAttack);
+        }
+        else if (stompTimePassed >= stompInterval && targetDistance <= stompRadius && Random.value <= stompChances)
+        {
+            _animator.SetTrigger(AnimatorParameters.Stomp);
+            stompTimePassed = 0;
         }
     }
 
@@ -91,6 +107,16 @@ public class EnemyBossController : EnemyController
         rb.velocity = distance.normalized * horizontalTravellingSpeed + Vector3.up * verticalTravellingSpeed;
     }
 
+    private void Stomp()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, stompRadius, LayerMask.GetMask("Enemy", "Player"));
+
+        foreach (var collide in colliders)
+        {
+            collide.GetComponent<CharacterStats>()?.TakeDamage(0);
+        }
+    }
+
     public void InhibitMovement()
     {
         _agent.speed = 0;
@@ -99,5 +125,10 @@ public class EnemyBossController : EnemyController
     public void RegainMovement()
     {
         _agent.speed = maxMovingVelocity;
+    }
+
+    private void OnDrawGizmos() {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, stompRadius);
     }
 }

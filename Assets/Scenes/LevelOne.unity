@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.45093828, g: 0.5008166, b: 0.57447076, a: 1}
+  m_IndirectSpecularColor: {r: 0.4509377, g: 0.5008161, b: 0.5744699, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -13882,7 +13882,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 576748017}
-  m_LocalRotation: {x: -0.0030181631, y: -0.000000017281389, z: 0.0000000014279714, w: 0.9999955}
+  m_LocalRotation: {x: -0.0030181631, y: -0.000000051844165, z: 0.000000004283914, w: 0.9999955}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -34484,7 +34484,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687258581}
-  m_LocalRotation: {x: 0.039702132, y: 0.000000034653223, z: -0.0000000013768924, w: 0.9992116}
+  m_LocalRotation: {x: 0.039702132, y: -0.000000034653226, z: 0.0000000013768926, w: 0.9992116}
   m_LocalPosition: {x: -5.11, y: 112.05, z: -397.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -45076,9 +45076,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5190794063817964564, guid: a5b6917c782e7c942a8e058682d5d420, type: 3}
     - target: {fileID: 4765485356915380833, guid: ed20fa8eb9b470245a9c087c7c9f77bc, type: 3}
+      propertyPath: stompRadius
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765485356915380833, guid: ed20fa8eb9b470245a9c087c7c9f77bc, type: 3}
       propertyPath: handFireball
       value: 
       objectReference: {fileID: 3296088261115033527}
+    - target: {fileID: 4765485356915380833, guid: ed20fa8eb9b470245a9c087c7c9f77bc, type: 3}
+      propertyPath: stompChances
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765485356915380833, guid: ed20fa8eb9b470245a9c087c7c9f77bc, type: 3}
+      propertyPath: tauntChances
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765485356915380833, guid: ed20fa8eb9b470245a9c087c7c9f77bc, type: 3}
+      propertyPath: stompInterval
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4765485356915380834, guid: ed20fa8eb9b470245a9c087c7c9f77bc, type: 3}
       propertyPath: hitMaterial
       value: 
