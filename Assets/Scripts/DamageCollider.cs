@@ -29,7 +29,7 @@ public class DamageCollider : MonoBehaviour
         if (collision.CompareTag("Enemy"))
         {
             CharacterCombat myCombat = GetComponentInParent<CharacterCombat>();
-            CharacterStats enemyStats = collision.GetComponent<CharacterStats>();
+            CharacterStats enemyStats = collision.GetComponentInParent<CharacterStats>();
             if (myCombat != null && enemyStats != null)
             {
                 myCombat.attack(enemyStats);

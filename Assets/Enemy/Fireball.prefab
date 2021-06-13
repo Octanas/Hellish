@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damagePower: 100
-  lifetime: 30
+  lifetime: 15
 --- !u!54 &8987539911505008209
 Rigidbody:
   m_ObjectHideFlags: 0
