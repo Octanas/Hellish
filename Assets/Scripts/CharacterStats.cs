@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class CharacterStats : MonoBehaviour
 {
+    protected Animator _animator;
+
     public int maxHealth = 1000;
     public int maxMana = 1000;
     public int damagePower = 200;
@@ -23,14 +25,20 @@ public class CharacterStats : MonoBehaviour
 
     private Material defaultMaterial;
 
+    [SerializeField]
+    [Tooltip("States that cannot be interrupted by hits.")]
+    private String[] unstoppableStates;
+
     void Awake()
     {
         CurrentHealth = maxHealth;
         FillBar();
     }
 
-    private void Start()
+    protected virtual void Start()
     {
+        _animator = GetComponent<Animator>();
+
         if (_skinnedMeshRenderer)
             defaultMaterial = _skinnedMeshRenderer.material;
     }
@@ -59,22 +67,35 @@ public class CharacterStats : MonoBehaviour
         CurrentHealth -= damage;
         UpdateBarHealth();
 
-        if (_skinnedMeshRenderer)
-        {
-            if (!defaultMaterial)
-                defaultMaterial = _skinnedMeshRenderer.material;
-
-            _skinnedMeshRenderer.material = hitMaterial;
-            StartCoroutine(ChangeToDefaultMaterial());
-        }
-
         Debug.Log(transform.name + " takes " + damage + " damage.");
         if (CurrentHealth <= 0)
         {
             CurrentHealth = 0;
             Die();
         }
-        else HitReaction(knockback);
+        else
+        {
+            int currentState = _animator.GetCurrentAnimatorStateInfo(0).fullPathHash;
+
+            // Check current state, if it is an unstoppable state
+            // do not trigger hit reaction
+            foreach (String state in unstoppableStates)
+            {
+                if (currentState == Animator.StringToHash(state))
+                {
+                    // Show hit indication on character
+                    if (_skinnedMeshRenderer)
+                    {
+                        _skinnedMeshRenderer.material = hitMaterial;
+                        StartCoroutine(ChangeToDefaultMaterial());
+                    }
+
+                    return;
+                }
+            }
+
+            HitReaction(knockback);
+        }
     }
 
     private IEnumerator ChangeToDefaultMaterial()

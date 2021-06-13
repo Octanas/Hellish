@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class EnemyStats : CharacterStats
 {
-    private Animator _animator;
-
-    void Start()
-    {
-        _animator = GetComponent<Animator>();
-    }
-
     protected override void HitReaction(Vector3 knockback)
     {
+        _animator.SetTrigger("Hit");
+
         GetComponent<EnemyController>().WarnEnemies();
     }
 

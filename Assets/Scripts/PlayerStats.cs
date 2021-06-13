@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class PlayerStats : CharacterStats
 {
-    private Animator _animator;
     private bool fireBreath;
     private bool fireWall;
     private bool leap;
@@ -24,21 +23,15 @@ public class PlayerStats : CharacterStats
     public CinemachineVirtualCamera fellOutCamera;
     public Transform playerCamera;
 
-    void Start()
+    protected override void Start()
     {
-        _animator = GetComponent<Animator>();
+        base.Start();
+
         fireBreath = false;
         fireWall = false;
         leap = false;
         _rigidbody = GetComponent<Rigidbody>();
     }
-    void Update () {
-        // Debug.Log("Health " + maxHealth);
-        // Debug.Log("Mana " + maxMana);
-        // Debug.Log("Breath " + fireBreath);
-        // Debug.Log("Wall " + fireWall);
-        // Debug.Log("leap " + leap);
-    } 
 
     protected override void FillBar()
     {

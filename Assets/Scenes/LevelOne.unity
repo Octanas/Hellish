@@ -45103,6 +45103,18 @@ PrefabInstance:
       propertyPath: _skinnedMeshRenderer
       value: 
       objectReference: {fileID: 381868702}
+    - target: {fileID: 4765485356915380834, guid: ed20fa8eb9b470245a9c087c7c9f77bc, type: 3}
+      propertyPath: unstoppableStates.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765485356915380834, guid: ed20fa8eb9b470245a9c087c7c9f77bc, type: 3}
+      propertyPath: unstoppableStates.Array.data[0]
+      value: Base Layer.Attack
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765485356915380834, guid: ed20fa8eb9b470245a9c087c7c9f77bc, type: 3}
+      propertyPath: unstoppableStates.Array.data[1]
+      value: Base Layer.Stomp
+      objectReference: {fileID: 0}
     - target: {fileID: 7266480813970866003, guid: ed20fa8eb9b470245a9c087c7c9f77bc, type: 3}
       propertyPath: m_RootOrder
       value: 10
