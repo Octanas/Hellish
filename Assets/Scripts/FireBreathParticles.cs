@@ -47,7 +47,7 @@ public class FireBreathParticles : MonoBehaviour
         // Deal damage to enemy
         if (other.CompareTag("Enemy"))
         {
-            CharacterStats enemyStats = other.GetComponent<CharacterStats>();
+            CharacterStats enemyStats = other.GetComponentInParent<CharacterStats>();
 
             if (enemyStats)
                 enemyStats.TakeDamage(damage);

@@ -1141,8 +1141,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 1000
+  maxMana: 1000
   damagePower: 100
   barHealth: {fileID: 0}
+  _skinnedMeshRenderer: {fileID: 0}
+  hitMaterial: {fileID: 0}
+  unstoppableStates: []
 --- !u!114 &5526099611244873007
 MonoBehaviour:
   m_ObjectHideFlags: 0
