@@ -35,9 +35,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Sprint"",
+                    ""name"": ""Jump"",
                     ""type"": ""Button"",
-                    ""id"": ""dda013c1-5ce4-4b9b-bf5c-4ed6791d5a93"",
+                    ""id"": ""111bf83f-ec75-49e4-a9e5-cef3039b00fb"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -59,9 +59,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Jump"",
+                    ""name"": ""Dodge"",
                     ""type"": ""Button"",
-                    ""id"": ""111bf83f-ec75-49e4-a9e5-cef3039b00fb"",
+                    ""id"": ""d6a0dee4-512d-41aa-a790-d3a3d15e0d0d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -78,14 +78,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""name"": ""Leap"",
                     ""type"": ""Button"",
                     ""id"": ""837021f4-907d-4e07-b7a9-8610c3895c7f"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Dodge"",
-                    ""type"": ""Button"",
-                    ""id"": ""d6a0dee4-512d-41aa-a790-d3a3d15e0d0d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -206,28 +198,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e5cebde7-9ae0-40da-a815-a85a87ac9543"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Sprint"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7c18996c-897c-46b5-89da-b6fc056c4763"",
-                    ""path"": ""<Keyboard>/leftShift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Sprint"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""c4e82df2-de89-4dee-abc3-23cc1204e9ab"",
                     ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
@@ -272,28 +242,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""2bbfc3d6-a63a-4613-b3d7-0114a87a6ebe"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""95b40017-e5c5-4710-88a0-bf3ac4a39e8d"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""986fa1fc-c3a1-42db-aeb9-f6fe81fedd87"",
                     ""path"": ""<Keyboard>/x"",
                     ""interactions"": """",
@@ -306,7 +254,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""1bbe6269-b9bf-4ed3-9f16-320374a71094"",
-                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""path"": ""<Gamepad>/dpad/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -327,12 +275,78 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""182e2743-9cc5-4d8b-8164-44939f716824"",
+                    ""id"": ""cb096cdf-1d77-4a6b-acdc-d45d71eb86bb"",
                     ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Leap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bddeed76-24e0-4c13-b320-f42c30962211"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Wall"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""38e26916-d383-4469-8514-107b2d638497"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Wall"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f77a8b06-d33e-414c-ac6e-5012f8d3bd99"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FireBreath"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e2d41fdf-41eb-4349-b903-734e148a6550"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FireBreath"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2d972ff9-03ca-407e-b72d-e5b512656d35"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PickUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""81fde71e-1887-43ec-8f63-1851944ea4f5"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PickUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -360,34 +374,23 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""bddeed76-24e0-4c13-b320-f42c30962211"",
-                    ""path"": ""<Keyboard>/t"",
+                    ""id"": ""2bbfc3d6-a63a-4613-b3d7-0114a87a6ebe"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Wall"",
+                    ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""f77a8b06-d33e-414c-ac6e-5012f8d3bd99"",
-                    ""path"": ""<Keyboard>/g"",
+                    ""id"": ""63595f8a-b8b3-4d23-9b35-601a1e5b02f0"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""FireBreath"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2d972ff9-03ca-407e-b72d-e5b512656d35"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PickUp"",
+                    ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -400,13 +403,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
         m_Gameplay_Camera = m_Gameplay.FindAction("Camera", throwIfNotFound: true);
-        m_Gameplay_Sprint = m_Gameplay.FindAction("Sprint", throwIfNotFound: true);
+        m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_Attack = m_Gameplay.FindAction("Attack", throwIfNotFound: true);
         m_Gameplay_Climb = m_Gameplay.FindAction("Climb", throwIfNotFound: true);
-        m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
+        m_Gameplay_Dodge = m_Gameplay.FindAction("Dodge", throwIfNotFound: true);
         m_Gameplay_Equip = m_Gameplay.FindAction("Equip", throwIfNotFound: true);
         m_Gameplay_Leap = m_Gameplay.FindAction("Leap", throwIfNotFound: true);
-        m_Gameplay_Dodge = m_Gameplay.FindAction("Dodge", throwIfNotFound: true);
         m_Gameplay_Wall = m_Gameplay.FindAction("Wall", throwIfNotFound: true);
         m_Gameplay_FireBreath = m_Gameplay.FindAction("FireBreath", throwIfNotFound: true);
         m_Gameplay_PickUp = m_Gameplay.FindAction("PickUp", throwIfNotFound: true);
@@ -461,13 +463,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private IGameplayActions m_GameplayActionsCallbackInterface;
     private readonly InputAction m_Gameplay_Move;
     private readonly InputAction m_Gameplay_Camera;
-    private readonly InputAction m_Gameplay_Sprint;
+    private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_Attack;
     private readonly InputAction m_Gameplay_Climb;
-    private readonly InputAction m_Gameplay_Jump;
+    private readonly InputAction m_Gameplay_Dodge;
     private readonly InputAction m_Gameplay_Equip;
     private readonly InputAction m_Gameplay_Leap;
-    private readonly InputAction m_Gameplay_Dodge;
     private readonly InputAction m_Gameplay_Wall;
     private readonly InputAction m_Gameplay_FireBreath;
     private readonly InputAction m_Gameplay_PickUp;
@@ -477,13 +478,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public GameplayActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Gameplay_Move;
         public InputAction @Camera => m_Wrapper.m_Gameplay_Camera;
-        public InputAction @Sprint => m_Wrapper.m_Gameplay_Sprint;
+        public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
         public InputAction @Attack => m_Wrapper.m_Gameplay_Attack;
         public InputAction @Climb => m_Wrapper.m_Gameplay_Climb;
-        public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
+        public InputAction @Dodge => m_Wrapper.m_Gameplay_Dodge;
         public InputAction @Equip => m_Wrapper.m_Gameplay_Equip;
         public InputAction @Leap => m_Wrapper.m_Gameplay_Leap;
-        public InputAction @Dodge => m_Wrapper.m_Gameplay_Dodge;
         public InputAction @Wall => m_Wrapper.m_Gameplay_Wall;
         public InputAction @FireBreath => m_Wrapper.m_Gameplay_FireBreath;
         public InputAction @PickUp => m_Wrapper.m_Gameplay_PickUp;
@@ -502,27 +502,24 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Camera.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera;
                 @Camera.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera;
                 @Camera.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera;
-                @Sprint.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSprint;
-                @Sprint.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSprint;
-                @Sprint.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSprint;
+                @Jump.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
                 @Attack.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
                 @Attack.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
                 @Attack.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
                 @Climb.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnClimb;
                 @Climb.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnClimb;
                 @Climb.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnClimb;
-                @Jump.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
-                @Jump.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
-                @Jump.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
+                @Dodge.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
+                @Dodge.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
+                @Dodge.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
                 @Equip.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEquip;
                 @Equip.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEquip;
                 @Equip.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEquip;
                 @Leap.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeap;
                 @Leap.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeap;
                 @Leap.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeap;
-                @Dodge.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
-                @Dodge.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
-                @Dodge.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
                 @Wall.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWall;
                 @Wall.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWall;
                 @Wall.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnWall;
@@ -542,27 +539,24 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Camera.started += instance.OnCamera;
                 @Camera.performed += instance.OnCamera;
                 @Camera.canceled += instance.OnCamera;
-                @Sprint.started += instance.OnSprint;
-                @Sprint.performed += instance.OnSprint;
-                @Sprint.canceled += instance.OnSprint;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
                 @Climb.started += instance.OnClimb;
                 @Climb.performed += instance.OnClimb;
                 @Climb.canceled += instance.OnClimb;
-                @Jump.started += instance.OnJump;
-                @Jump.performed += instance.OnJump;
-                @Jump.canceled += instance.OnJump;
+                @Dodge.started += instance.OnDodge;
+                @Dodge.performed += instance.OnDodge;
+                @Dodge.canceled += instance.OnDodge;
                 @Equip.started += instance.OnEquip;
                 @Equip.performed += instance.OnEquip;
                 @Equip.canceled += instance.OnEquip;
                 @Leap.started += instance.OnLeap;
                 @Leap.performed += instance.OnLeap;
                 @Leap.canceled += instance.OnLeap;
-                @Dodge.started += instance.OnDodge;
-                @Dodge.performed += instance.OnDodge;
-                @Dodge.canceled += instance.OnDodge;
                 @Wall.started += instance.OnWall;
                 @Wall.performed += instance.OnWall;
                 @Wall.canceled += instance.OnWall;
@@ -580,13 +574,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnCamera(InputAction.CallbackContext context);
-        void OnSprint(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnClimb(InputAction.CallbackContext context);
-        void OnJump(InputAction.CallbackContext context);
+        void OnDodge(InputAction.CallbackContext context);
         void OnEquip(InputAction.CallbackContext context);
         void OnLeap(InputAction.CallbackContext context);
-        void OnDodge(InputAction.CallbackContext context);
         void OnWall(InputAction.CallbackContext context);
         void OnFireBreath(InputAction.CallbackContext context);
         void OnPickUp(InputAction.CallbackContext context);
