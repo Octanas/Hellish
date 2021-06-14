@@ -137,7 +137,7 @@ public class EnemyController : MonoBehaviour
         Collider[] colliders = Physics.OverlapSphere(transform.position, warnDistance, LayerMask.GetMask("Enemy"));
         foreach (var collide in colliders)
         {
-            collide.GetComponent<EnemyController>()?.FindTarget();
+            collide.GetComponentInParent<EnemyController>()?.FindTarget();
         }
 
         lastWarning = Time.time;

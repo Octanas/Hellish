@@ -509,6 +509,7 @@ MonoBehaviour:
   barHealth: {fileID: 0}
   _skinnedMeshRenderer: {fileID: 0}
   hitMaterial: {fileID: 0}
+  unstoppableStates: []
 --- !u!114 &3130209560813938518
 MonoBehaviour:
   m_ObjectHideFlags: 0
