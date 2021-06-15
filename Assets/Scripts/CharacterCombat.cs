@@ -6,6 +6,8 @@ public class CharacterCombat : MonoBehaviour
     private CharacterStats _myStats;
     private float _waitForNextAttack = 0f;
 
+    [SerializeField] private float attackCooldown = 2f;
+
     private void Start()
     {
         _myStats = GetComponent<CharacterStats>();
@@ -16,7 +18,7 @@ public class CharacterCombat : MonoBehaviour
         _waitForNextAttack -= Time.deltaTime;
     }
 
-    public void attack(CharacterStats targetStats)
+    public bool attack(CharacterStats targetStats)
     {
 
         //Debug.Log(transform.name + " attacks "  + targetStats.gameObject.name + ", attack valid if( time to take attack again:" + _waitForNextAttack+ " <= 0)");
@@ -28,8 +30,12 @@ public class CharacterCombat : MonoBehaviour
         {
             // The attack damage will depend on who is attacking and who is been attacked, different enemies can have
             // different maxHealths
-            _waitForNextAttack = 2f;
+            _waitForNextAttack = attackCooldown;
             targetStats.TakeDamage(_myStats.damagePower);
+
+            return true;
         }
+
+        return false;
     }
 }

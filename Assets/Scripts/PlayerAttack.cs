@@ -16,13 +16,13 @@ public class PlayerAttack : MonoBehaviour
     private PlayerControls _controls;
     private Animator _animator;
     private bool _isAttacking;
-    
+
     [Header("Animations:")]
     public AnimationClip[] defaultAnimationClips;
     public AnimationClip[] swordAnimationClips;
     private AnimationClip[] _currAnimationClips;
     private AnimatorOverrideController _overrideController;
-    
+
     [Header("Move while attacking:")]
     public float movingTime = 0.1f;
     public float maxMovingVelocity = 10f;
@@ -37,7 +37,7 @@ public class PlayerAttack : MonoBehaviour
     private Transform _target;
     private float turningVelocity;
     private bool _rotate = false;
-    
+
     private void Awake()
     {
         _controls = new PlayerControls();
@@ -50,7 +50,7 @@ public class PlayerAttack : MonoBehaviour
     private void Start()
     {
         _animator = GetComponent<Animator>();
-        
+
         // Initializes meshes state depending on hasSword
         UpdateMeshes();
 
@@ -101,13 +101,13 @@ public class PlayerAttack : MonoBehaviour
         if (_target && _rotate)
         {
             Debug.DrawLine(transform.position, _target.position, Color.yellow);
-            
+
             // Target direction
             Vector3 direction = (_target.position - transform.position).normalized;
             Quaternion rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-            
+
             // Angle to add to rotation y
-            float targetAngle = rotation.eulerAngles.y ;
+            float targetAngle = rotation.eulerAngles.y;
 
 
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turningVelocity, turningTime);
@@ -124,10 +124,10 @@ public class PlayerAttack : MonoBehaviour
         // Start rotation around target 
         if (_isAttacking)
             _rotate = true;
-        
-        if (_rotate) 
+
+        if (_rotate)
             FindEnemies();
-        
+
     }
 
     private void FindEnemies()
@@ -141,24 +141,24 @@ public class PlayerAttack : MonoBehaviour
 
         // Check for the nearest enemy
         float distance = radius;
-        foreach (var enemyCollider in enemiesColliderRadius) 
+        foreach (var enemyCollider in enemiesColliderRadius)
         {
             Transform enemy = enemyCollider.transform;
             float enemyDistance = (transform.position - enemy.position).magnitude;
-            if (!_target || distance > enemyDistance) 
+            if (!_target || distance > enemyDistance)
             {
                 _target = enemy;
                 distance = enemyDistance;
             }
         }
     }
-    
+
     // Stop rotation when movement begins
     public void StopRotation()
     {
         _rotate = false;
     }
-    
+
     /// <summary>
     ///  Event Function in attack animations
     /// - initiates movement
@@ -173,15 +173,15 @@ public class PlayerAttack : MonoBehaviour
     {
         // Get movement speed from animator
         float speed = _animator.GetFloat("Movement");
-        
+
         Vector3 aux = transform.forward;
-        aux.x *= speed*movementForce;
-        aux.z *= speed*movementForce;
-        
+        aux.x *= speed * movementForce;
+        aux.z *= speed * movementForce;
+
         _targetPosition = transform.position + aux;
-        
+
     }
-    
+
     /// <summary>
     ///  Event Function in attack animations
     ///  - stops movement
@@ -190,7 +190,7 @@ public class PlayerAttack : MonoBehaviour
     {
         _move = false;
     }
-    
+
     private void OnEnable()
     {
         _controls.Gameplay.Enable();

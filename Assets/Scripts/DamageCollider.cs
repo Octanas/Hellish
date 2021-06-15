@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class DamageCollider : MonoBehaviour
 {
+    [FMODUnity.EventRef] [SerializeField] private string soundEvent;
     private Collider damageCollider;
 
     private void Awake()
@@ -32,7 +33,10 @@ public class DamageCollider : MonoBehaviour
             CharacterStats enemyStats = collision.GetComponentInParent<CharacterStats>();
             if (myCombat != null && enemyStats != null)
             {
-                myCombat.attack(enemyStats);
+                if (myCombat.attack(enemyStats) && !string.IsNullOrEmpty(soundEvent))
+                {
+                    FMODUnity.RuntimeManager.PlayOneShotAttached(soundEvent, gameObject);
+                }
             }
         }
     }
