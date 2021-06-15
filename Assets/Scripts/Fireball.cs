@@ -22,6 +22,8 @@ public class Fireball : MonoBehaviour
             collision.gameObject.GetComponent<CharacterStats>().TakeDamage(damagePower);
         }
 
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Enemy/fire ball", gameObject);
+
         Destroy(gameObject);
     }
 }
