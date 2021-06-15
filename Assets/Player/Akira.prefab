@@ -180,6 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68d849590ce76b2478dac8b0a222387a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundEvent: event:/Player/Attacks/punch
 --- !u!1 &925703523112124793
 GameObject:
   m_ObjectHideFlags: 0
@@ -1125,7 +1126,7 @@ GameObject:
   - component: {fileID: 200957979935427729}
   - component: {fileID: 4433161588469484327}
   - component: {fileID: 6752122132629726253}
-  - component: {fileID: 4063148092487217137}
+  - component: {fileID: 4718222395462240467}
   m_Layer: 0
   m_Name: katana
   m_TagString: Untagged
@@ -1212,7 +1213,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.046159856, y: 0.32799542, z: 0.038911562}
   m_Center: {x: 0.008897976, y: 0.100180365, z: 0.029396748}
---- !u!114 &4063148092487217137
+--- !u!114 &4718222395462240467
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1221,9 +1222,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4035271763150995726}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68d849590ce76b2478dac8b0a222387a, type: 3}
+  m_Script: {fileID: 11500000, guid: e8e97a35dec6b15408dcf855b97f4ee5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundEvent: event:/Sword/Stab
+  heavyHitSoundEvent: event:/Sword/Heavy Attack
+  heavySound: 0
 --- !u!1 &4071975786482768984
 GameObject:
   m_ObjectHideFlags: 0
@@ -1499,6 +1503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68d849590ce76b2478dac8b0a222387a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundEvent: event:/Player/Attacks/punch
 --- !u!1 &4901110124668423366
 GameObject:
   m_ObjectHideFlags: 0
@@ -1705,6 +1710,8 @@ GameObject:
   - component: {fileID: 1101192181855465051}
   - component: {fileID: 8603385959493165890}
   - component: {fileID: 90982673}
+  - component: {fileID: 90982674}
+  - component: {fileID: 90982675}
   m_Layer: 3
   m_Name: Akira
   m_TagString: Player
@@ -1822,6 +1829,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f478d564dcb219f4387c8bd132822eaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swordDamageCollider: {fileID: 4718222395462240467}
   ListBolsaMeshes:
   - {fileID: 3767286536948249300}
   - {fileID: 5792919820746222954}
@@ -1853,7 +1861,7 @@ MonoBehaviour:
   listDamageColliders:
   - {fileID: 4945100131172174780}
   - {fileID: 4403491663971656938}
-  - {fileID: 4063148092487217137}
+  - {fileID: 4718222395462240467}
 --- !u!114 &1986748077742294168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1866,6 +1874,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c8171e2247a59418edd3d0350bd221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackCooldown: 0.5
 --- !u!114 &6278640671016658989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1879,10 +1888,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 1000
+  maxMana: 1000
   damagePower: 200
   barHealth: {fileID: 0}
+  _skinnedMeshRenderer: {fileID: 0}
+  hitMaterial: {fileID: 0}
+  unstoppableStates: []
   intervalTime: 10
-  minY: 85
+  minY: 74
   fellOutCamera: {fileID: 0}
   playerCamera: {fileID: 0}
 --- !u!64 &1101192181855465051
@@ -1932,6 +1945,41 @@ MonoBehaviour:
   fireRate: 0.05
   duration: 5
   colldown: 10
+--- !u!114 &90982674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6139370988303747235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1e01bbd6bd85b468574f4df59aeced, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &90982675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6139370988303747235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Event: event:/Wood/wood
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &6266482008739736568
 GameObject:
   m_ObjectHideFlags: 0

@@ -33,11 +33,19 @@ public class DamageCollider : MonoBehaviour
             CharacterStats enemyStats = collision.GetComponentInParent<CharacterStats>();
             if (myCombat != null && enemyStats != null)
             {
-                if (myCombat.attack(enemyStats) && !string.IsNullOrEmpty(soundEvent))
+                if (myCombat.attack(enemyStats))
                 {
-                    FMODUnity.RuntimeManager.PlayOneShotAttached(soundEvent, gameObject);
+                    PlayHitSound();
                 }
             }
         }
+    }
+
+    protected virtual void PlayHitSound()
+    {
+        if (string.IsNullOrEmpty(soundEvent))
+            return;
+
+        FMODUnity.RuntimeManager.PlayOneShotAttached(soundEvent, gameObject);
     }
 }

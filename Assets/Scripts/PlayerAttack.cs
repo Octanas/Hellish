@@ -8,6 +8,10 @@ using Object = System.Object;
 
 public class PlayerAttack : MonoBehaviour
 {
+    [Header("External References")]
+    [SerializeField]
+    private SwordDamageCollider swordDamageCollider;
+
     [Header("Sword & Bolsa Meshes:")]
     public List<SkinnedMeshRenderer> ListBolsaMeshes;
     public MeshRenderer sword;
@@ -72,6 +76,7 @@ public class PlayerAttack : MonoBehaviour
         // Update "avatar mask - right hand layer"
         _animator.SetLayerWeight(1, hasSword ? 1 : 0);
 
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Sword/Sword Take out 2", gameObject);
     }
 
     private void UpdateMeshes()
@@ -189,6 +194,16 @@ public class PlayerAttack : MonoBehaviour
     public void StopMovement()
     {
         _move = false;
+    }
+
+    private void ActivateHeavySound()
+    {
+        swordDamageCollider.heavySound = true;
+    }
+
+    private void DeactivateHeavySound()
+    {
+        swordDamageCollider.heavySound = false;
     }
 
     private void OnEnable()
