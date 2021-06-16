@@ -17,7 +17,8 @@ public class PowerUpManager : MonoBehaviour
     {
         transform.Rotate(new Vector3(0, 1, 0), Space.Self);
 
-        if ((scaleTarget - transform.localScale).magnitude < 0.1) {
+        if ((scaleTarget - transform.localScale).magnitude < 0.1)
+        {
             return;
         }
 
@@ -28,21 +29,29 @@ public class PowerUpManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.CompareTag("Player")) {
+        if (collider.gameObject.CompareTag("Player"))
+        {
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Player/pick_up", gameObject);
+
             PlayerStats stats = collider.gameObject.GetComponent<PlayerStats>();
-            if(gameObject.CompareTag("Heart")) {
+            if (gameObject.CompareTag("Heart"))
+            {
                 stats.UpgradeHealthBar();
             }
-            else if (gameObject.CompareTag("Energy")) {
+            else if (gameObject.CompareTag("Energy"))
+            {
                 stats.UpgradeManaBar();
             }
-            else if (gameObject.CompareTag("FireBreath")) {
+            else if (gameObject.CompareTag("FireBreath"))
+            {
                 stats.GainFireBreath();
             }
-            else if (gameObject.CompareTag("FireWall")) {
+            else if (gameObject.CompareTag("FireWall"))
+            {
                 stats.GainFireWall();
             }
-            else if (gameObject.CompareTag("Leap")) {
+            else if (gameObject.CompareTag("Leap"))
+            {
                 stats.GainLeap();
             }
             Destroy(gameObject);
