@@ -76,12 +76,13 @@ public class CharacterStats : MonoBehaviour
         else
         {
             int currentState = _animator.GetCurrentAnimatorStateInfo(0).fullPathHash;
+            int nextState = _animator.GetNextAnimatorStateInfo(0).fullPathHash;
 
             // Check current state, if it is an unstoppable state
             // do not trigger hit reaction
             foreach (String state in unstoppableStates)
             {
-                if (currentState == Animator.StringToHash(state))
+                if (currentState == Animator.StringToHash(state) || nextState == Animator.StringToHash(state))
                 {
                     // Show hit indication on character
                     if (_skinnedMeshRenderer)
