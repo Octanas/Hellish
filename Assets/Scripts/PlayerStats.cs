@@ -10,14 +10,14 @@ public class PlayerStats : CharacterStats
     private bool fireBreath;
     private bool fireWall;
     private bool leap;
-    
+    private PopUpInstructions _popUp;
+
     private Rigidbody _rigidbody;
 
     // Time without taking damage necessary to enable recover
     public float intervalTime = 10f;
 
     // Fell Out
-    //TODO: every time Akira changes island set min Y, or add a floor to collide and die
     public int minY = -10;
     private bool _fellOut = false;
     public CinemachineVirtualCamera fellOutCamera;
@@ -31,6 +31,8 @@ public class PlayerStats : CharacterStats
         fireWall = false;
         leap = false;
         _rigidbody = GetComponent<Rigidbody>();
+
+        _popUp = GetComponent <PopUpInstructions>();
     }
 
     protected override void FillBar()
@@ -85,12 +87,15 @@ public class PlayerStats : CharacterStats
     }
     public void GainFireBreath() {
         fireBreath = true;
+        _popUp.enableFireBreath();
     }
     public void GainFireWall() {
         fireWall = true;
+        _popUp.enableFireWall();
     }
     public void GainLeap() {
         leap = true;
+        _popUp.enableLeap();
     }
 
     public bool CheckBreath() {
