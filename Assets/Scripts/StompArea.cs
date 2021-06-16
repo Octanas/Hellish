@@ -10,7 +10,9 @@ public class StompArea : MonoBehaviour
     /// <summary>
     /// Collider that will damage entities.
     /// </summary>
-    private DamageCollider damageCollider;
+    private Collider damageCollider;
+
+    public int damage = 40;
 
     /// <summary>
     /// Radius of the damage area.
@@ -45,7 +47,7 @@ public class StompArea : MonoBehaviour
 
     private void Awake()
     {
-        damageCollider = GetComponent<DamageCollider>();
+        damageCollider = GetComponent<Collider>();
     }
 
     private void Start()
@@ -67,7 +69,7 @@ public class StompArea : MonoBehaviour
             {
                 // Disable damage collider and shrink area
                 targetRange = 0;
-                damageCollider.disableDamageCollider();
+                damageCollider.enabled = false;
                 currentTimePassed = 0;
             }
         }
@@ -81,7 +83,7 @@ public class StompArea : MonoBehaviour
     public void Expand()
     {
         targetRange = stompRange;
-        damageCollider.enableDamageCollider();
+        damageCollider.enabled = true;
     }
 
     /// <summary>
@@ -116,6 +118,19 @@ public class StompArea : MonoBehaviour
                 Destroy(gameObject);
             else
                 stompAreaParticles.FadeOut();
+        }
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.CompareTag("Enemy"))
+        {
+            CharacterStats enemyStats = collision.GetComponentInParent<CharacterStats>();
+            if (enemyStats != null)
+            {
+                enemyStats.TakeDamage(damage);
+                FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Enemy/fire ball", gameObject);
+            }
         }
     }
 }

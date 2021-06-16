@@ -725,6 +725,14 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
+    /// Executes on leap animation event.
+    /// </summary>
+    private void PlayLeapSound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Player/Jump/fire_jump", gameObject);
+    }
+
+    /// <summary>
     /// Executes on dodge animation event.
     /// </summary>
     private void OnDodge()
