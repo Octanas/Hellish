@@ -85,6 +85,7 @@ fmod_editor.log
 
 # Sound Build Files
 /Assets/StreamingAssets/
+/Assets/StreamingAssets.meta
 
 .vscode/
 

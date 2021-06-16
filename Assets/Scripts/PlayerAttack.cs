@@ -196,6 +196,14 @@ public class PlayerAttack : MonoBehaviour
         _move = false;
     }
 
+    private void PlayAttackSound()
+    {
+        if (hasSword)
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Player/Sword/Sword Swing", gameObject);
+        else
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Player/Attacks/highkick_miss", gameObject);
+    }
+
     private void ActivateHeavySound()
     {
         swordDamageCollider.heavySound = true;
