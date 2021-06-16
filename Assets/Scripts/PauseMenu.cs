@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
@@ -8,7 +7,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class PauseMenu : MonoBehaviour
 {
-    public static bool gameIsPaused = false;
+    private bool gameIsPaused = false;
     private float unpausedTimeScale;
     public GameObject PauseMenuUI;
     private PlayerControls controls;
@@ -18,7 +17,6 @@ public class PauseMenu : MonoBehaviour
         unpausedTimeScale = Time.timeScale;
         controls = new PlayerControls();
         controls.Menu.Pause.performed += PressedEscape;
-
     }
 
     // Update is called once per frame
@@ -77,6 +75,17 @@ public class PauseMenu : MonoBehaviour
     ///</summary>
     public void Restart()
     {
+        Resume();
         SceneManager.LoadScene("LevelOne");
+    }
+
+    private void OnEnable()
+    {
+        controls.Menu.Enable();
+    }
+
+    private void OnDisable()
+    {
+        controls.Menu.Disable();
     }
 }
