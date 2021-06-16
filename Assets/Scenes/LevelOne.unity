@@ -4603,7 +4603,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 200310573}
-  m_LocalRotation: {x: -0.021159034, y: -0.000000033535716, z: 0.0000000021593518, w: 0.9997761}
+  m_LocalRotation: {x: -0.021159034, y: -0.00000003568207, z: 0.0000000022975546, w: 0.9997761}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -9920,7 +9920,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 5, y: 231}
-  m_SizeDelta: {x: 788.2, y: 76}
+  m_SizeDelta: {x: 651.6, y: 76}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &393202706
 MonoBehaviour:
@@ -9955,7 +9955,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: HOLD SHIFT.
+  m_Text: Press Shift to jump even higher than usual and cause damage to any enemy
+    in the proximity of your landing.
 --- !u!222 &393202707
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -34083,7 +34084,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 231}
-  m_SizeDelta: {x: 788.2, y: 76}
+  m_SizeDelta: {x: 655.1, y: 76}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1541226724
 MonoBehaviour:
@@ -34118,7 +34119,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Use X to select the katana. HOLD T to spawn a fire wall.
+  m_Text: Use X to select the katana. Press T to ignite a wall of fire and damage
+    any enemy it touches.
 --- !u!222 &1541226725
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -40094,7 +40096,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 231}
-  m_SizeDelta: {x: 788.2, y: 76}
+  m_SizeDelta: {x: 689.09, y: 76}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1746283845
 MonoBehaviour:
@@ -40129,7 +40131,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: HOLD G.
+  m_Text: Press G to spread flames in any direction causing damage to any enemy they
+    touch.
 --- !u!222 &1746283846
 CanvasRenderer:
   m_ObjectHideFlags: 0
