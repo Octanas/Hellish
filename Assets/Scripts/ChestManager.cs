@@ -11,6 +11,8 @@ public class ChestManager : MonoBehaviour
     private float targetAngle;
     private float targetBrightness;
     private float h, s, v;
+
+    private IEnumerator runningCoroutine = null;
     void Start()
     {
         cover = transform.GetChild(0).GetChild(0);
@@ -56,7 +58,9 @@ public class ChestManager : MonoBehaviour
             if (!alreadyPicked)
                 FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Chest/chest-opening", gameObject);
 
-            StartCoroutine(setTargetAngle(120f, 0.7f));
+            runningCoroutine = setTargetAngle(120f, 0.7f);
+
+            StartCoroutine(runningCoroutine);
         }
     }
 
@@ -67,6 +71,9 @@ public class ChestManager : MonoBehaviour
             if (!alreadyPicked)
                 FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Chest/chest-close", gameObject);
 
+            if(runningCoroutine != null)
+                StopCoroutine(runningCoroutine);
+
             targetAngle = 0f;
         }
     }
@@ -75,6 +82,7 @@ public class ChestManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(delay);
         this.targetAngle = targetAngle;
+        runningCoroutine = null;
     }
 
     public void pickUpItems()
