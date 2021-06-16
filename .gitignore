@@ -83,6 +83,9 @@ fmod_editor.log
 /Assets/FMODAssets/*
 /Assets/FMODStudioCache.meta
 
+# Sound Build Files
+/Assets/StreamingAssets/
+
 .vscode/
 
 .idea/

@@ -147,7 +147,7 @@ public class PlayerMovement : MonoBehaviour
 
     // PlayerAttack, stop rotation around enemy
     private PlayerAttack playerAttack;
-    
+
     // Zipline
     private Vector3 zipLineDirection;
     private float timeStartZip;
@@ -407,11 +407,11 @@ public class PlayerMovement : MonoBehaviour
         else if (state.fullPathHash == State.SwingZipline && inZip)
         {
             // Calculate current movement speed according to time
-            timeStartZip += Time.deltaTime*1;
+            timeStartZip += Time.deltaTime * 1;
             maxMovingVelocity += timeStartZip;
-            
+
             // Only if the player reached the zipline move forward
-           // Debug.Log(("distance: " + (transform.position - targetPosition).magnitude));
+            // Debug.Log(("distance: " + (transform.position - targetPosition).magnitude));
             if ((transform.position - targetPosition).magnitude < 0.1)//TODO: when rotation is done
             {
                 ApplyTranslation(zipLineDirection);
@@ -492,9 +492,9 @@ public class PlayerMovement : MonoBehaviour
             translate = false;
             return;
         }
-        
+
         Vector3 position = Vector3.SmoothDamp(transform.position, targetPosition, ref movingVelocity, movingTime, maxMovingVelocity);
-        
+
         transform.position = position;
     }
 
@@ -511,10 +511,10 @@ public class PlayerMovement : MonoBehaviour
             || state.fullPathHash == State.BreatheFire
             || state.fullPathHash == State.EndingBreatheFire ?
             8 : 1);
-        
+
         float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turningVelocity, currentTurningTime);
         transform.rotation = Quaternion.Euler(0f, angle, 0f);
-        
+
         /*if (inZip)
         {
             Debug.DrawRay(transform.position, transform.forward * 100, Color.red, 100000000f);
@@ -674,7 +674,8 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="context">Input callback context.</param>
     private void Leap(InputAction.CallbackContext context)
     {
-        if(!myStats.CheckLeap()) {
+        if (!myStats.CheckLeap())
+        {
             return;
         }
         // Will only trigger jump if current state is Moving and is not transitioning to one of these states
@@ -708,6 +709,8 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void OnJump()
     {
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Player/Jump/jum off grass", gameObject);
+
         // Apply jumping force
         if (state.fullPathHash == State.JumpingDown)
             // Jumping Down force - slightly up and forward
@@ -739,6 +742,8 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void OnLand()
     {
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Player/Grass/Landing_on_Grass", gameObject);
+
         // Re-enable root motion to give position control back to animations
         animator.applyRootMotion = true;
 
@@ -771,7 +776,7 @@ public class PlayerMovement : MonoBehaviour
         // Re-enable player collider after climbing
         playerCollider.enabled = true;
     }
-    
+
     /// <summary>
     /// Hang character on zipline.
     /// </summary>
@@ -781,66 +786,66 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="direction">Direction of the zipline.</param>
     public void HangOnZipline(Vector3 position, Quaternion orientation, Vector3 direction)
     {
-        if (state.fullPathHash == State.Falling 
-            || nextState.fullPathHash == State.Falling 
-            || nextState.fullPathHash == State.JumpingUp 
+        if (state.fullPathHash == State.Falling
+            || nextState.fullPathHash == State.Falling
+            || nextState.fullPathHash == State.JumpingUp
             || state.fullPathHash == State.JumpingUp
             /*|| nextState.fullPathHash == State.Landing 
             || state.fullPathHash == State.Landing*/)
-       {
-           // Don't execute if the character is already hanging in the zipline
-           if (state.fullPathHash == State.SwingZipline || inZip)
-               return;
-           if (nextState.fullPathHash == State.SwingZipline)
-               return;
-           
-           
-           // Make sure root motion will be applied
-           animator.applyRootMotion = true;
+        {
+            // Don't execute if the character is already hanging in the zipline
+            if (state.fullPathHash == State.SwingZipline || inZip)
+                return;
+            if (nextState.fullPathHash == State.SwingZipline)
+                return;
 
-           animator.SetTrigger(AnimatorParameters.HangZipline);
-           animator.SetBool("InZip", true);
-           
-           // Disable triggers
-           animator.ResetTrigger(AnimatorParameters.Fall);
-           animator.ResetTrigger(AnimatorParameters.Land);
 
-           // Force update animator to start state transition immediately 
-           // deltaTime is 0 so animations are not affected
-           // CONFIRM THIS - https://forum.unity.com/threads/question-about-animator-force-update-with-deltatime-0.1094890/
-           //
-           // This fixes an issue with FixedUpdate running after trigger is set,
-           // but before transition to Hanging state starts
-           animator.Update(0f);
+            // Make sure root motion will be applied
+            animator.applyRootMotion = true;
 
-           // Disable player colliders
-           playerCollider.enabled = false;
+            animator.SetTrigger(AnimatorParameters.HangZipline);
+            animator.SetBool("InZip", true);
 
-           // Current player movement stops
-           playerRigidbody.velocity = Vector3.zero;
-           
-           // Character is temporarily rotated to target orientation
-           // to calculate necessary translation relative to the final hand position
-           Quaternion oldRotation = transform.rotation;
-           transform.rotation = orientation;
+            // Disable triggers
+            animator.ResetTrigger(AnimatorParameters.Fall);
+            animator.ResetTrigger(AnimatorParameters.Land);
 
-           // Vector from hands to center of ledge
-           Vector3 diffPosition = position - hangingPointZipLine.position;
+            // Force update animator to start state transition immediately 
+            // deltaTime is 0 so animations are not affected
+            // CONFIRM THIS - https://forum.unity.com/threads/question-about-animator-force-update-with-deltatime-0.1094890/
+            //
+            // This fixes an issue with FixedUpdate running after trigger is set,
+            // but before transition to Hanging state starts
+            animator.Update(0f);
 
-           zipLineDirection = direction;
-           oldMaxMovingVelocity = maxMovingVelocity;
-           timeStartZip = 1;
-           inZip = true;
-           
-           // Reset position
-           transform.rotation = oldRotation;
-           
-           ApplyTranslation(diffPosition);
-           //Debug.DrawRay(transform.position, new Vector3(direction.x, 0, direction.z)*100, Color.cyan, 100000000f);
-           SetAngle(orientation.eulerAngles.y);
-       }
+            // Disable player colliders
+            playerCollider.enabled = false;
+
+            // Current player movement stops
+            playerRigidbody.velocity = Vector3.zero;
+
+            // Character is temporarily rotated to target orientation
+            // to calculate necessary translation relative to the final hand position
+            Quaternion oldRotation = transform.rotation;
+            transform.rotation = orientation;
+
+            // Vector from hands to center of ledge
+            Vector3 diffPosition = position - hangingPointZipLine.position;
+
+            zipLineDirection = direction;
+            oldMaxMovingVelocity = maxMovingVelocity;
+            timeStartZip = 1;
+            inZip = true;
+
+            // Reset position
+            transform.rotation = oldRotation;
+
+            ApplyTranslation(diffPosition);
+            //Debug.DrawRay(transform.position, new Vector3(direction.x, 0, direction.z)*100, Color.cyan, 100000000f);
+            SetAngle(orientation.eulerAngles.y);
+        }
     }
-    
+
     /// <summary>
     /// Take character out of zipline.
     /// </summary>
@@ -854,10 +859,10 @@ public class PlayerMovement : MonoBehaviour
 
         // Reset max velocity
         maxMovingVelocity = oldMaxMovingVelocity;
-        
+
         // Current player movement stops
         //playerRigidbody.velocity = Vector3.zero;
-        
+
         // Enable player colliders
         playerCollider.enabled = true;
 
@@ -865,7 +870,7 @@ public class PlayerMovement : MonoBehaviour
         animator.applyRootMotion = false;
         animator.SetBool("InZip", false);
         animator.SetTrigger(AnimatorParameters.Fall);
-        
+
         // Force update animator to start state transition immediately 
         // deltaTime is 0 so animations are not affected
         // CONFIRM THIS - https://forum.unity.com/threads/question-about-animator-force-update-with-deltatime-0.1094890/
@@ -873,7 +878,7 @@ public class PlayerMovement : MonoBehaviour
         // This fixes an issue with FixedUpdate running after trigger is set,
         // but before transition to Hanging state starts
         animator.Update(0f);
-        
+
     }
 
     private void OnEnable()
