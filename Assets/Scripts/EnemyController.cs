@@ -12,14 +12,16 @@ public class EnemyController : MonoBehaviour
 
     [Header("Enemy proprieties:")] public float chaseTargetRadius = 50;
     [SerializeField] protected float maxMovingVelocity = 5f;
-    [Tooltip("Minimum distance to trigger attack.")]
-    [SerializeField] private float stoppingDistanceRadius = 1.2f;
+
+    [Tooltip("Minimum distance to trigger attack.")] [SerializeField]
+    private float stoppingDistanceRadius = 1.2f;
+
     [SerializeField] private float maxDetectionAngle = 90f;
     [SerializeField] private float warnDistance = 10f;
     [SerializeField] private float warningCooldown = 10f;
     private float lastWarning = -10f;
     private bool foundPlayer = false;
-    private bool blocked=false;
+    private bool blocked = false;
     public Transform handFireball;
     public GameObject fireball;
     [Header("Animation:")] public float animationDampTime = 0.1f;
@@ -166,8 +168,9 @@ public class EnemyController : MonoBehaviour
         handFireball.gameObject.SetActive(false);
         GameObject bullet = Instantiate(fireball, handFireball.position, handFireball.rotation);
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        rb.AddForce((new Vector3(position.x, position.y + 1.5f, position.z) - handFireball.position).normalized * 10, ForceMode.Impulse);
-       // Debug.DrawRay(handFireball.position,(new Vector3(position.x, position.y + 1.5f, position.z) -  handFireball.position).normalized * 10,Color.blue,2);
+        rb.AddForce((new Vector3(position.x, position.y + 1.5f, position.z) - handFireball.position).normalized * 10,
+            ForceMode.Impulse);
+        // Debug.DrawRay(handFireball.position,(new Vector3(position.x, position.y + 1.5f, position.z) -  handFireball.position).normalized * 10,Color.blue,2);
     }
 
     void BlockMovement()
@@ -177,11 +180,15 @@ public class EnemyController : MonoBehaviour
         handFireball.gameObject.SetActive(true);
     }
 
+    void RemoveCollider()
+    {
+        handFireball.gameObject.SetActive(false);
+    }
+
     void RegainMovement()
     {
         _agent.speed = maxMovingVelocity;
         blocked = false;
-        handFireball.gameObject.SetActive(false);
     }
 
     private void OnDrawGizmosSelected()
