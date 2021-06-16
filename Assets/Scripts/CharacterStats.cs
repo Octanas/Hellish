@@ -106,6 +106,16 @@ public class CharacterStats : MonoBehaviour
             _skinnedMeshRenderer.material = defaultMaterial;
     }
 
+    private void PlayPreDeathSound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Player/Death/drop dead heavy", gameObject);
+    }
+
+    private void PlayDeathSound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Player/Death/drop dead fast", gameObject);
+    }
+
     protected virtual void UpdateBarHealth()
     {
     }

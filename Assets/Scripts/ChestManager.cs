@@ -53,7 +53,8 @@ public class ChestManager : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Chest/chest-opening", gameObject);
+            if (!alreadyPicked)
+                FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Chest/chest-opening", gameObject);
 
             StartCoroutine(setTargetAngle(120f, 0.7f));
         }
@@ -63,7 +64,8 @@ public class ChestManager : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Chest/chest-close", gameObject);
+            if (!alreadyPicked)
+                FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Chest/chest-close", gameObject);
 
             targetAngle = 0f;
         }
