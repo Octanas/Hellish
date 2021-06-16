@@ -12,8 +12,11 @@ public class PauseMenu : MonoBehaviour
     public GameObject PauseMenuUI;
     private PlayerControls controls;
 
+    private GameObject audioListener;
+
     private void Awake()
     {
+        audioListener = GameObject.FindWithTag("MainCamera");
         unpausedTimeScale = Time.timeScale;
         controls = new PlayerControls();
         controls.Menu.Pause.performed += PressedEscape;
@@ -40,6 +43,7 @@ public class PauseMenu : MonoBehaviour
         PauseMenuUI.SetActive(false);
         Time.timeScale = unpausedTimeScale;
         gameIsPaused = false;
+        ButtonSound();
     }
 
     ///<summary>
@@ -47,6 +51,7 @@ public class PauseMenu : MonoBehaviour
     ///</summary>
     void Pause()
     {
+        ButtonSound();
         PauseMenuUI.SetActive(true);
         unpausedTimeScale = Time.timeScale;
         Time.timeScale = 0f;
@@ -77,6 +82,11 @@ public class PauseMenu : MonoBehaviour
     {
         Resume();
         SceneManager.LoadScene("LevelOne");
+    }
+
+    private void ButtonSound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Click", audioListener);
     }
 
     private void OnEnable()

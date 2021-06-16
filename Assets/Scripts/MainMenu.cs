@@ -21,6 +21,6 @@ public class MainMenu : MonoBehaviour
 
     public void ButtonSound()
     {
-        FMODUnity.RuntimeManager.PlayOneShot("event/:Click");
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Click");
     }
 }
