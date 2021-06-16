@@ -76,7 +76,7 @@ public class PlayerAttack : MonoBehaviour
         // Update "avatar mask - right hand layer"
         _animator.SetLayerWeight(1, hasSword ? 1 : 0);
 
-        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Sword/Sword Take out 2", gameObject);
+        FMODUnity.RuntimeManager.PlayOneShotAttached(hasSword ? "event:/Player/Sword/Sword Take out 2" : "event:/Player/Sword/Take Sword Out", gameObject);
     }
 
     private void UpdateMeshes()
