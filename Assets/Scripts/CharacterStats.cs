@@ -13,8 +13,6 @@ public class CharacterStats : MonoBehaviour
     public int damagePower = 200;
     protected float CurrentHealth;
 
-    // UI - Health Bar 
-    public Image barHealth;
     protected float TimeWithoutTakingDamage = 0f;
 
     // Time without taking damage necessary to enable recover
@@ -57,6 +55,10 @@ public class CharacterStats : MonoBehaviour
         }
     }
 
+    public float GetHealth()
+    {
+        return CurrentHealth;    
+    }
     
     public void TakeDamage(int damage)
     {

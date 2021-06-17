@@ -1,20 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UIBarController : MonoBehaviour
 {
     public Transform healthTransform;
-    public float initialHealth;
+    private float initialHealth;
     private Vector3 targetHealth;
     public Transform manaTransform;
-    public float initialMana;
+    private float initialMana;
     private Vector3 targetMana;
 
     private PlayerStats stats;
     void Start()
     {
         stats = GetComponent<PlayerStats>();
+        initialHealth=stats.maxHealth;
+        initialMana = stats.maxMana;
     }
 
     // Update is called once per frame

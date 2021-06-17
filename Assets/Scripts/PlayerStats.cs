@@ -16,6 +16,7 @@ public class PlayerStats : CharacterStats
     public Slider sliderHealth;
     public Slider sliderMana;
     private Rigidbody _rigidbody;
+    public GameObject gameOverScreen;
 
     public float intervalTimeMana = 3f;
 
@@ -148,32 +149,23 @@ public class PlayerStats : CharacterStats
 
         if (CurrentHealth <= 0)
         {
-            // Exchange cameras
-            // Set position and rotation of fell out camera according to last player position
-            Vector3 position = playerCamera.position;
-            Quaternion rotation = playerCamera.localRotation;
-
-            // TODO: increase y?
-            // position.y = minY;
-
-            // Increase priority of fell out camera
-            fellOutCamera.ForceCameraPosition(position, rotation);
-            fellOutCamera.Priority = 11; //The other is 10
-
             GameOver();
         }
     }
 
     private void GameOver()
     {
-        //TODO: deactivate controls when player is dead
         GetComponent<PlayerAttack>().enabled = false; // x -> equip weapon
         GetComponent<PlayerMovement>().enabled = false;
+        gameOverScreen.SetActive(true);
+        
+        // Exchange cameras
+        // Set position and rotation of fell out camera according to last player position
+        fellOutCamera.ForceCameraPosition(playerCamera.position, playerCamera.localRotation);
+        // Increase priority of fell out camera
+        fellOutCamera.Priority = 11; //The other is 10
+
         this.enabled = false;
-
-        //TODO: game over screen
-
-
         Debug.Log("GAME OVER");
     }
 }
