@@ -11,6 +11,7 @@ public class FireBreath : MonoBehaviour
     private Animator animator;
     private PlayerAttack playerAttack;
     private PlayerStats playerStats;
+    public float manaCost = 800;
 
     /// <summary>
     /// Fire particles prefab.
@@ -81,8 +82,9 @@ public class FireBreath : MonoBehaviour
     private void FireBreathInput(InputAction.CallbackContext context)
     {
         // If the ability is available, trigger it
-        if (available && playerStats.CheckBreath())
+        if (available && playerStats.CheckBreath(manaCost))
             animator.SetTrigger(PlayerMovement.AnimatorParameters.BreatheFire);
+            playerStats.useMana(manaCost);
     }
 
     private void OnFireBreath()

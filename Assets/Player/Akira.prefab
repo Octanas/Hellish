@@ -1707,11 +1707,11 @@ GameObject:
   - component: {fileID: -6845521305754472809}
   - component: {fileID: 1986748077742294168}
   - component: {fileID: 6278640671016658989}
-  - component: {fileID: 1101192181855465051}
   - component: {fileID: 8603385959493165890}
   - component: {fileID: 90982673}
   - component: {fileID: 90982674}
   - component: {fileID: 90982675}
+  - component: {fileID: 416654349114161438}
   m_Layer: 3
   m_Name: Akira
   m_TagString: Player
@@ -1817,6 +1817,7 @@ MonoBehaviour:
   timeToLandFromLeap: 0.5
   groundDetectionDistance: 1.7
   groundDetectionRadius: 0.08
+  manaCost: 700
 --- !u!114 &1598057889351314189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1888,30 +1889,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 1000
-  maxMana: 1000
   damagePower: 200
-  barHealth: {fileID: 0}
+  intervalTime: 10
   _skinnedMeshRenderer: {fileID: 0}
   hitMaterial: {fileID: 0}
   unstoppableStates: []
-  intervalTime: 10
+  maxMana: 1000
+  sliderHealth: {fileID: 0}
+  sliderMana: {fileID: 0}
+  gameOverScreen: {fileID: 0}
+  intervalTimeMana: 3
   minY: 74
   fellOutCamera: {fileID: 0}
   playerCamera: {fileID: 0}
---- !u!64 &1101192181855465051
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6139370988303747235}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!114 &8603385959493165890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1928,6 +1918,7 @@ MonoBehaviour:
   maxWallLength: 15
   maxWallHeight: 10
   cooldownTime: 3
+  manaCost: 700
 --- !u!114 &90982673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1940,6 +1931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a23e859c19c1db45a1bc9a3a79fc7ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manaCost: 800
   fireParticles: {fileID: 3782049322198122133, guid: cdc5066ce2d4c8f4f8ff2347f2a36434, type: 3}
   fireBreathOrigin: {fileID: 500406742}
   fireRate: 0.05
@@ -1974,6 +1966,20 @@ MonoBehaviour:
   fireWall: {fileID: 0}
   leap: {fileID: 0}
   radius: 5
+--- !u!114 &416654349114161438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6139370988303747235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1c3ca303d49cdc46a70dd12b988e395, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthTransform: {fileID: 0}
+  manaTransform: {fileID: 0}
 --- !u!1 &6266482008739736568
 GameObject:
   m_ObjectHideFlags: 0

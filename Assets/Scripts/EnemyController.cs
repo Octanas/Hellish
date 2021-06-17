@@ -125,7 +125,7 @@ public class EnemyController : MonoBehaviour
     protected virtual void AttackTarget()
     {
         // Check if target is still alive
-        if (_targetStats.barHealth.fillAmount > 0)
+        if (_targetStats.GetHealth() > 0)
         {
             WarnEnemies();
             _animator.SetBool("Attack", true);

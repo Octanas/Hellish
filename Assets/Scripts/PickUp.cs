@@ -18,12 +18,6 @@ public class PickUp : MonoBehaviour
         chest = null;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnCollisionEnter (Collision collider) {
         if (collider.gameObject.CompareTag("Chest"))
             chest = collider.gameObject;
