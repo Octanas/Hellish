@@ -193,8 +193,17 @@ public class PlayerMovement : MonoBehaviour
 
         // Calculate current movement speed
         // It will gradually decrease/increase, so the animations and movement are smoother
-        movementInputSpeed = Mathf.SmoothDamp(movementInputSpeed, movementInput.magnitude,
-            ref movementInputAcceleration, movementInputAccelerationTime);
+        // If inferior to 0.1, put value to 0 to avoid unnecessary computing
+        if (movementInputSpeed <= 0.1 && movementInputAcceleration < 0)
+        {
+            movementInputSpeed = 0;
+            movementInputAcceleration = 0;
+        }
+        else
+        {
+            movementInputSpeed = Mathf.SmoothDamp(movementInputSpeed, movementInput.magnitude,
+                        ref movementInputAcceleration, movementInputAccelerationTime);
+        }
 
         // Update movement speed on animator to adjust animation
         animator.SetFloat(AnimatorParameters.Movement, movementInputSpeed);
@@ -730,6 +739,18 @@ public class PlayerMovement : MonoBehaviour
     private void PlayLeapSound()
     {
         FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Player/Jump/fire_jump", gameObject);
+    }
+
+    /// <summary>
+    /// Executes on walk and sprint animation step event.
+    /// </summary>
+    /// <param name="maxSpeed">Max speed at which the sound can be triggered</param>
+    private void PlayStepSound(float maxSpeed)
+    {
+        if (movementInputSpeed > maxSpeed)
+            return;
+
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Player/Grass/Running_on_Grass", gameObject);
     }
 
     /// <summary>
