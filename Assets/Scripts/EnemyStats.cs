@@ -22,6 +22,8 @@ public class EnemyStats : CharacterStats
         gameObject.GetComponent<NavMeshAgent>().baseOffset = 0;
         var wings = GetComponent<Wings>();
         if (wings) wings.enabled = false;
+        if (GetComponent<EnemyBossController>())
+            FindObjectOfType<PlayerStats>().GameOver();
         StartCoroutine(Disappear());
     }
 

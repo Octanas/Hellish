@@ -165,6 +165,5 @@ public class EnemyBossController : EnemyController
     private void OnDestroy()
     {
         taunt.release();
-        FindObjectOfType<PlayerStats>().GameOver();
     }
 }
