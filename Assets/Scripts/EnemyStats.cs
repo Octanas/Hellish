@@ -28,7 +28,9 @@ public class EnemyStats : CharacterStats
     private IEnumerator Disappear()
     {
         yield return new WaitForSeconds(10);
-        Destroy(sliderHealth.gameObject);//sliderHealth.gameObject.SetActive(false);
+
+        if(sliderHealth)
+            Destroy(sliderHealth.gameObject);
         Destroy(gameObject);
     }
 

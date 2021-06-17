@@ -1146,6 +1146,7 @@ MonoBehaviour:
   _skinnedMeshRenderer: {fileID: 0}
   hitMaterial: {fileID: 0}
   unstoppableStates: []
+  sliderHealth: {fileID: 0}
 --- !u!114 &5526099611244873007
 MonoBehaviour:
   m_ObjectHideFlags: 0

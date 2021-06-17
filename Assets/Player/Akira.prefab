@@ -1817,7 +1817,7 @@ MonoBehaviour:
   timeToLandFromLeap: 0.5
   groundDetectionDistance: 1.7
   groundDetectionRadius: 0.08
-  manaCost: 700
+  manaCost: 600
 --- !u!114 &1598057889351314189
 MonoBehaviour:
   m_ObjectHideFlags: 0
