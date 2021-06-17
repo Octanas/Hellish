@@ -66,7 +66,7 @@ public class PlayerStats : CharacterStats
         base.Recover();
 
         if (CurrentMana < maxMana)
-            CurrentMana += 0.5f;
+            CurrentMana += 1.5f;
     }
     protected void UpdateBarMana()
     {

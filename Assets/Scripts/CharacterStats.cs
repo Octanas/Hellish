@@ -130,7 +130,7 @@ public class CharacterStats : MonoBehaviour
     protected virtual void Recover()
     {
         if (CurrentHealth < maxHealth && TimeWithoutTakingDamage > intervalTime)
-            CurrentHealth += 1f;
+            CurrentHealth += 1.5f;
     }
 
     protected virtual void Die()
