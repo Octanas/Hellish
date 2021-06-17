@@ -3,6 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    public void Start()
+    {
+        Cursor.visible = false;
+    }
+
     ///<summary>
     /// Loads up the main scene in the selected difficulty
     ///</summary>

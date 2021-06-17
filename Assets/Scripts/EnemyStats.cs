@@ -34,7 +34,10 @@ public class EnemyStats : CharacterStats
         var wings = GetComponent<Wings>();
         if (wings) wings.enabled = false;
         if (GetComponent<EnemyBossController>())
+        {
             FindObjectOfType<PlayerStats>().GameOver();
+        }
+
         StartCoroutine(Disappear());
     }
 

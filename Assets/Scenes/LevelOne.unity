@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.4509377, g: 0.5008161, b: 0.5744699, a: 1}
+  m_IndirectSpecularColor: {r: 0.45093828, g: 0.5008166, b: 0.57447076, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -28120,6 +28120,10 @@ PrefabInstance:
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6278640671016658989, guid: 9533529d2f598a342ab600b45231a4be, type: 3}
+      propertyPath: gameOverText
+      value: 
+      objectReference: {fileID: 1669462762}
+    - target: {fileID: 6278640671016658989, guid: 9533529d2f598a342ab600b45231a4be, type: 3}
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 1687258585}
@@ -39775,7 +39779,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Game Over
+  m_Text: You Won!
 --- !u!222 &1669462763
 CanvasRenderer:
   m_ObjectHideFlags: 0
