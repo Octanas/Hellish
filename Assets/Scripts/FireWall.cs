@@ -16,6 +16,7 @@ public class FireWall : MonoBehaviour
     private float wallLength;
     public float cooldownTime = 3f;
     private bool walled;
+    public float manaCost = 700;
     private IEnumerator coroutine;
 
     private void Awake()
@@ -63,7 +64,7 @@ public class FireWall : MonoBehaviour
 
     private void Wall(InputAction.CallbackContext context)
     {
-        if (playerAttack.hasSword && !walled && playerStats.CheckWall())
+        if (playerAttack.hasSword && !walled && playerStats.CheckWall(manaCost))
         {
             animator.SetTrigger("FireWall");
         }
@@ -77,6 +78,7 @@ public class FireWall : MonoBehaviour
             wallObject = Instantiate(wallPrefab, transform.position + transform.forward * 0.5f + Vector3.up * -0.4f, transform.rotation);
             walled = true;
             coroutine = cooldown(cooldownTime);
+            playerStats.useMana(manaCost);
             StartCoroutine(coroutine);
         }
     }

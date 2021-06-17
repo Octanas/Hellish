@@ -9,13 +9,15 @@ public class PlayerStats : CharacterStats
 {
     private bool fireBreath;
     private bool fireWall;
+    public int maxMana = 1000;
+    private float CurrentMana;
     private bool leap;
     private PopUpInstructions _popUp;
-    public Slider slider;
+    public Slider sliderHealth;
+    public Slider sliderMana;
     private Rigidbody _rigidbody;
 
-    // Time without taking damage necessary to enable recover
-    public float intervalTime = 10f;
+    public float intervalTimeMana = 3f;
 
     // Fell Out
     public int minY = -10;
@@ -23,6 +25,12 @@ public class PlayerStats : CharacterStats
     public CinemachineVirtualCamera fellOutCamera;
     public Transform playerCamera;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        CurrentMana = maxMana;
+        FillManaBar();
+    }
     protected override void Start()
     {
         base.Start();
@@ -35,26 +43,39 @@ public class PlayerStats : CharacterStats
         _popUp = GetComponent <PopUpInstructions>();
     }
 
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        if (CurrentHealth > 0)
+        {
+            UpdateBarMana();
+        }
+    }
+
     protected override void FillBar()
     {
-        slider.value = maxHealth;
+        sliderHealth.value = maxHealth;
+    }
+    protected void FillManaBar()
+    {
+        sliderMana.value = maxHealth;
     }
 
     protected override void Recover()
     {
-        // Player health recovery system
-        // If player:
-        // - time without being attacked > interval time 
-        // - TODO: not in attack mode?
-        // - TODO: radius?
-        if (CurrentHealth < maxHealth && TimeWithoutTakingDamage > intervalTime)
-            CurrentHealth += 0.5f;
+        base.Recover();
 
+        if (CurrentMana < maxMana)
+            CurrentMana += 0.5f;
+    }
+    protected void UpdateBarMana()
+    {
+        sliderMana.value = Math.Max(CurrentMana, 0);
     }
     protected override void UpdateBarHealth()
     {
         // Update Bar health [0,1]
-        slider.value = Math.Max(CurrentHealth, 0);
+        sliderHealth.value = Math.Max(CurrentHealth, 0);
     }
 
     protected override void Die()
@@ -80,10 +101,12 @@ public class PlayerStats : CharacterStats
     public override void UpgradeHealthBar()
     {
         maxHealth += 500;
+        sliderHealth.maxValue = maxHealth;
     }
     public override void UpgradeManaBar()
     {
         maxMana += 500;
+        sliderMana.maxValue = maxMana;
     }
     public void GainFireBreath() {
         fireBreath = true;
@@ -98,15 +121,19 @@ public class PlayerStats : CharacterStats
         _popUp.enableLeap();
     }
 
-    public bool CheckBreath() {
-        return fireBreath;
+    public bool CheckBreath(float mana) {
+        return fireBreath && CurrentMana >= mana;
     }
-    public bool CheckWall() {
-        return fireWall;
+    public bool CheckWall(float mana) {
+        return fireWall && CurrentMana >= mana;
     }
-    public bool CheckLeap() {
-        return leap;
+    public bool CheckLeap(float mana) {
+        return leap && CurrentMana >= mana;
     }
+    public void useMana(float mana) {
+        CurrentMana -= mana;
+    }
+
     public void CheckFellOut(float y)
     {
         if (y < minY)

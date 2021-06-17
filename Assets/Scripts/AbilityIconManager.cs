@@ -23,15 +23,15 @@ public class AbilityIconManager : MonoBehaviour
     void Update()
     {
         if(gameObject.CompareTag("FireBreath")) {
-            if (!akiraStats.CheckBreath()) {
+            if (!akiraStats.CheckBreath(0f)) {
                 return;
             }
         } else if (gameObject.CompareTag("FireWall")) {
-            if (!akiraStats.CheckWall()) {
+            if (!akiraStats.CheckWall(0f)) {
                 return;
             }
         } else if (gameObject.CompareTag("Leap")) {
-            if (!akiraStats.CheckLeap()) {
+            if (!akiraStats.CheckLeap(0f)) {
                 return;
             }
         }

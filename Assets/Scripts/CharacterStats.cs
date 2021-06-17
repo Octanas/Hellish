@@ -10,13 +10,15 @@ public class CharacterStats : MonoBehaviour
     protected Animator _animator;
 
     public int maxHealth = 1000;
-    public int maxMana = 1000;
     public int damagePower = 200;
+    protected float CurrentHealth;
 
     // UI - Health Bar 
     public Image barHealth;
-    protected float CurrentHealth;
     protected float TimeWithoutTakingDamage = 0f;
+
+    // Time without taking damage necessary to enable recover
+    public float intervalTime = 10f;
 
     [SerializeField] private SkinnedMeshRenderer _skinnedMeshRenderer;
 
@@ -28,7 +30,7 @@ public class CharacterStats : MonoBehaviour
     [Tooltip("States that cannot be interrupted by hits.")]
     private String[] unstoppableStates;
 
-    void Awake()
+    protected virtual void Awake()
     {
         CurrentHealth = maxHealth;
         FillBar();
@@ -42,10 +44,10 @@ public class CharacterStats : MonoBehaviour
             defaultMaterial = _skinnedMeshRenderer.material;
     }
 
-    private void Update()
+    protected virtual void FixedUpdate()
     {
         // Update time without taking damage
-        TimeWithoutTakingDamage += Time.deltaTime;
+        TimeWithoutTakingDamage += Time.fixedDeltaTime;
 
         // Character health recovery system
         if (CurrentHealth > 0)
@@ -55,6 +57,7 @@ public class CharacterStats : MonoBehaviour
         }
     }
 
+    
     public void TakeDamage(int damage)
     {
         TakeDamage(damage, Vector3.zero);
@@ -126,6 +129,8 @@ public class CharacterStats : MonoBehaviour
 
     protected virtual void Recover()
     {
+        if (CurrentHealth < maxHealth && TimeWithoutTakingDamage > intervalTime)
+            CurrentHealth += 1f;
     }
 
     protected virtual void Die()

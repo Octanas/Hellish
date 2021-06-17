@@ -152,6 +152,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 zipLineDirection;
     private float timeStartZip;
     private bool inZip = false;
+    public float manaCost = 700;
 
     private void Awake()
     {
@@ -683,7 +684,7 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="context">Input callback context.</param>
     private void Leap(InputAction.CallbackContext context)
     {
-        if (!myStats.CheckLeap())
+        if (!myStats.CheckLeap(manaCost))
         {
             return;
         }
@@ -694,6 +695,7 @@ public class PlayerMovement : MonoBehaviour
             // Disable root motion so movement persists through leaping state
             animator.applyRootMotion = false;
             animator.SetTrigger(AnimatorParameters.Leap);
+            myStats.useMana(manaCost);
         }
     }
 
