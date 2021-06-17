@@ -39,13 +39,15 @@ public class EnemyBossMeleeAttack : MonoBehaviour
     {
         if (_animator.GetCurrentAnimatorStateInfo(0).fullPathHash == attackState && other.gameObject.CompareTag("Player"))
         {
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Enemy/Giant/giant_hit_", gameObject);
+
             Vector3 hitPosition = other.GetContact(0).point;
             Vector3 bolderPosition = transform.position;
 
             Vector3 knockback = hitPosition - bolderPosition;
             Vector3 normalizedKnockback = knockback.normalized;
             normalizedKnockback.y = 0.2f;
-            
+
             CharacterStats playerStats = other.gameObject.GetComponent<CharacterStats>();
 
             playerStats?.TakeDamage(damage * damageMultiplier, normalizedKnockback * 3);

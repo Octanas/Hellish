@@ -68,6 +68,13 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
+      - time: 0.1874472
+        functionName: PlayAttackSound
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 1
+        messageOptions: 0
       - time: 0.19341175
         functionName: EnableHit
         data: 
@@ -89,6 +96,13 @@ ModelImporter:
         floatParameter: 0
         intParameter: 1
         messageOptions: 0
+      - time: 0.34751308
+        functionName: PlayAttackSound
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 1
+        messageOptions: 0
       - time: 0.46950743
         functionName: DisableHit
         data: 
@@ -103,12 +117,26 @@ ModelImporter:
         floatParameter: 0
         intParameter: 2
         messageOptions: 0
+      - time: 0.5802338
+        functionName: PlayAttackSound
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 1
+        messageOptions: 0
       - time: 0.6906839
         functionName: DisableHit
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 1
+        messageOptions: 0
+      - time: 0.60429347
+        functionName: PlayStepSound
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
         messageOptions: 0
       transformMask: []
       maskType: 3

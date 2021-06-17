@@ -26,6 +26,8 @@ public class EnemyBossController : EnemyController
         public static readonly string MagicAttack = "MagicAttack";
     }
 
+    private FMOD.Studio.EventInstance taunt;
+
     [Header("Taunt")]
     [SerializeField]
     [Range(0f, 1f)]
@@ -50,6 +52,10 @@ public class EnemyBossController : EnemyController
 
         tauntTimePassed = tauntInterval;
         stompTimePassed = stompInterval;
+
+        taunt = FMODUnity.RuntimeManager.CreateInstance("event:/Enemy/Giant/giant_noise");
+        taunt.setParameterByName("Volumee", 0.09f);
+        taunt.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
     }
 
     protected override void Update()
@@ -117,6 +123,26 @@ public class EnemyBossController : EnemyController
         }
     }
 
+    private void PlayAttackSound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Enemy/Giant/swing_giant", gameObject);
+    }
+
+    private void PlayStepSound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Enemy/Giant/giant_walk", gameObject);
+    }
+
+    private void PlayTauntSound()
+    {
+        taunt.start();
+    }
+
+    private void StopTauntSound()
+    {
+        taunt.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+    }
+
     public void InhibitMovement()
     {
         _agent.speed = 0;
@@ -127,8 +153,14 @@ public class EnemyBossController : EnemyController
         _agent.speed = maxMovingVelocity;
     }
 
-    private void OnDrawGizmos() {
+    private void OnDrawGizmos()
+    {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, stompRadius);
+    }
+
+    private void OnDestroy()
+    {
+        taunt.release();
     }
 }
