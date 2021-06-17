@@ -105,6 +105,8 @@ public class PauseMenu : MonoBehaviour
 
     public void GameOver()
     {
+        Pause();
+        PauseMenuUI.SetActive(false);
         gameOver = true;
     }
 }

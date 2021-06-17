@@ -17,6 +17,7 @@ public class PlayerStats : CharacterStats
     public Slider sliderMana;
     private Rigidbody _rigidbody;
     public GameObject gameOverScreen;
+    public Text gameOverText;
 
     public float intervalTimeMana = 3f;
 
@@ -151,6 +152,7 @@ public class PlayerStats : CharacterStats
         if (CurrentHealth <= 0)
         {
             GameOver();
+            gameOverText.text="Game Over";
         }
     }
 
