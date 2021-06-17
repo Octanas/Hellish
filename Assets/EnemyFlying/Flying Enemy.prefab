@@ -510,6 +510,7 @@ MonoBehaviour:
   _skinnedMeshRenderer: {fileID: 0}
   hitMaterial: {fileID: 0}
   unstoppableStates: []
+  isFlying: 1
 --- !u!114 &3130209560813938518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -582,6 +583,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c8171e2247a59418edd3d0350bd221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackCooldown: 2
 --- !u!1 &2861833013490547291
 GameObject:
   m_ObjectHideFlags: 0

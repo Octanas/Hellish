@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyStats : CharacterStats
 {
@@ -15,6 +15,9 @@ public class EnemyStats : CharacterStats
     {
         GetComponent<EnemyController>().enabled = false;
         _animator.SetTrigger("Death");
+        gameObject.GetComponent<NavMeshAgent>().baseOffset = 0;
+        var wings = GetComponent<Wings>();
+        if (wings) wings.enabled = false;
         StartCoroutine(Disappear());
     }
 
