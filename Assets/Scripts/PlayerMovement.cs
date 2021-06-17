@@ -760,6 +760,8 @@ public class PlayerMovement : MonoBehaviour
             FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Player/Water/water_step", gameObject);
         else if (groundLayer == LayerMask.NameToLayer("Default"))
             FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Player/Grass/Running_on_Grass", gameObject);
+        else if (groundLayer == LayerMask.NameToLayer("Stone"))
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Player/Stone/walk_on_stone", gameObject);
     }
 
     private void OnDrawGizmos()
@@ -923,6 +925,11 @@ public class PlayerMovement : MonoBehaviour
         // but before transition to Hanging state starts
         animator.Update(0f);
 
+        FMOD.Studio.EventInstance ziplineEnd = FMODUnity.RuntimeManager.CreateInstance("event:/Zipline/zipline_end");
+        ziplineEnd.setParameterByName("Volumee", 0.07f);
+        ziplineEnd.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+        ziplineEnd.start();
+        ziplineEnd.release();
     }
 
     private void OnEnable()
