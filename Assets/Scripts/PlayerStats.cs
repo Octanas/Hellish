@@ -42,6 +42,7 @@ public class PlayerStats : CharacterStats
         _rigidbody = GetComponent<Rigidbody>();
 
         _popUp = GetComponent <PopUpInstructions>();
+        Cursor.visible = false;
     }
 
     protected override void FixedUpdate()
@@ -157,6 +158,7 @@ public class PlayerStats : CharacterStats
     {
         GetComponent<PlayerAttack>().enabled = false; // x -> equip weapon
         GetComponent<PlayerMovement>().enabled = false;
+        Cursor.visible = true;
         gameOverScreen.SetActive(true);
         FindObjectOfType<PauseMenu>().GameOver();
         // Exchange cameras

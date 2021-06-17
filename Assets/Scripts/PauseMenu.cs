@@ -42,6 +42,7 @@ public class PauseMenu : MonoBehaviour
     ///</summary>
     public void Resume()
     {
+        Cursor.visible = false;
         PauseMenuUI.SetActive(false);
         Time.timeScale = unpausedTimeScale;
         gameIsPaused = false;
@@ -54,6 +55,7 @@ public class PauseMenu : MonoBehaviour
     void Pause()
     {
         ButtonSound();
+        Cursor.visible = true;
         PauseMenuUI.SetActive(true);
         unpausedTimeScale = Time.timeScale;
         Time.timeScale = 0f;
