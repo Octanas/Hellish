@@ -11,7 +11,7 @@ public class PlayerStats : CharacterStats
     private bool fireWall;
     private bool leap;
     private PopUpInstructions _popUp;
-
+    public Slider slider;
     private Rigidbody _rigidbody;
 
     // Time without taking damage necessary to enable recover
@@ -37,7 +37,7 @@ public class PlayerStats : CharacterStats
 
     protected override void FillBar()
     {
-        barHealth.fillAmount = 1;
+        slider.value = maxHealth;
     }
 
     protected override void Recover()
@@ -54,7 +54,7 @@ public class PlayerStats : CharacterStats
     protected override void UpdateBarHealth()
     {
         // Update Bar health [0,1]
-        barHealth.fillAmount = Math.Max(CurrentHealth, 0) / maxHealth;
+        slider.value = Math.Max(CurrentHealth, 0);
     }
 
     protected override void Die()

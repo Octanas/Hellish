@@ -15,7 +15,6 @@ public class CharacterStats : MonoBehaviour
 
     // UI - Health Bar 
     public Image barHealth;
-
     protected float CurrentHealth;
     protected float TimeWithoutTakingDamage = 0f;
 
