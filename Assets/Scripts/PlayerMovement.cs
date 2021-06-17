@@ -334,7 +334,7 @@ public class PlayerMovement : MonoBehaviour
 
         RaycastHit hitInfo;
 
-        isGrounded = Physics.Raycast(floorDetectionOrigin.position, raycastDirection, out hitInfo, raycastLength, LayerMask.GetMask("Default"));
+        isGrounded = Physics.Raycast(floorDetectionOrigin.position, raycastDirection, out hitInfo, raycastLength, LayerMask.GetMask("Default", "Wood", "Stone"));
 
         Debug.DrawRay(floorDetectionOrigin.position, raycastDirection * raycastLength, isGrounded ? Color.green : Color.red);
 
@@ -363,7 +363,7 @@ public class PlayerMovement : MonoBehaviour
                 else
                     raycastOrigin.z += groundDetectionRadius;
 
-                isGrounded = Physics.Raycast(raycastOrigin, raycastDirection, out hitInfo, raycastLength, LayerMask.GetMask("Default"));
+                isGrounded = Physics.Raycast(raycastOrigin, raycastDirection, out hitInfo, raycastLength, LayerMask.GetMask("Default", "Wood", "Stone"));
 
                 Debug.DrawRay(raycastOrigin, raycastDirection * raycastLength, isGrounded ? Color.green : Color.red);
 
@@ -385,7 +385,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 raycastDown = transform.forward - transform.up;
 
-        bool isDown = Physics.Raycast(jumpingDownDetectionPoint.position, raycastDown, out downgrade, 2, LayerMask.GetMask("Default"));
+        bool isDown = Physics.Raycast(jumpingDownDetectionPoint.position, raycastDown, out downgrade, 2, LayerMask.GetMask("Default", "Wood", "Stone"));
 
         if (downgrade.collider != null)
             color = Color.green;
@@ -750,7 +750,20 @@ public class PlayerMovement : MonoBehaviour
         if (movementInputSpeed <= 0.01 || movementInputSpeed > maxSpeed || !isGrounded)
             return;
 
-        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Player/Grass/Running_on_Grass", gameObject);
+        int groundLayer = ground.collider.gameObject.layer;
+
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 0.4f, LayerMask.GetMask("Water"));
+
+        if(colliders.Length > 0)
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Player/Water/water_step", gameObject);
+        else if (groundLayer == LayerMask.NameToLayer("Default"))
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Player/Grass/Running_on_Grass", gameObject);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, 0.4f);
     }
 
     /// <summary>
