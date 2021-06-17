@@ -42,10 +42,10 @@ public class PauseMenu : MonoBehaviour
     ///</summary>
     public void Resume()
     {
-        Cursor.visible = false;
         PauseMenuUI.SetActive(false);
         Time.timeScale = unpausedTimeScale;
         gameIsPaused = false;
+        Cursor.visible = false;
         ButtonSound();
     }
 
