@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyBossController : EnemyController
 {
@@ -45,6 +46,8 @@ public class EnemyBossController : EnemyController
     [SerializeField]
     private float stompRadius = 5f;
     private float stompTimePassed = 0f;
+    
+    private Slider sliderHealth;
 
     protected override void Start()
     {
@@ -53,6 +56,8 @@ public class EnemyBossController : EnemyController
         tauntTimePassed = tauntInterval;
         stompTimePassed = stompInterval;
 
+        sliderHealth = GetComponent<EnemyStats>().sliderHealth;
+        
         taunt = FMODUnity.RuntimeManager.CreateInstance("event:/Enemy/Giant/giant_noise");
         taunt.setParameterByName("Volumee", 0.09f);
         taunt.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
@@ -75,6 +80,7 @@ public class EnemyBossController : EnemyController
     protected override void SeeingPlayer(float targetDistance)
     {
         base.SeeingPlayer(targetDistance);
+        sliderHealth.gameObject.SetActive(true);
 
         if (targetDistance <= chaseTargetRadius && _agent.pathStatus != UnityEngine.AI.NavMeshPathStatus.PathComplete)
         {

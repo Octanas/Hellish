@@ -15,13 +15,11 @@ public class DamageCollider : MonoBehaviour
 
     public void enableDamageCollider()
     {
-        //Debug.Log("(" + Time.time +  ")" +damageCollider.name + " OPEN collider.");
         damageCollider.enabled = true;
     }
 
     public void disableDamageCollider()
     {
-        //Debug.Log("(" + Time.time +  ")" +damageCollider.name + " CLOSE collider.");
         damageCollider.enabled = false;
     }
 

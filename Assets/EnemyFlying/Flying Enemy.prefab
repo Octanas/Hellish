@@ -503,14 +503,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 315c682464a547b88c86358401a9770a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1000
-  maxMana: 1000
+  maxHealth: 400
   damagePower: 200
-  barHealth: {fileID: 0}
+  intervalTime: 10
   _skinnedMeshRenderer: {fileID: 0}
   hitMaterial: {fileID: 0}
   unstoppableStates: []
-  isFlying: 1
 --- !u!114 &3130209560813938518
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -337,7 +337,6 @@ public class PlayerMovement : MonoBehaviour
 
         isGrounded = Physics.Raycast(floorDetectionOrigin.position, raycastDirection, out hitInfo, raycastLength, LayerMask.GetMask("Default", "Wood", "Stone"));
 
-        Debug.DrawRay(floorDetectionOrigin.position, raycastDirection * raycastLength, isGrounded ? Color.green : Color.red);
 
         if (isGrounded)
             ground = hitInfo;
@@ -366,7 +365,6 @@ public class PlayerMovement : MonoBehaviour
 
                 isGrounded = Physics.Raycast(raycastOrigin, raycastDirection, out hitInfo, raycastLength, LayerMask.GetMask("Default", "Wood", "Stone"));
 
-                Debug.DrawRay(raycastOrigin, raycastDirection * raycastLength, isGrounded ? Color.green : Color.red);
 
                 if (isGrounded)
                     ground = hitInfo;
@@ -390,8 +388,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (downgrade.collider != null)
             color = Color.green;
-
-        Debug.DrawRay(jumpingDownDetectionPoint.position, raycastDown * 2, color);
 
         // If player is Falling or Leaping and ground is detected, trigger landing
         if (state.fullPathHash == State.Falling || state.fullPathHash == State.Leaping)
@@ -421,8 +417,7 @@ public class PlayerMovement : MonoBehaviour
             maxMovingVelocity += timeStartZip;
 
             // Only if the player reached the zipline move forward
-            // Debug.Log(("distance: " + (transform.position - targetPosition).magnitude));
-            if ((transform.position - targetPosition).magnitude < 0.1)//TODO: when rotation is done
+            if ((transform.position - targetPosition).magnitude < 0.1)
             {
                 ApplyTranslation(zipLineDirection);
             }
@@ -525,10 +520,6 @@ public class PlayerMovement : MonoBehaviour
         float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turningVelocity, currentTurningTime);
         transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-        /*if (inZip)
-        {
-            Debug.DrawRay(transform.position, transform.forward * 100, Color.red, 100000000f);
-        }*/
     }
 
     /// <summary>
@@ -836,8 +827,7 @@ public class PlayerMovement : MonoBehaviour
             || nextState.fullPathHash == State.Falling
             || nextState.fullPathHash == State.JumpingUp
             || state.fullPathHash == State.JumpingUp
-            /*|| nextState.fullPathHash == State.Landing 
-            || state.fullPathHash == State.Landing*/)
+          )
         {
             // Don't execute if the character is already hanging in the zipline
             if (state.fullPathHash == State.SwingZipline || inZip)
@@ -887,7 +877,6 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = oldRotation;
 
             ApplyTranslation(diffPosition);
-            //Debug.DrawRay(transform.position, new Vector3(direction.x, 0, direction.z)*100, Color.cyan, 100000000f);
             SetAngle(orientation.eulerAngles.y);
         }
     }

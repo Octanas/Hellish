@@ -7,7 +7,6 @@ public class EnemyController : MonoBehaviour
     protected Animator _animator;
     protected Transform _target;
     protected NavMeshAgent _agent;
-    private CharacterCombat _myCombat;
     private CharacterStats _targetStats;
 
     [Header("Enemy proprieties:")] public float chaseTargetRadius = 50;
@@ -27,23 +26,17 @@ public class EnemyController : MonoBehaviour
     [Header("Animation:")] public float animationDampTime = 0.1f;
     [Header("Rotation:")] public float quaternionInterpolationRatio = 5f;
 
-    // NavMesh Agent and Animator: https://docs.unity3d.com/540/Documentation/Manual/nav-MixingComponents.html
-    // Navigation Control: https://docs.unity3d.com/540/Documentation/Manual/nav-CouplingAnimationAndNavigation.html
-
     protected virtual void Start()
     {
         // Use singleton instead of inserting manually
         _target = PlayerManager.Instance.player.transform;
 
         _agent = GetComponent<NavMeshAgent>();
-        /* Agent follows animation instead of Animation follows agent -> collision bugs
-        // Don't update the agent's position, the animation will do that
-        _agent.updatePosition = false;*/
+      
         _agent.speed = maxMovingVelocity;
         _agent.stoppingDistance = stoppingDistanceRadius;
 
         _animator = GetComponent<Animator>();
-        _myCombat = GetComponent<CharacterCombat>();
         _targetStats = _target.GetComponent<CharacterStats>();
     }
 
@@ -65,9 +58,8 @@ public class EnemyController : MonoBehaviour
             {
                 var position = transform.position;
                 Vector3 raycastOrigin = new Vector3(position.x, position.y + 1.5f, position.z);
-                //TODO change default to environment and obstacles layer when exists
                 Physics.Raycast(raycastOrigin, targetDirection, out var hit, targetDistance + 1,
-                    LayerMask.GetMask("Default", "Player"));
+                    LayerMask.GetMask("Default", "Player","Wood"));
                 if (hit.transform &&
                     hit.transform.gameObject.layer ==
                     LayerMask.NameToLayer("Player")) // if can see player without obstacles in the way
@@ -80,13 +72,6 @@ public class EnemyController : MonoBehaviour
                     SeeingPlayer(targetDistance);
                 }
 
-
-                /*if (hit.transform)
-                    Debug.Log("Hit" + LayerMask.LayerToName(hit.transform.gameObject.layer));
-                else Debug.Log(("didnt hit"));*/
-                Debug.DrawRay(raycastOrigin,
-                    targetDirection,
-                    Color.black);
             }
         }
         else if (foundPlayer)
@@ -170,7 +155,6 @@ public class EnemyController : MonoBehaviour
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         rb.AddForce((new Vector3(position.x, position.y + 1.5f, position.z) - handFireball.position).normalized * 10,
             ForceMode.Impulse);
-        // Debug.DrawRay(handFireball.position,(new Vector3(position.x, position.y + 1.5f, position.z) -  handFireball.position).normalized * 10,Color.blue,2);
     }
 
     void BlockMovement()
@@ -189,27 +173,5 @@ public class EnemyController : MonoBehaviour
     {
         _agent.speed = maxMovingVelocity;
         blocked = false;
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        /*Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, chaseTargetRadius);
-        if(_target != null){
-            Gizmos.DrawWireSphere(_agent.destination, 1);
-            
-            Vector3 targetDirection = _target.position - transform.position;
-            float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
-            Gizmos.DrawRay( transform.position, targetDirection);
-            Gizmos.color = Color.blue;
-            Gizmos.DrawRay( transform.position, transform.forward);
-        }*/
-    }
-
-    private void OnAnimatorMove()
-    {
-        /* Agent follows animation instead of Animation follows agent -> collision bugs
-        //Update position to agent position
-        transform.position = _agent.nextPosition;*/
     }
 }

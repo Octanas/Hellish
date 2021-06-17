@@ -22,16 +22,12 @@ public class EnemyBossMeleeAttack : MonoBehaviour
 
     public void EnableHit(int damageMultiplier)
     {
-        Debug.Log("Hits enabled: " + damageMultiplier);
-
         this.damageMultiplier = damageMultiplier;
         weaponCollider.enabled = true;
     }
 
     public void DisableHit()
     {
-        Debug.Log("Hits disabled");
-
         weaponCollider.enabled = false;
     }
 

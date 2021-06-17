@@ -41,7 +41,6 @@ public class FireWall : MonoBehaviour
         {
             Vector3 wallScale = wallObject.transform.localScale;
             Vector3 pos = wallObject.transform.forward * wallObject.transform.localScale.z + wallObject.transform.position;
-            // Debug.DrawRay(pos, Vector3.up, Color.green);
             Vector3 groundRay = new Vector3(pos.x, pos.y + 1f, pos.z);
             RaycastHit ground;
 
@@ -53,9 +52,6 @@ public class FireWall : MonoBehaviour
             {
                 wallLength = Vector3.Distance(groundRay, transform.position);
             }
-
-            Debug.DrawRay(groundRay, Vector3.down, Color.green);
-            Debug.DrawRay(groundRay, wallObject.transform.forward * 0.1f, Color.red);
 
             Vector3 targetScale = Vector3.Lerp(wallScale, new Vector3(wallScale.x, maxWallHeight, wallLength), Time.deltaTime * 2);
             wallObject.transform.localScale = targetScale;
