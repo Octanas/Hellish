@@ -29,24 +29,19 @@ public class EnemyBossController : EnemyController
 
     private FMOD.Studio.EventInstance taunt;
 
-    [Header("Taunt")]
-    [SerializeField]
-    [Range(0f, 1f)]
+    [Header("Taunt")] [SerializeField] [Range(0f, 1f)]
     private float tauntChances = 0.25f;
-    [SerializeField]
-    private float tauntInterval = 10f;
+
+    [SerializeField] private float tauntInterval = 10f;
     private float tauntTimePassed = 0f;
 
-    [Header("Stomp")]
-    [SerializeField]
-    [Range(0f, 1f)]
+    [Header("Stomp")] [SerializeField] [Range(0f, 1f)]
     private float stompChances = 0.25f;
-    [SerializeField]
-    private float stompInterval = 10f;
-    [SerializeField]
-    private float stompRadius = 5f;
+
+    [SerializeField] private float stompInterval = 10f;
+    [SerializeField] private float stompRadius = 5f;
     private float stompTimePassed = 0f;
-    
+
     private Slider sliderHealth;
 
     protected override void Start()
@@ -114,14 +109,16 @@ public class EnemyBossController : EnemyController
 
         float neededTime = distance.magnitude / horizontalTravellingSpeed;
 
-        float verticalTravellingSpeed = (heightDifference - 0.5f * gravityForce * Mathf.Pow(neededTime, 2)) / neededTime;
+        float verticalTravellingSpeed =
+            (heightDifference - 0.5f * gravityForce * Mathf.Pow(neededTime, 2)) / neededTime;
 
         rb.velocity = distance.normalized * horizontalTravellingSpeed + Vector3.up * verticalTravellingSpeed;
     }
 
     private void Stomp()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, stompRadius, LayerMask.GetMask("Enemy", "Player"));
+        Collider[] colliders =
+            Physics.OverlapSphere(transform.position, stompRadius, LayerMask.GetMask("Enemy", "Player"));
 
         foreach (var collide in colliders)
         {
@@ -168,5 +165,6 @@ public class EnemyBossController : EnemyController
     private void OnDestroy()
     {
         taunt.release();
+        FindObjectOfType<PlayerStats>().GameOver();
     }
 }

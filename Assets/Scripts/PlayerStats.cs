@@ -153,7 +153,7 @@ public class PlayerStats : CharacterStats
         }
     }
 
-    private void GameOver()
+    public void GameOver()
     {
         GetComponent<PlayerAttack>().enabled = false; // x -> equip weapon
         GetComponent<PlayerMovement>().enabled = false;
