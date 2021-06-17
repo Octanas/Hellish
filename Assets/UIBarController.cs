@@ -20,11 +20,11 @@ public class UIBarController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        targetHealth = Vector3.Lerp(healthTransform.localScale, new Vector3(stats.maxHealth/initialHealth, healthTransform.localScale.y, healthTransform.localScale.z), Time.deltaTime * 2);
+        targetHealth = Vector3.Lerp(healthTransform.localScale, new Vector3(stats.maxHealth/initialHealth, healthTransform.localScale.y, healthTransform.localScale.z), Time.deltaTime * 3);
 
         healthTransform.localScale = targetHealth;
 
-        targetMana = Vector3.Lerp(manaTransform.localScale, new Vector3(stats.maxMana/initialMana, manaTransform.localScale.y, manaTransform.localScale.z), Time.deltaTime * 2);
+        targetMana = Vector3.Lerp(manaTransform.localScale, new Vector3(stats.maxMana/initialMana, manaTransform.localScale.y, manaTransform.localScale.z), Time.deltaTime * 3);
 
         manaTransform.localScale = targetMana;
     }
