@@ -158,7 +158,7 @@ public class PlayerStats : CharacterStats
         GetComponent<PlayerAttack>().enabled = false; // x -> equip weapon
         GetComponent<PlayerMovement>().enabled = false;
         gameOverScreen.SetActive(true);
-        
+        FindObjectOfType<PauseMenu>().GameOver();
         // Exchange cameras
         // Set position and rotation of fell out camera according to last player position
         fellOutCamera.ForceCameraPosition(playerCamera.position, playerCamera.localRotation);

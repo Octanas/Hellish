@@ -13,6 +13,7 @@ public class PauseMenu : MonoBehaviour
     private PlayerControls controls;
 
     private GameObject audioListener;
+    private bool gameOver = false;
 
     private void Awake()
     {
@@ -25,6 +26,7 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void PressedEscape(InputAction.CallbackContext context)
     {
+        if (gameOver) return;
         if (gameIsPaused)
         {
             Resume();
@@ -97,5 +99,10 @@ public class PauseMenu : MonoBehaviour
     private void OnDisable()
     {
         controls.Menu.Disable();
+    }
+
+    public void GameOver()
+    {
+        gameOver = true;
     }
 }
