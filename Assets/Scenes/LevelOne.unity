@@ -4822,7 +4822,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 200310573}
-  m_LocalRotation: {x: -0.021159034, y: -0.00000003568207, z: 0.0000000022975546, w: 0.9997761}
+  m_LocalRotation: {x: -0.021159034, y: -0.000000033535716, z: 0.0000000021593518, w: 0.9997761}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -23414,7 +23414,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 988401272}
-  m_LocalRotation: {x: 0.015171744, y: -0.000000016858904, z: 0.0000000017023255, w: 0.99988496}
+  m_LocalRotation: {x: 0.015171763, y: -0.0000000521513, z: 0.000000005265972, w: 0.99988496}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -27203,10 +27203,6 @@ PrefabInstance:
       propertyPath: fireBreath
       value: 
       objectReference: {fileID: 342157982}
-    - target: {fileID: 1101192181855465051, guid: 9533529d2f598a342ab600b45231a4be, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 416654349114161438, guid: 9533529d2f598a342ab600b45231a4be, type: 3}
       propertyPath: manaTransform
       value: 
@@ -27215,6 +27211,10 @@ PrefabInstance:
       propertyPath: healthTransform
       value: 
       objectReference: {fileID: 1584427036}
+    - target: {fileID: 1101192181855465051, guid: 9533529d2f598a342ab600b45231a4be, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6139370988303747234, guid: 9533529d2f598a342ab600b45231a4be, type: 3}
       propertyPath: playerCamera
       value: 
@@ -38430,7 +38430,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1665298993
 RectTransform:
   m_ObjectHideFlags: 0
@@ -38715,7 +38715,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0000038147, y: 100}
+  m_AnchoredPosition: {x: 0.0000038147, y: 141}
   m_SizeDelta: {x: 1125.8977, y: 282}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1669462762
@@ -38739,7 +38739,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 9897deb117e3c4e41bdae4a456b045be, type: 3}
     m_FontSize: 210
     m_FontStyle: 0
     m_BestFit: 0
