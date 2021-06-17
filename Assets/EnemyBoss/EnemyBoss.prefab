@@ -2282,10 +2282,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 315c682464a547b88c86358401a9770a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1000
-  maxMana: 1000
-  damagePower: 200
-  barHealth: {fileID: 0}
+  maxHealth: 2000
+  damagePower: 350
+  intervalTime: 10
   _skinnedMeshRenderer: {fileID: 8320910837562214645}
   hitMaterial: {fileID: 2100000, guid: 3f9d122b3ceddac46a32aa58f75bde18, type: 2}
   unstoppableStates:
@@ -2303,6 +2302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c8171e2247a59418edd3d0350bd221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackCooldown: 2
 --- !u!114 &2014602681
 MonoBehaviour:
   m_ObjectHideFlags: 0

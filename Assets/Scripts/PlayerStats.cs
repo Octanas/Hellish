@@ -101,12 +101,12 @@ public class PlayerStats : CharacterStats
     }
     public override void UpgradeHealthBar()
     {
-        maxHealth += 500;
+        maxHealth += 200;
         sliderHealth.maxValue = maxHealth;
     }
     public override void UpgradeManaBar()
     {
-        maxMana += 500;
+        maxMana += 200;
         sliderMana.maxValue = maxMana;
     }
     public void GainFireBreath() {
