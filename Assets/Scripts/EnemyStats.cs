@@ -7,7 +7,18 @@ using System;
 public class EnemyStats : CharacterStats
 {
     public Slider sliderHealth;
+    private Transform _target;
+    private float _chaseTargetRadius;
 
+    
+    protected override void Start()
+    {
+        base.Start();
+        // Use singleton instead of inserting manually
+        _target = PlayerManager.Instance.player.transform;
+        _chaseTargetRadius = GetComponent<EnemyController>().chaseTargetRadius;
+    }
+    
     protected override void HitReaction(Vector3 knockback)
     {
         _animator.SetTrigger("Hit");
@@ -52,4 +63,15 @@ public class EnemyStats : CharacterStats
             sliderHealth.value = Math.Max(CurrentHealth, 0);
     }
 
+    protected override void Recover()
+    {
+        Vector3 targetDirection = _target.position - transform.position;
+        float targetDistance = targetDirection.magnitude;
+
+        // Check if target is not on radius
+        if (targetDistance > _chaseTargetRadius)
+        {
+            base.Recover();
+        }
+    }
 }
