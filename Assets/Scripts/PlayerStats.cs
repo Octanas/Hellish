@@ -166,7 +166,6 @@ public class PlayerStats : CharacterStats
         fellOutCamera.Priority = 11; //The other is 10
 
         this.enabled = false;
-        Debug.Log("GAME OVER");
     }
 }
 

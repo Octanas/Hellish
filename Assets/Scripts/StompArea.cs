@@ -1,7 +1,5 @@
 using UnityEngine;
 
-// TODO: create fire effect for stomp
-
 /// <summary>
 /// Manages a stomp attack damage area.
 /// </summary>

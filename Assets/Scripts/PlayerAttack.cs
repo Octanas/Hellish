@@ -105,7 +105,6 @@ public class PlayerAttack : MonoBehaviour
         // If target exists, then face it 
         if (_target && _rotate)
         {
-            Debug.DrawLine(transform.position, _target.position, Color.yellow);
 
             // Target direction
             Vector3 direction = (_target.position - transform.position).normalized;
