@@ -56,11 +56,11 @@ public class EnemyBossController : EnemyController
         tauntTimePassed = tauntInterval;
         stompTimePassed = stompInterval;
 
-        sliderHealth = GetComponent<EnemyStats>().sliderHealth;
-        
         taunt = FMODUnity.RuntimeManager.CreateInstance("event:/Enemy/Giant/giant_noise");
-        taunt.setParameterByName("Volumee", 0.09f);
+        taunt.setParameterByName("Volumee", 0.1f);
         taunt.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+
+        sliderHealth = GetComponent<EnemyStats>().sliderHealth;
     }
 
     protected override void Update()
