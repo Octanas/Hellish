@@ -1225,8 +1225,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8e97a35dec6b15408dcf855b97f4ee5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundEvent: event:/Sword/Stab
-  heavyHitSoundEvent: event:/Sword/Heavy Attack
+  soundEvent: event:/Player/Sword/Stab
+  heavyHitSoundEvent: event:/Player/Sword/Heavy Attack
   heavySound: 0
 --- !u!1 &4071975786482768984
 GameObject:
@@ -1503,7 +1503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68d849590ce76b2478dac8b0a222387a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundEvent: event:/Player/Attacks/punch
+  soundEvent: event:/Player/Attacks/highkick_impact
 --- !u!1 &4901110124668423366
 GameObject:
   m_ObjectHideFlags: 0
@@ -1966,20 +1966,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 6139370988303747235}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Script: {fileID: 11500000, guid: 01a15882b6336574ba114a4bea60671f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CollisionTag: 
-  Event: event:/Wood/wood
-  PlayEvent: 0
-  StopEvent: 0
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 20
+  popUp: {fileID: 0}
+  fireBreath: {fileID: 0}
+  fireWall: {fileID: 0}
+  leap: {fileID: 0}
+  radius: 5
 --- !u!1 &6266482008739736568
 GameObject:
   m_ObjectHideFlags: 0
