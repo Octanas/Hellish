@@ -5,7 +5,7 @@ public class MainMenu : MonoBehaviour
 {
     public void Start()
     {
-        Cursor.visible = false;
+        Cursor.visible = true;
     }
 
     ///<summary>
