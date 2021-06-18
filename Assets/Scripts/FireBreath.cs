@@ -17,6 +17,7 @@ public class FireBreath : MonoBehaviour
     /// Fire particles prefab.
     /// </summary>
     public GameObject fireParticles;
+
     /// <summary>
     /// Point from which to instantiante fire particles.
     /// </summary>
@@ -26,12 +27,14 @@ public class FireBreath : MonoBehaviour
     /// Fire rate particles per second.
     /// </summary>
     public float fireRate = 1;
+
     private float timePassed;
 
     /// <summary>
     /// If the ability can be used.
     /// </summary>
     private bool available;
+
     /// <summary>
     /// If the ability is currently being used.
     /// </summary>
@@ -41,6 +44,7 @@ public class FireBreath : MonoBehaviour
     /// Seconds the ability takes to finish.
     /// </summary>
     public float duration = 3f;
+
     /// <summary>
     /// Seconds between use of ability.
     /// </summary>
@@ -83,8 +87,10 @@ public class FireBreath : MonoBehaviour
     {
         // If the ability is available, trigger it
         if (available && playerStats.CheckBreath(manaCost))
+        {
             animator.SetTrigger(PlayerMovement.AnimatorParameters.BreatheFire);
             playerStats.useMana(manaCost);
+        }
     }
 
     private void OnFireBreath()
