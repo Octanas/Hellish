@@ -6,5 +6,5 @@ To get this project working on Unity, you have to install the FMOD integration p
 2. Get the FMOD integration package from the Asset Store
 3. Import the package to the project using Unity's Package Manager
 4. In the FMOD's integration package manager, select `Single Platform Build` and set the build path to `/FMODAssets/Desktop/`
-5. Reset the project: `git reset --hard` (this step is done because what was added is not mean to be pushed to the repo, it will be used only locally)
+5. Reset the project: `git reset --hard` (this step is done because what was added is not meant to be pushed to the repo, it will be used only locally)
 6. It should be working now
