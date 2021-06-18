@@ -2290,6 +2290,7 @@ MonoBehaviour:
   unstoppableStates:
   - Base Layer.Attack
   - Base Layer.Stomp
+  sliderHealth: {fileID: 0}
 --- !u!114 &4765485356915380835
 MonoBehaviour:
   m_ObjectHideFlags: 0

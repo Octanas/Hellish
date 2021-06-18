@@ -10,7 +10,7 @@ public class EnemyStats : CharacterStats
     private Transform _target;
     private float _chaseTargetRadius;
 
-    
+
     protected override void Start()
     {
         base.Start();
@@ -18,7 +18,7 @@ public class EnemyStats : CharacterStats
         _target = PlayerManager.Instance.player.transform;
         _chaseTargetRadius = GetComponent<EnemyController>().chaseTargetRadius;
     }
-    
+
     protected override void HitReaction(Vector3 knockback)
     {
         _animator.SetTrigger("Hit");
@@ -33,10 +33,9 @@ public class EnemyStats : CharacterStats
         gameObject.GetComponent<NavMeshAgent>().baseOffset = 0;
         var wings = GetComponent<Wings>();
         if (wings) wings.enabled = false;
-        if (GetComponent<EnemyBossController>())
-        {
-            FindObjectOfType<PlayerStats>().GameOver();
-        }
+
+        if (sliderHealth)
+            Destroy(sliderHealth.gameObject);
 
         StartCoroutine(Disappear());
     }
@@ -45,8 +44,6 @@ public class EnemyStats : CharacterStats
     {
         yield return new WaitForSeconds(10);
 
-        if(sliderHealth)
-            Destroy(sliderHealth.gameObject);
         Destroy(gameObject);
     }
 

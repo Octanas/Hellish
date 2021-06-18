@@ -42,7 +42,7 @@ public class PlayerStats : CharacterStats
         leap = false;
         _rigidbody = GetComponent<Rigidbody>();
 
-        _popUp = GetComponent <PopUpInstructions>();
+        _popUp = GetComponent<PopUpInstructions>();
         Cursor.visible = false;
     }
 
@@ -111,29 +111,36 @@ public class PlayerStats : CharacterStats
         maxMana += 200;
         sliderMana.maxValue = maxMana;
     }
-    public void GainFireBreath() {
+    public void GainFireBreath()
+    {
         fireBreath = true;
         _popUp.enableFireBreath();
     }
-    public void GainFireWall() {
+    public void GainFireWall()
+    {
         fireWall = true;
         _popUp.enableFireWall();
     }
-    public void GainLeap() {
+    public void GainLeap()
+    {
         leap = true;
         _popUp.enableLeap();
     }
 
-    public bool CheckBreath(float mana) {
+    public bool CheckBreath(float mana)
+    {
         return fireBreath && CurrentMana >= mana;
     }
-    public bool CheckWall(float mana) {
+    public bool CheckWall(float mana)
+    {
         return fireWall && CurrentMana >= mana;
     }
-    public bool CheckLeap(float mana) {
+    public bool CheckLeap(float mana)
+    {
         return leap && CurrentMana >= mana;
     }
-    public void useMana(float mana) {
+    public void useMana(float mana)
+    {
         CurrentMana -= mana;
     }
 
@@ -152,8 +159,24 @@ public class PlayerStats : CharacterStats
         if (CurrentHealth <= 0)
         {
             GameOver();
-            gameOverText.text="Game Over";
         }
+    }
+
+    public void Win()
+    {
+        GetComponent<PlayerAttack>().enabled = false; // x -> equip weapon
+        GetComponent<PlayerMovement>().enabled = false;
+        Cursor.visible = true;
+        gameOverText.text = "You Won!";
+        gameOverScreen.SetActive(true);
+        FindObjectOfType<PauseMenu>().Win();
+        // Exchange cameras
+        // Set position and rotation of fell out camera according to last player position
+        fellOutCamera.ForceCameraPosition(playerCamera.position, playerCamera.localRotation);
+        // Increase priority of fell out camera
+        fellOutCamera.Priority = 11; //The other is 10
+
+        this.enabled = false;
     }
 
     public void GameOver()
@@ -161,6 +184,7 @@ public class PlayerStats : CharacterStats
         GetComponent<PlayerAttack>().enabled = false; // x -> equip weapon
         GetComponent<PlayerMovement>().enabled = false;
         Cursor.visible = true;
+        gameOverText.text = "Game Over";
         gameOverScreen.SetActive(true);
         FindObjectOfType<PauseMenu>().GameOver();
         // Exchange cameras
