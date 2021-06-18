@@ -747,12 +747,20 @@ public class PlayerMovement : MonoBehaviour
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, 0.4f, LayerMask.GetMask("Water"));
 
-        if(colliders.Length > 0)
+        if (colliders.Length > 0)
             FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Player/Water/water_step", gameObject);
         else if (groundLayer == LayerMask.NameToLayer("Default"))
             FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Player/Grass/Running_on_Grass", gameObject);
         else if (groundLayer == LayerMask.NameToLayer("Stone"))
             FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Player/Stone/walk_on_stone", gameObject);
+        else if (groundLayer == LayerMask.NameToLayer("Wood"))
+        {
+            FMOD.Studio.EventInstance woodStep = FMODUnity.RuntimeManager.CreateInstance("event:/Player/Wood/wood");
+            woodStep.setParameterByName("Volumee", 0.07f);
+            woodStep.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+            woodStep.start();
+            woodStep.release();
+        }
     }
 
     private void OnDrawGizmos()
