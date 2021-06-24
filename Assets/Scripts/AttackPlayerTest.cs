@@ -12,11 +12,11 @@ public class AttackPlayerTest : MonoBehaviour
         _myCombat = GetComponentInParent<CharacterCombat>();
     }
     
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
-            CharacterStats playerStats = collision.gameObject.GetComponent<CharacterStats>();
+            CharacterStats playerStats = other.gameObject.GetComponent<CharacterStats>();
             _myCombat.attack(playerStats);
         }
     }
