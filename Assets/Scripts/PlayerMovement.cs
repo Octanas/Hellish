@@ -696,8 +696,8 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="context">Input callback context.</param>
     private void TriggerClimb(InputAction.CallbackContext context)
     {
-        // Will only trigger climb if current state is Hanging
-        if (state.fullPathHash == State.Hanging)
+        // Will only trigger climb if current state is Hanging and it is not translating
+        if (state.fullPathHash == State.Hanging && translate == false)
         {
             animator.SetTrigger(AnimatorParameters.Climb);
 
