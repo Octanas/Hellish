@@ -29,13 +29,17 @@ public class EnemyBossController : EnemyController
 
     private FMOD.Studio.EventInstance taunt;
 
-    [Header("Taunt")] [SerializeField] [Range(0f, 1f)]
+    [Header("Taunt")]
+    [SerializeField]
+    [Range(0f, 1f)]
     private float tauntChances = 0.25f;
 
     [SerializeField] private float tauntInterval = 10f;
     private float tauntTimePassed = 0f;
 
-    [Header("Stomp")] [SerializeField] [Range(0f, 1f)]
+    [Header("Stomp")]
+    [SerializeField]
+    [Range(0f, 1f)]
     private float stompChances = 0.25f;
 
     [SerializeField] private float stompInterval = 10f;
@@ -122,7 +126,10 @@ public class EnemyBossController : EnemyController
 
         foreach (var collide in colliders)
         {
-            collide.GetComponent<CharacterStats>()?.TakeDamage(0);
+            if (collide.gameObject != gameObject)
+            {
+                collide.GetComponent<CharacterStats>()?.TakeDamage(0);
+            }
         }
     }
 
