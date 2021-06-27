@@ -1893,7 +1893,9 @@ MonoBehaviour:
   intervalTime: 10
   _skinnedMeshRenderer: {fileID: 0}
   hitMaterial: {fileID: 0}
-  unstoppableStates: []
+  unstoppableStates:
+  - Base Layer.BreatheFire
+  - Base Layer.EndingBreatheFire
   maxMana: 1000
   sliderHealth: {fileID: 0}
   sliderMana: {fileID: 0}
