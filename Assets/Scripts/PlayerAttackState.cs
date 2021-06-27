@@ -2,9 +2,21 @@ using UnityEngine;
 
 public class PlayerAttackState : StateMachineBehaviour
 {
-    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.gameObject.GetComponent<PlayerAttack>().StopMovement();
+        PlayerAttack playerAttackScript = animator.gameObject.GetComponent<PlayerAttack>();
+
+        if (playerAttackScript != null)
+        {
+            playerAttackScript.StopMovement();
+            playerAttackScript.DeactivateHeavySound();
+
+            foreach (DamageCollider collider in playerAttackScript.damageColliders)
+            {
+                if (collider)
+                    collider.disableDamageCollider();
+            }
+        }
+
     }
 }

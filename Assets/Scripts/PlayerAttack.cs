@@ -12,6 +12,9 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]
     private SwordDamageCollider swordDamageCollider;
 
+    [SerializeField]
+    public DamageCollider[] damageColliders;
+
     [Header("Sword & Bolsa Meshes:")]
     public List<SkinnedMeshRenderer> ListBolsaMeshes;
     public MeshRenderer sword;
@@ -208,7 +211,7 @@ public class PlayerAttack : MonoBehaviour
         swordDamageCollider.heavySound = true;
     }
 
-    private void DeactivateHeavySound()
+    public void DeactivateHeavySound()
     {
         swordDamageCollider.heavySound = false;
     }

@@ -1831,6 +1831,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swordDamageCollider: {fileID: 4718222395462240467}
+  damageColliders:
+  - {fileID: 4945100131172174780}
+  - {fileID: 4403491663971656938}
+  - {fileID: 4718222395462240467}
   ListBolsaMeshes:
   - {fileID: 3767286536948249300}
   - {fileID: 5792919820746222954}
