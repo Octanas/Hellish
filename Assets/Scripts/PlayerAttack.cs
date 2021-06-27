@@ -45,10 +45,10 @@ public class PlayerAttack : MonoBehaviour
     private void Awake()
     {
         _controls = new PlayerControls();
-        _controls.Gameplay.Attack.performed += context => _isAttacking = true;
+        _controls.Gameplay.Attack.started += context => _isAttacking = true;
         _controls.Gameplay.Attack.canceled += context => _isAttacking = false;
 
-        _controls.Gameplay.Equip.performed += _ => ChangeWeapon();
+        _controls.Gameplay.Equip.started += _ => ChangeWeapon();
     }
 
     private void Start()

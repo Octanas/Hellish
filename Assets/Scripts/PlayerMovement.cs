@@ -161,10 +161,10 @@ public class PlayerMovement : MonoBehaviour
         controls.Gameplay.Move.performed += CaptureMovementDirection;
         controls.Gameplay.Move.canceled += CaptureMovementDirection;
 
-        controls.Gameplay.Jump.performed += Jump;
-        controls.Gameplay.Dodge.performed += Dodge;
-        controls.Gameplay.Leap.performed += Leap;
-        controls.Gameplay.Climb.performed += TriggerClimb;
+        controls.Gameplay.Jump.started += Jump;
+        controls.Gameplay.Dodge.started += Dodge;
+        controls.Gameplay.Leap.started += Leap;
+        controls.Gameplay.Climb.started += TriggerClimb;
     }
 
     private void Start()

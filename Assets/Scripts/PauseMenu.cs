@@ -20,7 +20,7 @@ public class PauseMenu : MonoBehaviour
         audioListener = GameObject.FindWithTag("MainCamera");
         unpausedTimeScale = Time.timeScale;
         controls = new PlayerControls();
-        controls.Menu.Pause.performed += PressedEscape;
+        controls.Menu.Pause.started += PressedEscape;
     }
 
     // Update is called once per frame

@@ -53,7 +53,7 @@ public class FireBreath : MonoBehaviour
     private void Awake()
     {
         _controls = new PlayerControls();
-        _controls.Gameplay.FireBreath.performed += FireBreathInput;
+        _controls.Gameplay.FireBreath.started += FireBreathInput;
     }
 
     private void Start()
