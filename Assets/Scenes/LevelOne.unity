@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.4509377, g: 0.5008161, b: 0.5744699, a: 1}
+  m_IndirectSpecularColor: {r: 0.45093828, g: 0.5008166, b: 0.57447076, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4614,7 +4614,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cfb1ccfefc5faec4ea1ceeb2436f67ff, type: 2}
+  - {fileID: 2100000, guid: 33ab746f74cca244d9144d6b48e852fc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4652,7 +4652,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 194101128}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.5022, y: -6.17151, z: 7.785999}
+  m_LocalPosition: {x: 8.5022, y: -4.08, z: 7.785999}
   m_LocalScale: {x: 70, y: 0.2, z: 70}
   m_Children: []
   m_Father: {fileID: 402584823}
@@ -5107,7 +5107,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 200310573}
-  m_LocalRotation: {x: -0.021159036, y: -0.00000003246254, z: 0.0000000020902502, w: 0.9997761}
+  m_LocalRotation: {x: -0.021159036, y: -0.00000003675525, z: 0.000000002366656, w: 0.9997761}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -5678,12 +5678,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   Event: event:/Ambiance/waterfall
   PlayEvent: 1
   StopEvent: 2
   AllowFadeout: 1
   TriggerOnce: 0
   Preload: 0
+  AllowNonRigidbodyDoppler: 0
   Params: []
   OverrideAttenuation: 1
   OverrideMinDistance: 20
@@ -24202,7 +24210,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 988401272}
-  m_LocalRotation: {x: 0.015171763, y: -0.000000016858902, z: 0.0000000017023258, w: 0.99988496}
+  m_LocalRotation: {x: 0.015171733, y: -0.000000016858902, z: 0.0000000017023254, w: 0.99988496}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -40261,7 +40269,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attenuationObject: {fileID: 0}
-  ListenerNumber: -1
 --- !u!114 &1687258588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40275,12 +40282,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   Event: event:/Ambiance/musica geral
   PlayEvent: 1
   StopEvent: 2
   AllowFadeout: 1
   TriggerOnce: 0
   Preload: 0
+  AllowNonRigidbodyDoppler: 0
   Params:
   - Name: Volume
     Value: 0
@@ -49459,12 +49474,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   Event: event:/River/river
   PlayEvent: 1
   StopEvent: 2
   AllowFadeout: 1
   TriggerOnce: 0
   Preload: 0
+  AllowNonRigidbodyDoppler: 0
   Params:
   - Name: Volumee
     Value: 0.07
